@@ -13,7 +13,7 @@ const isActive = ref(true)
 <template>
     <header class="bg-mainBlue">
         <nav>
-            <ul class="flex justify-between px-8 py-4">
+            <ul class="flex justify-between px-8 pt-4">
                 <li>
                     <RouterLink to="/">
                         <img src="#" alt="Profile picture" />
