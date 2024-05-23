@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         'mainBlue' : "#1F8389",
-        'mainOrange' : "#FFAB6F"
+        'mainOrange' : "#FFAB6F",
+        'lightBeige' : "#FFF1E7",
       },
       boxShadow: {
         'inner-orange': 'inset 0px -6px 0px #FFAB6F',

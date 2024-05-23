@@ -16,7 +16,7 @@ const isActive = ref(true)
             <ul class="flex justify-between px-8 py-4">
                 <li>
                     <RouterLink to="/">
-                        <img src="#" alt="logo" />
+                        <img src="#" alt="Profile picture" />
                     </RouterLink>
                 </li>
                 <li>
