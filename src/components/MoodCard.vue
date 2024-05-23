@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import IconMoodSmile from './icons/IconMoodSmile.vue';
 import IconSmallSettings from './icons/IconSmallSettings.vue';
+import IconMoodBad from './components/icons/IconMoodBad.vue';
+import IconMoodMid from './components/icons/IconMoodMid.vue';
+import IconMoodGood from './components/icons/IconMoodGood.vue';
+
+const props = defineProps<{
+    date: string;
+    mood: string;
+}>();
+
 </script>
 
 <template>
     <section class="flex justify-between items-center mx-6 p-4 bg-white rounded-[35px]">
         <div class="flex gap-4 items-center">
             <div>
-                <IconMoodSmile />
+                <IconMoodGood v-if="props.mood === 'Bien'"/>
+                <IconMoodMid v-if="props.mood === 'Moyen'" />
+                <IconMoodBad v-if="props.mood === 'Mal'" />
             </div>
             <div>
-                <p>01/01/2001</p>
-                <p>BIEN</p>
+                <p>{{ date }}</p>
+                <p>{{ mood }}</p>
             </div>
         </div>
         <div>
