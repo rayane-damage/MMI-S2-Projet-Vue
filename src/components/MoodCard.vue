@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import IconSmallSettings from './icons/IconSmallSettings.vue';
-import IconMoodBad from './components/icons/IconMoodBad.vue';
-import IconMoodMid from './components/icons/IconMoodMid.vue';
-import IconMoodGood from './components/icons/IconMoodGood.vue';
+import IconMoodBad from './icons/IconMoodBad.vue';
+import IconMoodMid from './icons/IconMoodMid.vue';
+import IconMoodGood from './icons/IconMoodGood.vue';
 
 const props = defineProps<{
     date: string;
     mood: string;
 }>();
+const moodClass = {
+    Bien: 'text-green-500',
+    Moyen: 'text-yellow-500',
+    Mal: 'text-red-500',
+}
 
 </script>
 
@@ -21,7 +26,10 @@ const props = defineProps<{
             </div>
             <div>
                 <p>{{ date }}</p>
-                <p>{{ mood }}</p>
+                <p
+                class="font-Hegante"
+                :class="moodClass[props.mood]"
+                >{{ mood }}</p>
             </div>
         </div>
         <div>

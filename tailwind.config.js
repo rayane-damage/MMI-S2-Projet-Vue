@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        'Hegante': ['Hegante', 'sans-serif'],
+      },
       colors: {
         'mainBlue' : "#1F8389",
         'mainOrange' : "#FFAB6F",
