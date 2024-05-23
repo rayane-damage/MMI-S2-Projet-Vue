@@ -16,7 +16,7 @@ const props = defineProps<{
 
 
 <template>
-    <section class="flex justify-between items-center mx-6 p-4">
+    <section class="flex justify-between items-center mx-4 p-4">
         <div class="flex gap-1">
             <IconProfileSmall/>
             <span class="relative flex items-end *:absolute *:w-8 *:h-8 *:right-0">
