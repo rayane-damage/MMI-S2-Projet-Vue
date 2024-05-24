@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import IconLogo from './icons/IconLogo.vue'
-import { ref } from 'vue'
+import { ref, provide } from 'vue'
 
 const props = defineProps<{
     active: string
     inactive: string
 }>()
 
-const isActive = ref(true)
+</script>
+<script lang="ts">
+    export const isActive = ref(true);
 </script>
 
 <template>
