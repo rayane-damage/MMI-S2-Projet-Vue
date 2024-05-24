@@ -27,7 +27,7 @@ const props = defineProps<{
             <p class="self-start">{{ pseudo }}</p>
         </div>
         <div>
-            <IconSmallSettings class="h-6"/>
+            <IconSmallSettings/>
         </div>
     </section>
 </template>

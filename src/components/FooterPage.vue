@@ -6,7 +6,7 @@ import IconMoodSmile from './icons/IconMoodGood.vue';
 </script>
 
 <template>
-    <footer class="bg-mainBlue">
+    <footer class="bg-mainBlue fixed w-full bottom-0 z-50">
         <nav>
             <ul class="grid grid-cols-4 py-4 px-8 place-items-center">
                 <li class="relative flex justify-center">

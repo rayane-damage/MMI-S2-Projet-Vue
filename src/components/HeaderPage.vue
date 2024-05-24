@@ -13,7 +13,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <header class="bg-mainBlue">
+    <header class="bg-mainBlue fixed w-full top-0 z-50">
         <nav>
             <ul class="flex justify-between px-8 pt-4">
                 <li>

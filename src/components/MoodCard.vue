@@ -25,14 +25,14 @@ const moodClass = {
                 <IconMoodBad v-if="props.mood === 'Mal'" />
             </div>
             <div>
-                <p>{{ date }}</p>
+                <p class="text-sm text-gray-600">{{ date }}</p>
                 <p
-                class="font-Hegante"
+                class="font-Hegante text-xl"
                 :class="moodClass[props.mood]"
                 >{{ mood }}</p>
             </div>
         </div>
-        <div>
+        <div class="pr-1">
             <IconSmallSettings />
         </div>
     </section>

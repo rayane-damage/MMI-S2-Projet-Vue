@@ -3,6 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      spacing: {
+        'header' : '93px',
+        'footer' : '80px',
+      },
       fontFamily: {
         'Hegante': ['Hegante', 'sans-serif'],
       },
