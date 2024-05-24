@@ -31,7 +31,7 @@ const isActive = ref(true)
                 <li>
                     <RouterLink to="/"
                     class="w-full text-center text-white py-2"
-                    @click="isActive = !isActive"
+                    @click="isActive = true"
                     :class="{ 'shadow-inner-orange' : isActive}"
                     >
                         {{ active }}
@@ -40,7 +40,7 @@ const isActive = ref(true)
                 <li>
                     <RouterLink to="/"
                     class="w-full text-center text-white py-2"
-                    @click="isActive = !isActive"
+                    @click="isActive = false"
                     :class="{ 'shadow-inner-orange' : !isActive}"
                     >
                         {{ inactive }}
