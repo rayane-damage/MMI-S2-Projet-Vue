@@ -21,7 +21,7 @@ const props = defineProps<{
                 <p>3 hours ago</p>
             </span>
         </div>
-        <div class="max-h-80 w-auto overflow-hidden rounded-b-3xl">
+        <div class="max-h-96 w-auto overflow-hidden rounded-b-3xl">
             <img
             src="/public/img/background-image.png"
             alt="Image de souvenirs"

@@ -8,27 +8,27 @@ import IconMoodSmile from './icons/IconMoodGood.vue';
 <template>
     <footer class="bg-mainBlue fixed w-full bottom-0 z-50">
         <nav>
-            <ul class="grid grid-cols-4 py-4 px-8 place-items-center">
+            <ul class="grid grid-cols-4 py-2 px-8 place-items-center">
                 <li class="relative flex justify-center">
                     <RouterLink to="/Memories"
                     class="absolute bottom-1/2"
                     >
-                        <IconMoodSmile />
+                        <IconMoodSmile class="h-10" />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Index.html">
-                        <IconHouse />
+                        <IconHouse class="h-6" />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Messages">
-                        <IconMessage />
+                        <IconMessage class="h-6" />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Settings">
-                        <IconSettings />
+                        <IconSettings class="h-6" />
                     </RouterLink>
                 </li>
             </ul>
