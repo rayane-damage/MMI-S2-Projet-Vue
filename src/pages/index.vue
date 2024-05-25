@@ -22,7 +22,7 @@ import { isActive } from '@/components/HeaderPage.vue'
         <section
         v-if="isActive===true"
         >
-            <MemoriesCard v-for="memorie in moodList" v-bind="memorie" :key="memorie"/>
+            <MemoriesCard v-for="memorie in moodList" v-bind="memorie" :key="memorie.id"/>
         </section>
         <!-- <ProfileCard /> -->
   </main>

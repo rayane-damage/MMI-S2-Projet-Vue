@@ -34,14 +34,15 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export enum TestMoodOptions {
+export enum TestMoodbisOptions {
 	"Bien" = "Bien",
 	"Moyen" = "Moyen",
 	"Mal" = "Mal",
 }
 export type TestRecord = {
 	date?: IsoDateString
-	mood?: TestMoodOptions[]
+	mood?: string
+	moodbis?: TestMoodbisOptions
 	pseudo?: string
 }
 
