@@ -5,22 +5,16 @@ import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 
 import type { TestResponse } from '@/pocketbase-types';
+import { TestMoodOptions } from '@/pocketbase-types';
 const props = defineProps<TestResponse>();
-// const props = defineProps<{
-//     date: string;
-//     mood: string;
-// }>();
+
 
 const moodClass = {
     Bien: 'text-green-500',
     Moyen: 'text-yellow-500',
     Mal: 'text-red-500',
 }
-enum TestMoodOptions {
-    Bien = 'Bien',
-    Moyen = 'Moyen',
-    Mal = 'Mal',
-}
+
 </script>
 
 <template>

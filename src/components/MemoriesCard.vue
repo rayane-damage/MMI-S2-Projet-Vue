@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { moodList } from '@/data';
+import type { TestResponse } from '@/pocketbase-types';
+const props = defineProps<TestResponse>();
 
-const props = defineProps<{
-    pseudo: string;
-    date: string;
-    mood: string;
-}>();
 </script>
 
 <template>

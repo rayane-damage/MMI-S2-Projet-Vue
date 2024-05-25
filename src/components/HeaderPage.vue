@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import IconLogo from './icons/IconLogo.vue'
-import { ref, provide } from 'vue'
+import { ref} from 'vue'
 
 const props = defineProps<{
     active: string
     inactive: string
 }>()
-
 </script>
 <script lang="ts">
     export const isActive = ref(true);
@@ -18,7 +17,7 @@ const props = defineProps<{
             <ul class="flex justify-between px-8 pt-4">
                 <li>
                     <RouterLink to="/">
-                        <img src="/public/img/pfp default.png" alt="Profile picture" />
+                        <img src="/img/pfp default.png" alt="Profile picture" />
                     </RouterLink>
                 </li>
                 <li>
