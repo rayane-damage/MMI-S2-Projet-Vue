@@ -28,7 +28,7 @@ const moodClass = {
                 <p class="text-sm text-gray-600">{{ date }}</p>
                 <p
                 class="font-Hegante text-xl"
-                :class="moodClass[props.mood]"
+                :class="moodClass[props.mood as keyof typeof moodClass]"
                 >{{ mood }}</p>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onErrorCaptured } from 'vue'
-import { RouterLink, RouterView } from 'vue-router/auto'
+import { RouterLink, RouterView } from 'vue-router'
 import HeaderPage from '@/components/HeaderPage.vue'
 import FooterPage from '@/components/FooterPage.vue'
 
