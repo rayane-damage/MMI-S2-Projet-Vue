@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
-import type { on } from 'events';
 
 
 const currentUser = ref();
