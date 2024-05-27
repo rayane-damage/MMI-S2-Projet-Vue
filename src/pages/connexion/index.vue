@@ -6,6 +6,7 @@ import InputConnexion from '@/components/InputConnexion.vue';
 
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
+import  { useRouter } from 'vue-router'
 
 const currentUser = ref();
 const username = ref('');
@@ -14,6 +15,17 @@ const password = ref('');
 const passwordConfirm = ref('');
 
 const loginMode = ref("start");
+const route = useRouter();
+
+const loginError = ref('');4
+
+const router = useRouter();
+
+onMounted(() => {
+    if (!currentUser.value) {
+        router.push('/connexion');
+    }
+})
 
 onMounted(async () => {
     pb.authStore.onChange(()=>{
@@ -22,28 +34,35 @@ onMounted(async () => {
 
 })
 
-const doLogout = () => {
-    pb.authStore.clear();
-    // currentUser.value = null;
-}
+const isValidEmail = () => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(mail.value);
+};
 
 const doLogin = async () => {
-    console.log(password.value, passwordConfirm.value);
-    if ( password.value === passwordConfirm.value) {
-        const authData = await pb.collection('users')
-            .authWithPassword(username.value, password.value);
-
-        console.log(pb.authStore.isValid);
-        console.log(pb.authStore.token);
-        console.log(pb.authStore.model);
-        currentUser.value = pb.authStore.model;
+    // if (mail.value === null || password.value === null) {
+    //     console.log("Missing username or password");
+    // } else {
+    try {
+    const authData = await pb.collection('users')
+        .authWithPassword(mail.value, password.value);
+    console.log(pb.authStore.isValid);
+    console.log(pb.authStore.token);
+    console.log(pb.authStore.model);
+    currentUser.value = pb.authStore.model;
+    route.push('/');
+    } catch (error) {
+        loginError.value = "Email ou mot de passe invalide"
     }
-    else {
-        console.log("Passwords do not match");
-    }
+// }
 }
 
 const doCreateAccount = async () => {
+    if (!isValidEmail()) {
+        loginError.value = "Email invalide";
+        return;
+    }
+    if ( password.value === passwordConfirm.value) {
     const data = {
     "username":  `user_${self.crypto.randomUUID().split("-")[0]}`,
     "email": mail.value,
@@ -52,10 +71,14 @@ const doCreateAccount = async () => {
     "passwordConfirm": passwordConfirm.value,
     "name": username.value,
     };
-
+    loginMode.value = 'connexion';
     const record = await pb.collection('users').create(data);
-
+    pb.authStore.clear();
     await doLogin();
+    currentUser.value = null;
+    } else {
+        console.log("Passwords do not match");
+    }
 }
 </script>
 
@@ -81,16 +104,14 @@ const doCreateAccount = async () => {
         <div>
                 <div v-if="loginMode==='info' || loginMode==='connexion'">
                     <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start')"/>
-                    <InputConnexion v-if="loginMode==='connexion'" v-model="username" :text="'Pseudonyme'" :labelfor="'pseudo'" :type="'text'" :name="'pseudo'" :id="'pseudo'" :placeholder="''"/>
+                    <!-- <InputConnexion v-if="loginMode==='connexion'" v-model="username" :text="'Pseudonyme'" :labelfor="'pseudo'" :type="'text'" :name="'pseudo'" :id="'pseudo'" :placeholder="''"/> -->
+                    <p class="text-red-500" v-if="loginError">{{ loginError }}</p>
                     <InputConnexion v-model="mail" :text="'Adresse e-mail'"         :labelfor="'mail'" :type="'email'" :name="'mail'" :id="'mail'"      :placeholder="''"/>
                     <InputConnexion v-model="password" :text="'Mot de passe'"       :labelfor="'password'" :type="'password'" :name="'password'"    :id="'password'" :placeholder="''"/>
-                    <InputConnexion v-if="loginMode==='info'" v-model="passwordConfirm" :text="'Confirmer le  mot de  passe'" :labelfor="'passwordConfirm'"     :type="'passwordConfirm'"  :name="'passwordConfirm'"     :id="'passwordConfirm'" :placeholder="''" />
+                    <InputConnexion v-if="loginMode==='info'" v-model="passwordConfirm" :text="'Confirmer le  mot de  passe'" :labelfor="'passwordConfirm'"     :type="'password'"  :name="'passwordConfirm'"     :id="'passwordConfirm'" :placeholder="''" />
                 </div>
-                <Button v-if="loginMode==='info'" @click="loginMode='connexion', doCreateAccount" text="créer" :disabled="!mail && !password"/>
-
-                <RouterLink to="/" :disabled="!username && !mail && !password">
-                    <Button v-if="loginMode==='connexion'" @click="doLogin; loginMode='loged'" text="Se connecter" :disabled="!username && !mail && !password"/>
-            </RouterLink>
+                <Button v-if="loginMode==='info'" @click="doCreateAccount" text="créer" :disabled="!mail || !password"/>
+                <Button v-if="loginMode==='connexion'" @click="doLogin" text="Se connecter" :disabled="!mail || !password"/>
         </div>
     </section>
 </template>
