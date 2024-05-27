@@ -15,17 +15,9 @@ const password = ref('');
 const passwordConfirm = ref('');
 
 const loginMode = ref("start");
-const route = useRouter();
 
 const loginError = ref('');4
-
-const router = useRouter();
-
-onMounted(() => {
-    if (!currentUser.value) {
-        router.push('/connexion');
-    }
-})
+const route = useRouter();
 
 onMounted(async () => {
     pb.authStore.onChange(()=>{
@@ -50,6 +42,8 @@ const doLogin = async () => {
     console.log(pb.authStore.token);
     console.log(pb.authStore.model);
     currentUser.value = pb.authStore.model;
+    loginError.value = "";
+    console.log(loginError.value);
     route.push('/');
     } catch (error) {
         loginError.value = "Email ou mot de passe invalide"
@@ -75,9 +69,10 @@ const doCreateAccount = async () => {
     const record = await pb.collection('users').create(data);
     pb.authStore.clear();
     await doLogin();
-    currentUser.value = null;
+    loginError.value = "";
+    console.log(loginError.value);
     } else {
-        console.log("Passwords do not match");
+        loginError.value = "Les mots de passes ne correspondent pas";
     }
 }
 </script>
@@ -97,13 +92,13 @@ const doCreateAccount = async () => {
             <!-- <h2 v-if="loginMode === 'passwordRecup'">Récupérez votre mot de passe</h2> -->
         </header>
         <div v-if="loginMode === 'pseudo'">
-            <IconArrowLeft @click="loginMode='start'"/>
+            <IconArrowLeft @click="loginMode='start', loginError = ''"/>
             <InputConnexion v-model="username" :text="'Pseudonyme'" :labelfor="'username'" :type="'text'" :name="'username'" :id="'username'" :placeholder="''"/>
             <Button @click="loginMode='info'" text="Continuer" :disabled="!username"/>
         </div>
         <div>
                 <div v-if="loginMode==='info' || loginMode==='connexion'">
-                    <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start')"/>
+                    <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start'), loginError = ''"/>
                     <!-- <InputConnexion v-if="loginMode==='connexion'" v-model="username" :text="'Pseudonyme'" :labelfor="'pseudo'" :type="'text'" :name="'pseudo'" :id="'pseudo'" :placeholder="''"/> -->
                     <p class="text-red-500" v-if="loginError">{{ loginError }}</p>
                     <InputConnexion v-model="mail" :text="'Adresse e-mail'"         :labelfor="'mail'" :type="'email'" :name="'mail'" :id="'mail'"      :placeholder="''"/>

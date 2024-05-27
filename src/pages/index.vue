@@ -11,13 +11,20 @@ const moodList: TestResponse[] = await pb.collection('Test').getFullList();
 import { isActive } from '@/components/HeaderPage.vue'
 
 import { useRouter } from 'vue-router';
-import { mainModule } from 'process';
-const router = useRouter();
+const route = useRouter();
 
 const doLogout = () => {
     pb.authStore.clear();
-    router.push('/connexion');
+    route.push('/connexion');
 }
+
+import { onMounted } from 'vue';
+onMounted(() => {
+    if (pb.authStore.model === null) {
+        route.push('/connexion');
+    }
+})
+
 </script>
 
 <template>
