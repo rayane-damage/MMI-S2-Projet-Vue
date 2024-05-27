@@ -3,6 +3,7 @@ export const moodList = [
         pseudo: 'Jean',
         date: '2021-01-01',
         mood: 'Bien',
+        moods: [],
     },
     {
         pseudo: 'Pierre',

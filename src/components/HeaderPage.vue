@@ -5,13 +5,15 @@ import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 import { pb }from '@/backend';
-import type { AuthSystemFields, UsersRecord } from '@/pocketbase-types';
+import type { UsersRecord } from '@/pocketbase-types';
+
+import { userData } from '@/backend';
 
 const props = defineProps<{
     active: string
     inactive: string
 }>();
-const records: UsersRecord[] = await pb.collection('users').getFullList();
+// const records: UsersRecord[] = await pb.collection('users').getFullList();
 // type Props = {
 //     active: string,
 //     inactive: string
@@ -27,8 +29,7 @@ function moodDetermine(mood:string) {
         return "Mal";
     }
 }
-const userMood = moodDetermine(records[0]?.mood || '');
-
+const userMood = moodDetermine(userData[0].mood);
 </script>
 <script lang="ts">
 export const isActive = ref(true);
