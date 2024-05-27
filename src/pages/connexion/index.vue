@@ -23,6 +23,11 @@ onMounted(async () => {
 
 })
 
+const doLogout = () => {
+    pb.authStore.clear();
+    // currentUser.value = null;
+}
+
 const doLogin = async () => {
     console.log(password.value, passwordConfirm.value);
     if ( password.value === passwordConfirm.value) {
@@ -67,7 +72,7 @@ const doCreateAccount = async () => {
             <h2 v-if="loginMode == 'pseudo'">Choisissez un pseudo</h2>
             <h2 v-if="loginMode === 'info'">Informations de compte</h2>
             <h2 v-if="loginMode === 'connexion'">Connectez vous</h2>
-            <h2 v-if="loginMode === 'passwordRecup'">Récupérez votre mot de passe</h2>
+            <!-- <h2 v-if="loginMode === 'passwordRecup'">Récupérez votre mot de passe</h2> -->
         </header>
         <div v-if="loginMode === 'pseudo'">
             <IconArrowLeft @click="loginMode='start'"/>
@@ -77,13 +82,18 @@ const doCreateAccount = async () => {
         <div>
                 <div v-if="loginMode==='info' || loginMode==='connexion'">
                     <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start')"/>
+                    <InputConnexion v-if="loginMode==='connexion'" v-model="username" :text="'Pseudonyme'" :labelfor="'pseudo'" :type="'text'" :name="'pseudo'" :id="'pseudo'" :placeholder="''"/>
                     <InputConnexion v-model="mail" :text="'Adresse e-mail'"         :labelfor="'mail'" :type="'email'" :name="'mail'" :id="'mail'"      :placeholder="''"/>
                     <InputConnexion v-model="password" :text="'Mot de passe'"       :labelfor="'password'" :type="'password'" :name="'password'"    :id="'password'" :placeholder="''"/>
-                    <InputConnexion v-model="passwordConfirm" :text="'Confirmer le  mot de  passe'" :labelfor="'passwordConfirm'"     :type="'passwordConfirm'"  :name="'passwordConfirm'"     :id="'passwordConfirm'" :placeholder="''" />
+                    <InputConnexion v-if="loginMode==='info'" v-model="passwordConfirm" :text="'Confirmer le  mot de  passe'" :labelfor="'passwordConfirm'"     :type="'passwordConfirm'"  :name="'passwordConfirm'"     :id="'passwordConfirm'" :placeholder="''" />
                 </div>
-                <Button v-if="loginMode==='info'" @click="loginMode='connexion', doCreateAccount" text="créer" />
+                <Button v-if="loginMode==='info'" @click="loginMode='connexion', doCreateAccount" text="créer" :disabled="!mail && !password"/>
 
-            <Button v-if="loginMode==='connexion'" @click="loginMode='', doLogin" text="Se connecter"/>
+            <Button v-if="loginMode==='connexion'" @click="loginMode='loged', doLogin" text="Se connecter" :disabled="!username && !mail && !password"/>
         </div>
+    </section>
+
+    <section v-if="loginMode==='loged'">
+        <Button text="Se déconnecter" @click="doLogout, loginMode='start'" />
     </section>
 </template>
