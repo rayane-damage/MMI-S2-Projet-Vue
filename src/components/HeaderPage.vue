@@ -23,7 +23,7 @@ function moodDetermine(mood:string) {
         return "Bien";
     } else if (mood === 'Moyen') {
         return "Moyen";
-    } else {
+    } else if (mood === 'Mal'){
         return "Mal";
     }
 }
