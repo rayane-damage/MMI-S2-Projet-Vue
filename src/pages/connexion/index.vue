@@ -11,7 +11,7 @@ const password = ref('');
 const passwordConfirm = ref('');
 const fullName = ref('');
 
-const loginMode = ref(true);
+const loginMode = ref("pseudo");
 const start = ref(true);
 
 onMounted(async () => {
@@ -56,7 +56,20 @@ const doCreateAccount = async () => {
 <template>
     <section v-if="start" class="flex flex-col gap-4 mx-4 items-center">
         <IconLogo />
-        <Button text="Créer un compte" />
-        <Button text="Se connecter" variant="white"/>
+        <Button @click="start=false" text="Créer un compte" />
+        <Button @click="start=false" text="Se connecter" variant="white"/>
+    </section>
+
+    <section>
+        <header v-if="start === false">
+            <h2 v-if="loginMode == 'pseudo'">Choisissez un pseudo</h2>
+            <h2 v-if="loginMode === 'info'">Informations de compte</h2>
+            <h2 v-if="loginMode === 'connection'">Connectez vous</h2>
+            <h2 v-if="loginMode === 'passwordRecup'">Récupérez votre mot de passe</h2>
+        </header>
+        <div>
+            
+        </div>
+
     </section>
 </template>
