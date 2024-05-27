@@ -6,7 +6,7 @@ const props = withDefaults (
         type: string
         name: string
         id: string
-        placeholder: string
+        placeholder?: string
     }>(),
     {
         type: 'text',
@@ -15,6 +15,17 @@ const props = withDefaults (
 </script>
 
 <template>
-    <label :for="`${labelfor}`">{{ text }}</label>
-    <input :type="`${type}`" :name="`${name}`" :id="`${id}`" :placeholder="`${placeholder}`">
+    <label
+    :for="`${labelfor}`">
+    {{ text }}
+    </label>
+
+    <input
+    :type="`${type}`"
+    :name="`${name}`"
+    :id="`${id}`"
+    :placeholder="`${placeholder}`"
+    @input="$emit('update:modelValue', $event.target.value)"
+    class="rounded-full p-2 w-full bg-white"
+    >
 </template>
