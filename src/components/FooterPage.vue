@@ -10,7 +10,7 @@ import IconMoodSmile from './icons/IconMoodGood.vue';
         <nav>
             <ul class="grid grid-cols-3 py-2 px-8 place-items-center">
                 <li>
-                    <RouterLink to="/Index.html">
+                    <RouterLink to="/">
                         <IconHouse class="h-6" />
                     </RouterLink>
                 </li>

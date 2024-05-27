@@ -16,6 +16,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "pocketbase": "^0.21.2",
+    "punycode": "^2.3.1",
     "save": "^2.9.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

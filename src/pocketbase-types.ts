@@ -48,6 +48,7 @@ export type TestRecord = {
 
 export type UsersRecord = {
 	avatar?: string
+	mood?: string
 	name?: string
 }
 

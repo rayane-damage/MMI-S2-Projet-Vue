@@ -4,11 +4,31 @@ import { ref} from 'vue'
 import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
+import { pb }from '@/backend';
+import type { AuthSystemFields, UsersRecord } from '@/pocketbase-types';
 
 const props = defineProps<{
     active: string
     inactive: string
-}>()
+}>();
+const records: UsersRecord[] = await pb.collection('users').getFullList();
+// type Props = {
+//     active: string,
+//     inactive: string
+// } & TestResponse;
+
+// const props = defineProps<Props>();
+function moodDetermine(mood:string) {
+    if (mood === 'Bien') {
+        return "Bien";
+    } else if (mood === 'Moyen') {
+        return "Moyen";
+    } else {
+        return "Mal";
+    }
+}
+const userMood = moodDetermine(records[0]?.mood || '');
+
 </script>
 <script lang="ts">
 export const isActive = ref(true);
@@ -22,10 +42,10 @@ export const isActive = ref(true);
                     <RouterLink to="/">
                         <img src="/img/pfp default.png" alt="Profile picture" />
                         <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
-                            <IconMoodGood />
-                            <!-- <IconMoodGood v-if="mood === 'Bien'"/>
-                            <IconMoodMid v-if="mood === 'Moyen'" />
-                            <IconMoodBad v-if="mood === 'Mal'" /> -->
+                            <!-- <IconMoodMid /> -->
+                            <IconMoodGood v-if="userMood === 'Bien'"/>
+                            <IconMoodMid v-if="userMood === 'Moyen'" />
+                            <IconMoodBad v-if="userMood === 'Mal'" />
                         </span>
                     </RouterLink>
                 </li>
