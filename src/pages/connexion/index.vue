@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import IconLogo from '@/components/icons/IconLogo.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
+import IconMoodBad from '@/components/icons/IconMoodBad.vue';
+import IconMoodMid from '@/components/icons/IconMoodMid.vue';
+import IconMoodGood from '@/components/icons/IconMoodGood.vue';
 import Button from '@/components/Button.vue';
 import InputConnexion from '@/components/InputConnexion.vue';
 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, provide } from 'vue'
 import { pb } from '@/backend'
 import  { useRouter } from 'vue-router'
 
@@ -40,13 +43,12 @@ const doLogin = async () => {
     console.log(pb.authStore.model);
     currentUser.value = pb.authStore.model;
     loginError.value = "";
-    console.log(loginError.value);
-    route.push('/');
+    // console.log(currentUser);
+    loginMode.value='moodChoice'
     } catch (error) {
         loginError.value = "Email ou mot de passe invalide"
     }
 }
-
 
 const doCreateAccount = async () => {
     if (!isValidEmail()) {
@@ -76,6 +78,23 @@ const doCreateAccount = async () => {
         loginError.value = "Les mots de passes ne correspondent pas";
     }
 }
+async function updateMood(userId: string, mood: string) {
+    console.log("CurrentUser")
+    console.log(pb.authStore.model?.id);
+    // console.log(currentUser)
+    // console.log(userId);
+    try {
+        const dataUpdate = {
+            'moods': [`${mood}`]
+        };
+
+        await pb.collection('users').update(userId, dataUpdate);
+        route.push('/');
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 </script>
 
 <template>
@@ -109,5 +128,20 @@ const doCreateAccount = async () => {
                 <Button v-if="loginMode==='info'" @click="doCreateAccount" text="créer" :disabled="!mail || !password"/>
                 <Button v-if="loginMode==='connexion'" @click="doLogin" text="Se connecter" :disabled="!mail || !password"/>
         </div>
+    </section>
+
+    <section v-if="loginMode==='moodChoice'" class="w-full h-full flex flex-col justify-center items-center gap-6">
+        <h1 class="font-bold text-2xl font-red-600">Comment allez vous ?</h1>
+        <ul class="flex gap-6 justify-items-center h-full items-center">
+            <li>
+                <IconMoodGood @click="updateMood(`${pb.authStore.model?.id}`, 'Bien')"/>
+            </li>
+            <li>
+                <IconMoodMid @click="updateMood(`${pb.authStore.model?.id}`, 'Moyen')"/>
+            </li>
+            <li>
+                <IconMoodBad @click="updateMood(`${pb.authStore.model?.id}`, 'Mal')"/>
+            </li>
+        </ul>
     </section>
 </template>
