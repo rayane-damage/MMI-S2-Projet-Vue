@@ -34,21 +34,23 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type TestRecord = {
+export type TestRecord<Tmoods = unknown> = {
 	date?: IsoDateString
 	mood?: string
+	moods?: null | Tmoods
 	pseudo?: string
 }
 
-export type UsersRecord = {
+export type UsersRecord<Tmoods = unknown> = {
 	avatar?: string
 	mood?: string
+	moods?: null | Tmoods
 	name?: string
 }
 
 // Response types include system fields and match responses from the PocketBase API
-export type TestResponse<Texpand = unknown> = Required<TestRecord> & BaseSystemFields<Texpand>
-export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type TestResponse<Tmoods = unknown, Texpand = unknown> = Required<TestRecord<Tmoods>> & BaseSystemFields<Texpand>
+export type UsersResponse<Tmoods = unknown, Texpand = unknown> = Required<UsersRecord<Tmoods>> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 

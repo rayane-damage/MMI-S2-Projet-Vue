@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import IconLogo from './icons/IconLogo.vue'
-import { ref} from 'vue'
+import { ref, onMounted} from 'vue'
 import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 import { pb }from '@/backend';
 import type { UsersRecord } from '@/pocketbase-types';
 
-import { userData } from '@/backend';
-
+// import { userData } from '@/backend';
+const userData = await pb.collection('users').getFullList();
 const props = defineProps<{
     active: string
     inactive: string
@@ -29,7 +29,13 @@ function moodDetermine(mood:string) {
         return "Mal";
     }
 }
-const userMood = moodDetermine(userData[0].mood);
+console.log(userData[0]);
+
+const userMood = moodDetermine(userData[0].moods[0]);
+console.log("moods:")
+console.log(userData[0]);
+// console.log(userData[0].moods);
+// console.log(userData[0].moods[0])
 </script>
 <script lang="ts">
 export const isActive = ref(true);
