@@ -7,6 +7,7 @@ import InputConnexion from '@/components/InputConnexion.vue';
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
 import  { useRouter } from 'vue-router'
+import { nextTick } from 'process';
 
 const currentUser = ref();
 const username = ref('');
@@ -16,7 +17,7 @@ const passwordConfirm = ref('');
 
 const loginMode = ref("start");
 
-const loginError = ref('');4
+const loginError = ref('');
 const route = useRouter();
 
 onMounted(async () => {
@@ -32,9 +33,6 @@ const isValidEmail = () => {
 };
 
 const doLogin = async () => {
-    // if (mail.value === null || password.value === null) {
-    //     console.log("Missing username or password");
-    // } else {
     try {
     const authData = await pb.collection('users')
         .authWithPassword(mail.value, password.value);
@@ -48,8 +46,8 @@ const doLogin = async () => {
     } catch (error) {
         loginError.value = "Email ou mot de passe invalide"
     }
-// }
 }
+
 
 const doCreateAccount = async () => {
     if (!isValidEmail()) {
@@ -58,19 +56,23 @@ const doCreateAccount = async () => {
     }
     if ( password.value === passwordConfirm.value) {
     const data = {
-    "username":  `user_${self.crypto.randomUUID().split("-")[0]}`,
-    "email": mail.value,
-    "emailVisibility": true,
-    "password": password.value,
-    "passwordConfirm": passwordConfirm.value,
-    "name": username.value,
+        "username":  `user_${self.crypto.randomUUID().split("-")[0]}`,
+        "email": mail.value,
+        "emailVisibility": true,
+        "password": password.value,
+        "passwordConfirm": passwordConfirm.value,
+        "name": username.value,
     };
-    loginMode.value = 'connexion';
     const record = await pb.collection('users').create(data);
     pb.authStore.clear();
-    await doLogin();
     loginError.value = "";
-    console.log(loginError.value);
+    // mail.value = "";
+    // password.value = "";
+    loginMode.value = 'connexion';
+    // console.log(loginError.value);
+    // console.log(password.value);
+    // console.log(mail.value);
+    // console.log(pb.authStore.model);
     } else {
         loginError.value = "Les mots de passes ne correspondent pas";
     }
