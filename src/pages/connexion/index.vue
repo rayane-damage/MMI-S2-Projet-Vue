@@ -12,7 +12,6 @@ const username = ref('');
 const mail = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
-const fullName = ref('');
 
 const loginMode = ref("start");
 
@@ -46,12 +45,12 @@ const doLogin = async () => {
 
 const doCreateAccount = async () => {
     const data = {
-    "username": username.value,
+    "username":  `user_${self.crypto.randomUUID().split("-")[0]}`,
     "email": mail.value,
     "emailVisibility": true,
     "password": password.value,
     "passwordConfirm": passwordConfirm.value,
-    "name": fullName.value,
+    "name": username.value,
     };
 
     const record = await pb.collection('users').create(data);
@@ -89,11 +88,9 @@ const doCreateAccount = async () => {
                 </div>
                 <Button v-if="loginMode==='info'" @click="loginMode='connexion', doCreateAccount" text="créer" :disabled="!mail && !password"/>
 
-            <Button v-if="loginMode==='connexion'" @click="loginMode='loged', doLogin" text="Se connecter" :disabled="!username && !mail && !password"/>
+                <RouterLink to="/" :disabled="!username && !mail && !password">
+                    <Button v-if="loginMode==='connexion'" @click="doLogin; loginMode='loged'" text="Se connecter" :disabled="!username && !mail && !password"/>
+            </RouterLink>
         </div>
-    </section>
-
-    <section v-if="loginMode==='loged'">
-        <Button text="Se déconnecter" @click="doLogout, loginMode='start'" />
     </section>
 </template>

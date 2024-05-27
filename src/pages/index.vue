@@ -12,7 +12,6 @@ import { isActive } from '@/components/HeaderPage.vue'
 </script>
 
 <template>
-    <main class="bg-lightBeige">
         <section
         class="flex flex-col gap-4 my-4"
         v-if="isActive===false"
@@ -24,6 +23,4 @@ import { isActive } from '@/components/HeaderPage.vue'
         >
             <MemoriesCard v-for="memorie in moodList" v-bind="memorie" :key="memorie.id"/>
         </section>
-        <!-- <ProfileCard /> -->
-  </main>
 </template>

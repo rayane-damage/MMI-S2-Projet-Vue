@@ -12,11 +12,11 @@ onErrorCaptured((err, instance, info) => {
 const route = useRoute()
 const hideOnRoutes = ['/connexion']
 const hide = computed(() => !hideOnRoutes.some(path => route.path.startsWith(path)));
-</script>
+</script> 
 
 <template>
       <HeaderPage v-if="hide" active="Memories" inactive="Moods"/>
-      <main class="pt-header mb-footer">
+      <main class="pt-header mb-footer bg-lightBeige">
         <RouterView v-slot="{ Component }">
           <Suspense>
             <component :is="Component" />

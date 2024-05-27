@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 </script>
 <script lang="ts">
-    export const isActive = ref(true);
+export const isActive = ref(true);
 </script>
 
 <template>
