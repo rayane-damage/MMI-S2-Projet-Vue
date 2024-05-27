@@ -7,7 +7,6 @@ import InputConnexion from '@/components/InputConnexion.vue';
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
 import  { useRouter } from 'vue-router'
-import { nextTick } from 'process';
 
 const currentUser = ref();
 const username = ref('');

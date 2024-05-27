@@ -13,11 +13,6 @@ import { isActive } from '@/components/HeaderPage.vue'
 import { useRouter } from 'vue-router';
 const route = useRouter();
 
-const doLogout = () => {
-    pb.authStore.clear();
-    route.push('/connexion');
-}
-
 import { onMounted } from 'vue';
 onMounted(() => {
     if (pb.authStore.model === null) {
@@ -28,7 +23,6 @@ onMounted(() => {
 </script>
 
 <template>
-        <Button text="Se déconnecter" @click="doLogout"/>
         <section
         class="flex flex-col gap-4 my-4"
         v-if="isActive===false"

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import IconLogo from './icons/IconLogo.vue'
 import { ref} from 'vue'
+import IconMoodBad from './icons/IconMoodBad.vue';
+import IconMoodMid from './icons/IconMoodMid.vue';
+import IconMoodGood from './icons/IconMoodGood.vue';
 
 const props = defineProps<{
     active: string
@@ -18,6 +21,12 @@ export const isActive = ref(true);
                 <li>
                     <RouterLink to="/">
                         <img src="/img/pfp default.png" alt="Profile picture" />
+                        <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
+                            <IconMoodGood />
+                            <!-- <IconMoodGood v-if="mood === 'Bien'"/>
+                            <IconMoodMid v-if="mood === 'Moyen'" />
+                            <IconMoodBad v-if="mood === 'Mal'" /> -->
+                        </span>
                     </RouterLink>
                 </li>
                 <li>
