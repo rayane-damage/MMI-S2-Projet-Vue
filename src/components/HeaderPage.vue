@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import IconLogo from './icons/IconLogo.vue'
-import { ref, onMounted, watch} from 'vue'
+import { ref, watch } from 'vue'
 import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 import { pb }from '@/backend';
-import type { UsersRecord } from '@/pocketbase-types';
+
+import { userMood } from '@/pages/index.vue';
+console.log("inject:")
+
+let realUserMood = userMood;
 
 // import { userData } from '@/backend';
 // const userData = await pb.collection('users').getFullList();
@@ -18,7 +22,6 @@ const props = defineProps<{
 //     active: string,
 //     inactive: string
 // } & TestResponse;
-
 // const props = defineProps<Props>();
 function moodDetermine(mood:string) {
     if (mood === 'Bien') {
@@ -30,11 +33,11 @@ function moodDetermine(mood:string) {
     }
 }
 // console.log(userData[0]);
-let userMood = ref(moodDetermine(pb.authStore.model?.moods[0]));
+// let userMood = ref(moodDetermine(pb.authStore.model?.moods[0]));
 
-watch(() => pb.authStore.model?.moods[0], (newMood) => {
-  userMood.value = moodDetermine(newMood);
-});
+// watch(() => pb.authStore.model?.moods[-1], (newMood) => {
+//   userMood.value = moodDetermine(newMood);
+// });
 // const userMood = moodDetermine(pb.authStore.model?.moods[0]);
 console.log("moods:")
 console.log(userMood);
@@ -55,9 +58,9 @@ export const isActive = ref(true);
                         <img src="/img/pfp default.png" alt="Profile picture" />
                         <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
                             <!-- <IconMoodMid /> -->
-                            <IconMoodGood v-if="userMood === 'Bien'"/>
-                            <IconMoodMid v-if="userMood === 'Moyen'" />
-                            <IconMoodBad v-if="userMood === 'Mal'" />
+                            <IconMoodGood v-if="realUserMood === 'Bien'"/>
+                            <IconMoodMid v-if="realUserMood === 'Moyen'" />
+                            <IconMoodBad v-if="realUserMood === 'Mal'" />
                         </span>
                     </RouterLink>
                 </li>
