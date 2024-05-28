@@ -33,7 +33,8 @@ async function updateMood(userId: string, mood: Array<any>) {
         };
 
         await pb.collection('users').update(userId, dataUpdate);
-        userMood.value = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
+        // userMood.value = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
+        userMood.value = pb.authStore.model?.moods[0];
         route.push('/');
     } catch (e) {
         console.error(e);
@@ -73,8 +74,16 @@ async function addMood(mood: string) {
 <script lang="ts">
 // let userMood = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
 // export let refUserMood = ref(userMood);
-let userMood = ref(pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1]);
+// let userMood = ref(pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1]);
+let userMood = ref(null);
 
+onMounted(() => {
+    if (pb.authStore.model === null) {
+        console.log("NULL")
+    } else {
+        userMood.value = pb.authStore.model?.moods[0];
+    }
+})
 watch(
   () => pb.authStore.model?.moods,
   (newMoods) => {
