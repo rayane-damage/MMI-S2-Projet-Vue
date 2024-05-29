@@ -49,6 +49,10 @@ async function addMood(mood:string) {
     console.log('Mood added')
 }
 
+//permet d'acceder a l'onglet de gauche a chaque fois que l'on revient sur la page
+if (isActive.value == false) {
+    isActive.value = true;
+}
 </script>
 
 <template>

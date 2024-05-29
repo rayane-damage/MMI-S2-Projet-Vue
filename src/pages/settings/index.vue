@@ -16,6 +16,11 @@ const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
         sort: '-created'
     });
+
+//permet d'acceder a l'onglet de gauche a chaque fois que l'on revient sur la page
+if (isActive.value == false) {
+    isActive.value = true;
+}
 </script>
 
 <template>

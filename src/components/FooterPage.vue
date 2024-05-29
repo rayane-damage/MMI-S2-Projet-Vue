@@ -18,17 +18,17 @@ import { isActive } from './HeaderPage.vue';
             <ul class="grid grid-cols-3 py-2 px-8 place-items-center">
                 <li>
                     <RouterLink to="/">
-                        <IconHouse class="h-6" @click="isActive = true"/>
+                        <IconHouse class="h-6" />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Messages">
-                        <IconMessage class="h-6" @click="isActive = true"/>
+                        <IconMessage class="h-6"/>
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Settings">
-                        <IconSettings class="h-6" @click="isActive = true"/>
+                        <IconSettings class="h-6"/>
                     </RouterLink>
                 </li>
             </ul>
