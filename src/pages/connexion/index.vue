@@ -88,7 +88,7 @@ async function updateMood(userId: string, mood: string) {
             'moods': [`${mood}`]
         };
 
-        await pb.collection('users').update(userId, dataUpdate);
+        // await pb.collection('users').update(userId, dataUpdate);
         route.push('/');
     } catch (e) {
         console.error(e);

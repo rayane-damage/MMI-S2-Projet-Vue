@@ -4,7 +4,7 @@ import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 
-import { ref, inject, watch, watchEffect } from 'vue'
+import { ref, inject, watch, watchEffect} from 'vue'
 import type { Ref } from 'vue'
 import { pb } from '@/backend';
 // import { test } from '@/pages/index.vue';
@@ -15,7 +15,8 @@ const records = await pb.collection('mood').getFullList({
     sort: '-created'
 });
 //Récupère le mood le plus récent
-let currentMood = records[0].mood;
+let currentMood = records[0]?.mood;
+
 
 console.log("currentMoodHEADER:")
 console.log(currentMood)
@@ -62,19 +63,17 @@ console.log(currentMood2.value)
 
 // if (currentMood3.value === undefined) {
 //     currentMood3.value = currentMood
-// }
+// }const isActiveValue = ref(props.activeValue);
 </script>
 
 <script lang="ts">
-//Utilisation d'un script normal pour pouvoir exporter des variables
+// //Utilisation d'un script normal pour pouvoir exporter des variables
+//     export const isActiveValue = ref(activeValue);
+//     export const isInactiveValue = ref(inactiveValue);
     export const isActive = ref(true);
 </script>
-
 <template>
-        <header 
-        class="mb-header"
-        :class="{ '' : isActive===false}"
-        >
+        <header class="mb-header">
         <div class="bg-mainBlue fixed w-full top-0 z-50">
             <nav>
                 <ul class="flex justify-between px-8 pt-4">
@@ -119,7 +118,7 @@ console.log(currentMood2.value)
             </nav>
         </div>
         </header>
-    <div v-if="isActive === false" class="bg-red-600 w-full p-4 text-center font-bold text-white text-2xl">
+    <div v-if="inactive=== 'Moods' && isActive===false" @click="currentMood2 = 'Mal'" class="bg-red-600 w-full p-4 text-center font-bold text-white text-2xl">
             TEST
         </div>
 </template>

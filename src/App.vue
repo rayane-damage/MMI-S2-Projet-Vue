@@ -18,9 +18,6 @@ const hide = computed(() => !hideOnRoutes.some(path => route.path.startsWith(pat
 </script>
 
 <template>
-      <Suspense>
-        <HeaderPage v-if="hide" active="Memories" inactive="Moods" />
-      </Suspense>
       <main class="mb-footer bg-lightBeige">
         <RouterView v-slot="{ Component }">
           <Suspense>

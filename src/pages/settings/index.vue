@@ -2,7 +2,9 @@
 import { isActive } from '@/components/HeaderPage.vue'
 import Button from '@/components/Button.vue';
 import { pb } from '@/backend';
-import { useRouter } from 'vue-router';
+import { computed, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import HeaderPage from '@/components/HeaderPage.vue';
 
 const route = useRouter();
 
@@ -10,11 +12,14 @@ const doLogout = () => {
     pb.authStore.clear();
     route.push('/connexion');
 }
-// import IconInfo from './icons/IconInfo.vue'
+// const routebis = useRoute()
+// const validRoutes = ['/settings']
+// const show = computed(() => validRoutes.some(path => routebis.path.startsWith(path)));
 </script>
 
 <template>
-    <section class="bg-mainBlue">
+    <HeaderPage active="Legal" inactive="Trucs" />
+    <section class="bg-mainBlue" v-if="isActive === false">
         <div>
             <Button text="Se déconnecter" @click="doLogout"/>
             <div>
@@ -34,5 +39,8 @@ const doLogout = () => {
                 <IconInfo />
             </div>
         </div>
+    </section>
+    <section v-if="isActive === true">
+        ALED
     </section>
 </template>
