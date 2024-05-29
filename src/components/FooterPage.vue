@@ -4,6 +4,12 @@ import IconSettings from './icons/IconSettings.vue';
 import IconHouse from './icons/IconHouse.vue';
 import { isActive } from './HeaderPage.vue';
 
+// Retarde le changement de isActive de 1 seconde
+// const handleClick = () => {
+//   setTimeout(() => {
+//     isActive.value = true;
+//   }, 1000);
+// };
 </script>
 
 <template>

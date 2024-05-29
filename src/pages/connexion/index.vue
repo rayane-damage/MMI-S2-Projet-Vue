@@ -44,15 +44,16 @@ const doLogin = async () => {
     console.log(pb.authStore.model);
     currentUser.value = pb.authStore.model;
     loginError.value = "";
-    // console.log(currentUser);
-    loginMode.value='moodChoice'
+    // CA A CHANGER
+    if (!await pb.collection('users').getOne(pb.authStore.model?.id)) {
+        loginMode.value='moodChoice'
+    } else {
+        route.push('/');
+    }
     } catch (error) {
         loginError.value = "Email ou mot de passe invalide"
     }
-    const user = await pb.collection('users').getOne(pb.authStore.model?.id);
-    if (user) {
-        route.push('/');
-    }
+
 }
 
 const doCreateAccount = async () => {
@@ -104,10 +105,12 @@ async function addMood(mood:string) {
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
     route.push('/');
 }
+
 let isUser = ref(false);
 
 if (loginMode.value === 'moodChoice') {
     isUser.value = await pb.collection('users').getOne(pb.authStore.model?.id);
+    console.log(isUser.value);
 }
 // async function isAlreadyRegistred() {
 //     const user = await pb.collection('users').getOne(pb.authStore.model?.id);
