@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { TestResponse } from '@/pocketbase-types';
-const props = defineProps<TestResponse>();
+import type { MemorieResponse } from '@/pocketbase-types';
+const props = defineProps<MemorieResponse>();
 
 </script>
 
@@ -13,7 +13,7 @@ const props = defineProps<TestResponse>();
             class="h-16"
             >
             <span>
-                <p class="font-bold">{{ pseudo }}</p>
+                <p class="font-bold">{{ title }}</p>
                 <p>3 hours ago</p>
             </span>
         </div>

@@ -1,16 +1,31 @@
 <script setup lang="ts">
 import MemoriesCard from '@/components/MemoriesCard.vue'
 import MoodCard from '@/components/MoodCard.vue'
-import Button from '@/components/Button.vue';
+//Varibale pour savoir si on est sur la page des moods ou des memories
 import { isActive } from '@/components/HeaderPage.vue'
 
 import { useRouter } from 'vue-router';
-import { onMounted, ref, watch } from 'vue';
-import type { TestResponse } from '@/pocketbase-types';
+import { onMounted, ref, provide, watch } from 'vue';
 import { pb } from '@/backend';
-const moodList: TestResponse[] = await pb.collection('Test').getFullList();
 
+//Importe les données de la base de données
+let moodList = await pb.collection('mood').getFullList({
+    filter : `user = '${pb.authStore.model?.id}'`,
+    sort: '-created'
+});
 
+console.log('MOODLIST')
+console.log(moodList[0])
+
+const memoriesList = await pb.collection('memorie').getFullList({
+    filter : `user = '${pb.authStore.model?.id}'`,
+    sort: '-created'
+});
+
+console.log('MEMORIESLIST')
+console.log(memoriesList[0])
+
+//Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
 const route = useRouter();
 onMounted(() => {
     if (pb.authStore.model === null) {
@@ -18,96 +33,61 @@ onMounted(() => {
     }
 })
 
+
 //-------------------------------------------------------------------------------
-let currentUserMood = pb.authStore.model?.moods;
+// let lastUserMood = ref("");
+// let providedMood = ref("");
+
+// provide('lastUserMood', providedMood);
+
+// watch(lastUserMood, (newVal) => {
+//     providedMood.value = newVal;
+//     console.log('Newval')
+//     console.log(newVal)
+// });
+
+// async function fetchMoods() {
+//   const records = await pb.collection('mood').getFullList({
+//     filter: `user = '${pb.authStore.model?.id}'`,
+//     sort: '-created'
+//   });
+//   console.log(lastUserMood.value)
+// lastUserMood.value = ""
+//   lastUserMood.value = records[0].mood;
+//   console.log("lastUserMood")
+//   console.log(lastUserMood.value)
+// }
+
+// async function addMood(mood:string) {
+//   await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
+//   fetchMoods();
+// }
+
+// const test = ref();
+// test.value = 'test';
+// console.log('test:', test);
+// console.log('testvalue:', test.value);
 
 
-async function updateMood(userId: string, mood: Array<any>) {
-    console.log("CurrentUser")
-    console.log(pb.authStore.model?.id);
-    // console.log(currentUser)
-    // console.log(userId);
-    try {
-        const dataUpdate = {
-            'moods': mood
-        };
+// watch(test, (newVal) => {
+//     console.log('test has changed:', newVal);
+// });
 
-        await pb.collection('users').update(userId, dataUpdate);
-        // userMood.value = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
-        userMood.value = pb.authStore.model?.moods[0];
-        route.push('/');
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function addMood(mood: string) {
-    try {
-        // const data = {
-        //     'moods': [`${mood}`]
-        // };
-        if (currentUserMood) {
-            currentUserMood.push(mood);
-            console.log("currentUserMood in func=", currentUserMood);
-
-        }
-        if (pb.authStore.model) {
-            updateMood(`${pb.authStore.model?.id}`, currentUserMood);
-            console.log("yes")
-        }
-        console.log("addMood =>")
-        console.log("model:")
-        console.log(pb.authStore.model)
-        console.group("moods:")
-        console.log(pb.authStore.model?.moods)
-    } catch (e) {
-        console.error(e);
-    }
-
-}
-
-// let userMood: any[] = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
-// provide('userMood', userMood);
-// console.log(userMood)
+// provide('testRef', test);
 
 </script>
-<script lang="ts">
-// let userMood = pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1];
-// export let refUserMood = ref(userMood);
-// let userMood = ref(pb.authStore.model?.moods[pb.authStore.model?.moods.length - 1]);
-let userMood = ref(null);
 
-onMounted(() => {
-    if (pb.authStore.model === null) {
-        console.log("NULL")
-    } else {
-        userMood.value = pb.authStore.model?.moods[0];
-    }
-})
-watch(
-  () => pb.authStore.model?.moods,
-  (newMoods) => {
-    userMood.value = newMoods[newMoods.length - 1];
-  },
-  { immediate: true }
-);
-
-export { userMood };
-</script>
-
-<template>
-    <h1 class="bg-red-600 text-white text-xl" @click="addMood('Bien')">Change to bien</h1>
-    <h1 class="bg-red-600 text-white text-xl" @click="addMood('Mal')">Change to pasbien</h1>
-    <h1 @click="addMood('Moyen')">TEST</h1>
+<template>    
         <section
         class="flex flex-col gap-4 my-4"
         v-if="isActive===false"
-        >            <MoodCard v-for="mood in moodList" :key="mood.id" v-bind="mood"/>
+        >
+            <MoodCard v-for="mood in moodList" v-bind="mood" :key="mood.id" />
 
         </section>
         <section
         v-if="isActive===true"
         >
-            <MemoriesCard v-for="memorie in moodList" v-bind="memorie" :key="memorie.id"/>
+            <MemoriesCard v-for="memorie in memoriesList" v-bind="memorie" :key="memorie.id"/>
         </section>
 </template>

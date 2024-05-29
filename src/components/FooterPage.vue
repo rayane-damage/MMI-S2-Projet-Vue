@@ -2,7 +2,6 @@
 import IconMessage from './icons/IconMessage.vue';
 import IconSettings from './icons/IconSettings.vue';
 import IconHouse from './icons/IconHouse.vue';
-import IconMoodSmile from './icons/IconMoodGood.vue';
 </script>
 
 <template>

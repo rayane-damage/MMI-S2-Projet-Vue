@@ -4,10 +4,13 @@ import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
 
-import type { TestResponse } from '@/pocketbase-types';
-const props = defineProps<TestResponse>();
+import type { MoodResponse } from '@/pocketbase-types';
 
+const props = defineProps<MoodResponse>();
+// console.log("MOOD:")
+// console.log(props.mood)
 
+//Permet de changer la couleur du texte en fonction du mood
 const moodClass: { [key: string]: string } = {
     Bien: 'text-green-500',
     Moyen: 'text-yellow-500',
@@ -20,16 +23,16 @@ const moodClass: { [key: string]: string } = {
     <section class="flex justify-between items-center mx-6 p-4 bg-white rounded-[35px]">
         <div class="flex gap-4 items-center">
             <div>
-                <IconMoodGood v-if="String(mood) === 'Bien'"/>
-                <IconMoodMid v-if="String(mood) === 'Moyen'" />
-                <IconMoodBad v-if="String(mood) === 'Mal'" />
+                <IconMoodGood v-if="mood === 'Bien'"/>
+                <IconMoodMid v-if="mood === 'Moyen'" />
+                <IconMoodBad v-if="mood === 'Mal'" />
             </div>
             <div>
-                <p class="text-sm text-gray-600">{{ date }}</p>
+                <p class="text-sm text-gray-600">{{ created }}</p>
                 <p
                 class="font-Hegante text-xl"
                 :class="moodClass[mood]"
-                >{{ String(mood) }}</p>
+                >{{ mood }}</p>
             </div>
         </div>
         <div class="pr-1">

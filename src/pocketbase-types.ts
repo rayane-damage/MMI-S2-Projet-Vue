@@ -6,7 +6,9 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Memorie = "Memorie",
 	Test = "Test",
+	Mood = "mood",
 	Users = "users",
 }
 
@@ -34,6 +36,12 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export type MemorieRecord = {
+	img?: string
+	title?: string
+	user?: RecordIdString
+}
+
 export type TestRecord<Tmoods = unknown> = {
 	date?: IsoDateString
 	mood?: string
@@ -41,26 +49,35 @@ export type TestRecord<Tmoods = unknown> = {
 	pseudo?: string
 }
 
-export type UsersRecord<Tmoods = unknown> = {
-	avatar?: string
+export type MoodRecord = {
 	mood?: string
-	moods?: null | Tmoods
+	user?: RecordIdString
+}
+
+export type UsersRecord = {
+	avatar?: string
 	name?: string
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type MemorieResponse<Texpand = unknown> = Required<MemorieRecord> & BaseSystemFields<Texpand>
 export type TestResponse<Tmoods = unknown, Texpand = unknown> = Required<TestRecord<Tmoods>> & BaseSystemFields<Texpand>
-export type UsersResponse<Tmoods = unknown, Texpand = unknown> = Required<UsersRecord<Tmoods>> & AuthSystemFields<Texpand>
+export type MoodResponse<Texpand = unknown> = Required<MoodRecord> & BaseSystemFields<Texpand>
+export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	Memorie: MemorieRecord
 	Test: TestRecord
+	mood: MoodRecord
 	users: UsersRecord
 }
 
 export type CollectionResponses = {
+	Memorie: MemorieResponse
 	Test: TestResponse
+	mood: MoodResponse
 	users: UsersResponse
 }
 
@@ -68,6 +85,8 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'Memorie'): RecordService<MemorieResponse>
 	collection(idOrName: 'Test'): RecordService<TestResponse>
+	collection(idOrName: 'mood'): RecordService<MoodResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }
