@@ -7,9 +7,11 @@ import IconMoodGood from '@/components/icons/IconMoodGood.vue';
 import Button from '@/components/Button.vue';
 import InputConnexion from '@/components/InputConnexion.vue';
 
-import { onMounted, ref, provide } from 'vue'
+import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
-import  { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+
+const route = useRouter();
 
 const currentUser = ref();
 const username = ref('');
@@ -20,7 +22,6 @@ const passwordConfirm = ref('');
 const loginMode = ref("start");
 
 const loginError = ref('');
-const route = useRouter();
 
 onMounted(async () => {
     pb.authStore.onChange(()=>{
@@ -47,6 +48,10 @@ const doLogin = async () => {
     loginMode.value='moodChoice'
     } catch (error) {
         loginError.value = "Email ou mot de passe invalide"
+    }
+    const user = await pb.collection('users').getOne(pb.authStore.model?.id);
+    if (user) {
+        route.push('/');
     }
 }
 
@@ -78,22 +83,40 @@ const doCreateAccount = async () => {
         loginError.value = "Les mots de passes ne correspondent pas";
     }
 }
-async function updateMood(userId: string, mood: string) {
-    console.log("CurrentUser")
-    console.log(pb.authStore.model?.id);
-    // console.log(currentUser)
-    // console.log(userId);
-    try {
-        const dataUpdate = {
-            'moods': [`${mood}`]
-        };
+// async function updateMood(userId: string, mood: string) {
+//     console.log("CurrentUser")
+//     console.log(pb.authStore.model?.id);
+//     // console.log(currentUser)
+//     // console.log(userId);
+//     try {
+//         const dataUpdate = {
+//             'moods': [`${mood}`]
+//         };
 
-        // await pb.collection('users').update(userId, dataUpdate);
-        route.push('/');
-    } catch (e) {
-        console.error(e);
-    }
+//         // await pb.collection('users').update(userId, dataUpdate);
+//         route.push('/');
+//     } catch (e) {
+//         console.error(e);
+//     }
+// }
+
+async function addMood(mood:string) {
+    await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
+    route.push('/');
 }
+let isUser = ref(false);
+
+if (loginMode.value === 'moodChoice') {
+    isUser.value = await pb.collection('users').getOne(pb.authStore.model?.id);
+}
+// async function isAlreadyRegistred() {
+//     const user = await pb.collection('users').getOne(pb.authStore.model?.id);
+//     if (user) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 </script>
 
@@ -134,13 +157,13 @@ async function updateMood(userId: string, mood: string) {
         <h1 class="font-bold text-2xl font-red-600">Comment allez vous ?</h1>
         <ul class="flex gap-6 justify-items-center h-full items-center">
             <li>
-                <IconMoodGood @click="updateMood(`${pb.authStore.model?.id}`, 'Bien')"/>
+                <IconMoodGood @click="addMood('Bien')"/>
             </li>
             <li>
-                <IconMoodMid @click="updateMood(`${pb.authStore.model?.id}`, 'Moyen')"/>
+                <IconMoodMid @click="addMood('Moyen')" />
             </li>
             <li>
-                <IconMoodBad @click="updateMood(`${pb.authStore.model?.id}`, 'Mal')"/>
+                <IconMoodBad @click="addMood('Mal')"/>
             </li>
         </ul>
     </section>

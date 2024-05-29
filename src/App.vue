@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { onErrorCaptured, computed} from 'vue'
 import { RouterView, useRoute } from 'vue-router'
-import { isActive } from '@/components/HeaderPage.vue'
 
-import HeaderPage from '@/components/HeaderPage.vue'
 import FooterPage from '@/components/FooterPage.vue'
 
 onErrorCaptured((err, instance, info) => {
@@ -18,6 +16,7 @@ const hide = computed(() => !hideOnRoutes.some(path => route.path.startsWith(pat
 </script>
 
 <template>
+      <FooterPage v-if="hide" />
       <main class="mb-footer bg-lightBeige">
         <RouterView v-slot="{ Component }">
           <Suspense>
@@ -26,4 +25,6 @@ const hide = computed(() => !hideOnRoutes.some(path => route.path.startsWith(pat
         </RouterView>
       </main>
       <FooterPage v-if="hide" />
+      <HeaderPage active="Memories" inactive="Moods"/>
+
 </template>

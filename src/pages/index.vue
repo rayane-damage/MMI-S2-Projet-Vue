@@ -2,29 +2,22 @@
 import MemoriesCard from '@/components/MemoriesCard.vue'
 import MoodCard from '@/components/MoodCard.vue'
 import HeaderPage from '@/components/HeaderPage.vue'
+import IconMoodBad from '@/components/icons/IconMoodBad.vue'
+import IconMoodMid from '@/components/icons/IconMoodMid.vue'
+import IconMoodGood from '@/components/icons/IconMoodGood.vue'
 //Varibale pour savoir si on est sur la page des moods ou des memories
 import { isActive } from '@/components/HeaderPage.vue'
 
-import { useRouter, useRoute } from 'vue-router';
-import { onMounted, computed, watch, ref} from 'vue';
+import { useRouter } from 'vue-router';
+import { onMounted, provide, ref } from 'vue';
 import { pb } from '@/backend';
 
-//Importe les données de la base de données
-let moodList = await pb.collection('mood').getFullList({
+// Importe les données de la base de données
+const memoriesList: any[] = await pb.collection('memorie').getFullList({
     filter : `user = '${pb.authStore.model?.id}'`,
     sort: '-created'
 });
 
-console.log('MOODLIST')
-console.log(moodList[0])
-
-const memoriesList = await pb.collection('memorie').getFullList({
-    filter : `user = '${pb.authStore.model?.id}'`,
-    sort: '-created'
-});
-
-console.log('MEMORIESLIST')
-console.log(memoriesList[0])
 
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
 const route = useRouter();
@@ -35,55 +28,40 @@ onMounted(() => {
 })
 
 
-//-------------------------------------------------------------------------------
-// let lastUserMood = ref("");
-// let providedMood = ref("");
+let moodList = ref<any[]>([]);
 
-// provide('lastUserMood', providedMood);
-
-// watch(lastUserMood, (newVal) => {
-//     providedMood.value = newVal;
-//     console.log('Newval')
-//     console.log(newVal)
-// });
-
-// async function fetchMoods() {
-//   const records = await pb.collection('mood').getFullList({
-//     filter: `user = '${pb.authStore.model?.id}'`,
-//     sort: '-created'
-//   });
-//   console.log(lastUserMood.value)
-// lastUserMood.value = ""
-//   lastUserMood.value = records[0].mood;
-//   console.log("lastUserMood")
-//   console.log(lastUserMood.value)
-// }
-
-// async function addMood(mood:string) {
-//   await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
-//   fetchMoods();
-// }
-
-// const test = ref();
-// test.value = 'test';
-// console.log('test:', test);
-// console.log('testvalue:', test.value);
+moodList.value = await pb.collection('mood').getFullList({
+    filter : `user = '${pb.authStore.model?.id}'`,
+    sort: '-created'
+});
 
 
-// watch(test, (newVal) => {
-//     console.log('test has changed:', newVal);
-// });
+let currentMood = ref(moodList.value[0].mood);
 
-// provide('testRef', test);
+async function addMood(mood:string) {
+    await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
+    currentMood.value = mood;
+    const updatedMoodList = await pb.collection('mood').getFullList({
+        filter : `user = '${pb.authStore.model?.id}'`,
+        sort: '-created'
+    });
+    moodList.value = updatedMoodList;
+    console.log('Mood added')
+}
 
 </script>
 
 <template>
-        <HeaderPage active="Memories" inactive="Moods"/>
+        <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
         <section
         class="flex flex-col gap-4 my-4"
         v-if="isActive === false"
         >
+        <div class="flex gap-4 w-full justify-center p-4">
+            <IconMoodGood @click="addMood('Bien')"/>
+            <IconMoodMid @click="addMood('Moyen')" />
+            <IconMoodBad @click="addMood('Mal')"/>
+        </div>
             <MoodCard v-for="mood in moodList" v-bind="mood" :key="mood.id" />
 
         </section>

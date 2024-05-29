@@ -2,6 +2,8 @@
 import IconMessage from './icons/IconMessage.vue';
 import IconSettings from './icons/IconSettings.vue';
 import IconHouse from './icons/IconHouse.vue';
+import { isActive } from './HeaderPage.vue';
+
 </script>
 
 <template>
@@ -10,17 +12,17 @@ import IconHouse from './icons/IconHouse.vue';
             <ul class="grid grid-cols-3 py-2 px-8 place-items-center">
                 <li>
                     <RouterLink to="/">
-                        <IconHouse class="h-6" />
+                        <IconHouse class="h-6" @click="isActive = true"/>
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Messages">
-                        <IconMessage class="h-6" />
+                        <IconMessage class="h-6" @click="isActive = true"/>
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/Settings">
-                        <IconSettings class="h-6" />
+                        <IconSettings class="h-6" @click="isActive = true"/>
                     </RouterLink>
                 </li>
             </ul>

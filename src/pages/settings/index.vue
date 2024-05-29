@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import HeaderPage from '@/components/HeaderPage.vue';
 import { isActive } from '@/components/HeaderPage.vue'
 import Button from '@/components/Button.vue';
 import { pb } from '@/backend';
-import { computed, ref, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import HeaderPage from '@/components/HeaderPage.vue';
+import { useRouter } from 'vue-router';
 
 const route = useRouter();
 
@@ -12,13 +11,15 @@ const doLogout = () => {
     pb.authStore.clear();
     route.push('/connexion');
 }
-// const routebis = useRoute()
-// const validRoutes = ['/settings']
-// const show = computed(() => validRoutes.some(path => routebis.path.startsWith(path)));
+
+const moodList = await pb.collection('mood').getFullList({
+        filter : `user = '${pb.authStore.model?.id}'`,
+        sort: '-created'
+    });
 </script>
 
 <template>
-    <HeaderPage active="Legal" inactive="Trucs" />
+    <HeaderPage active="Legal" inactive="seetings2" :currentMood="moodList[0].mood"/>
     <section class="bg-mainBlue" v-if="isActive === false">
         <div>
             <Button text="Se déconnecter" @click="doLogout"/>
