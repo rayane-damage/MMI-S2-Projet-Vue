@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <Button>
+    <button>
         {{ title }}
-    </Button>
+    </button>
 </template>

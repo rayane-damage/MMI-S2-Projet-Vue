@@ -71,6 +71,7 @@ if (isActive.value == false) {
         </section>
         <section
         v-if="isActive === true"
+        class="pt-1"
         >
             <MemoriesCard v-for="memorie in memoriesList" v-bind="memorie" :key="memorie.id"/>
         </section>
