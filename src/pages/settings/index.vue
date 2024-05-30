@@ -8,6 +8,7 @@ import SettingsCard from '@/components/SettingsCard.vue';
 import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 
+
 const route = useRouter();
 
 const doLogout = () => {
