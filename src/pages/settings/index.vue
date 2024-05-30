@@ -7,24 +7,7 @@ import SettingsCard from '@/components/SettingsCard.vue';
 import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 import SettingsLegalCard from '@/components/SettingsLegalCard.vue';
-import { ref, provide, onMounted } from 'vue';
-import { tabText } from '@/dataText';
-console.log("tabText")
-console.log(tabText)
-
-// provide('sectionOpen', sectionOpen)
-
-// async function textShow() {
-//     if (sectionOpen.value === 1){
-//     isText.value = tabText[0].text;
-// } else if (sectionOpen.value === 2){
-//     isText.value = tabText[1].text;
-// } else if (sectionOpen.value === 2){
-//     isText.value = tabText[2].text;
-// }else {
-//     isText.value = tabText[3].text;
-// }
-// }
+import { ref } from 'vue';
 
 
 const route = useRouter();

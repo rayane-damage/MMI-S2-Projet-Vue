@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
 import IconArrowLeft from './icons/IconArrowLeft.vue';
 import { sectionOpen } from '@/pages/settings/index.vue';
 
