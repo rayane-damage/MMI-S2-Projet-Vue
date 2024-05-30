@@ -73,33 +73,11 @@ const doCreateAccount = async () => {
     const record = await pb.collection('users').create(data);
     pb.authStore.clear();
     loginError.value = "";
-    // mail.value = "";
-    // password.value = "";
     loginMode.value = 'connexion';
-    // console.log(loginError.value);
-    // console.log(password.value);
-    // console.log(mail.value);
-    // console.log(pb.authStore.model);
     } else {
         loginError.value = "Les mots de passes ne correspondent pas";
     }
 }
-// async function updateMood(userId: string, mood: string) {
-//     console.log("CurrentUser")
-//     console.log(pb.authStore.model?.id);
-//     // console.log(currentUser)
-//     // console.log(userId);
-//     try {
-//         const dataUpdate = {
-//             'moods': [`${mood}`]
-//         };
-
-//         // await pb.collection('users').update(userId, dataUpdate);
-//         route.push('/');
-//     } catch (e) {
-//         console.error(e);
-//     }
-// }
 
 async function addMood(mood:string) {
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
@@ -112,15 +90,6 @@ if (loginMode.value === 'moodChoice') {
     isUser.value = await pb.collection('users').getOne(pb.authStore.model?.id);
     console.log(isUser.value);
 }
-// async function isAlreadyRegistred() {
-//     const user = await pb.collection('users').getOne(pb.authStore.model?.id);
-//     if (user) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
-
 </script>
 
 <template>
@@ -135,7 +104,6 @@ if (loginMode.value === 'moodChoice') {
             <h2 v-if="loginMode == 'pseudo'">Choisissez un pseudo</h2>
             <h2 v-if="loginMode === 'info'">Informations de compte</h2>
             <h2 v-if="loginMode === 'connexion'">Connectez vous</h2>
-            <!-- <h2 v-if="loginMode === 'passwordRecup'">Récupérez votre mot de passe</h2> -->
         </header>
         <div v-if="loginMode === 'pseudo'">
             <IconArrowLeft @click="loginMode='start', loginError = ''"/>
@@ -145,7 +113,6 @@ if (loginMode.value === 'moodChoice') {
         <div>
                 <div v-if="loginMode==='info' || loginMode==='connexion'">
                     <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start'), loginError = ''"/>
-                    <!-- <InputConnexion v-if="loginMode==='connexion'" v-model="username" :text="'Pseudonyme'" :labelfor="'pseudo'" :type="'text'" :name="'pseudo'" :id="'pseudo'" :placeholder="''"/> -->
                     <p class="text-red-500" v-if="loginError">{{ loginError }}</p>
                     <InputConnexion v-model="mail" :text="'Adresse e-mail'"         :labelfor="'mail'" :type="'email'" :name="'mail'" :id="'mail'"      :placeholder="''"/>
                     <InputConnexion v-model="password" :text="'Mot de passe'"       :labelfor="'password'" :type="'password'" :name="'password'"    :id="'password'" :placeholder="''"/>

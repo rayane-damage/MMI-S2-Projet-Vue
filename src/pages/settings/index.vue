@@ -4,6 +4,9 @@ import { isActive } from '@/components/HeaderPage.vue'
 import Button from '@/components/Button.vue';
 import { pb } from '@/backend';
 import { useRouter } from 'vue-router';
+import SettingsCard from '@/components/SettingsCard.vue';
+import IconLogout from '@/components/icons/IconLogout.vue';
+import IconInfo from '@/components/icons/IconInfo.vue';
 
 const route = useRouter();
 
@@ -24,29 +27,30 @@ if (isActive.value == false) {
 </script>
 
 <template>
-    <HeaderPage active="Legal" inactive="seetings2" :currentMood="moodList[0].mood"/>
-    <section class="bg-mainBlue" v-if="isActive === false">
-        <div>
-            <Button text="Se déconnecter" @click="doLogout"/>
-            <div>
-                <p>Informations du compte</p>
-                <IconInfo />
+    <HeaderPage active="Compte" inactive="Legal" :currentMood="moodList[0].mood"/>
+    <section v-if="isActive === true" class="bg-mainBlue h-screen" v-scroll-lock="true">
+        <div class="flex flex-col gap-2 text-white items-start pt-6 *:w-full ">
+            <div class="flex justify-between items-center w-full border-b-2 border-orange-400 py-2 px-10">
+                <h4>Informations du compte</h4>
+                <IconInfo class="h-4"/>
             </div>
-            <RouterLink to="/Settings/ChangePassword">
-                <p>Changer le mot de passe</p>
-            </RouterLink>
-            <RouterLink to="/Settings/Notifications">
-                <p>Notifications</p>
-            </RouterLink>
+            <div class="*:px-10 flex flex-col gap-2 items-start">
+                <SettingsCard title="Changer de mot de passe"/>
+                <SettingsCard title="Notifications"/>
+            </div>
         </div>
-        <div>
-            <div>
-                <p>Déconnection</p>
-                <IconInfo />
+        <div class="flex flex-col gap-2 text-white items-start *:w-full pt-6">
+            <div class="flex justify-between items-center w-full border-b-2 border-orange-400 py-2 px-10">
+                <h4>Déconnection</h4>
+                <IconLogout class="h-4"/>
+            </div>
+            <div class="*:px-10 flex flex-col gap-2 items-start">
+                <SettingsCard title="Changer de mot de passe"/>
+                <SettingsCard title="Notifications"/>
             </div>
         </div>
     </section>
-    <section v-if="isActive === true">
-        ALED
+    <section  v-if="isActive === false" class="bg-mainBlue h-screen" v-scroll-lock="true">
+
     </section>
 </template>
