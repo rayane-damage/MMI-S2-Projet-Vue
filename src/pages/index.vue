@@ -35,6 +35,7 @@ moodList.value = await pb.collection('mood').getFullList({
     sort: '-created'
 });
 
+provide('moodList', moodList);
 
 let currentMood = ref(moodList.value[0].mood);
 
