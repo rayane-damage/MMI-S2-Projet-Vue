@@ -22,12 +22,12 @@ import { isActive } from './HeaderPage.vue';
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/Messages">
+                    <RouterLink to="/messages">
                         <IconMessage class="h-6"/>
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/Settings">
+                    <RouterLink to="/settings">
                         <IconSettings class="h-6"/>
                     </RouterLink>
                 </li>

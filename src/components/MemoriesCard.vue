@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { MemorieResponse } from '@/pocketbase-types';
-const props = defineProps<MemorieResponse>();
+import type { MemoriesResponse } from '@/pocketbase-types';
+const props = defineProps<MemoriesResponse>();
 
 </script>
 

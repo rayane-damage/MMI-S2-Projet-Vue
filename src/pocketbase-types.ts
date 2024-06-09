@@ -6,8 +6,8 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
-	Memorie = "Memorie",
-	Test = "Test",
+	Memories = "memories",
+	Messages = "messages",
 	Mood = "mood",
 	Users = "users",
 }
@@ -36,17 +36,15 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type MemorieRecord = {
+export type MemoriesRecord = {
 	img?: string
 	title?: string
 	user?: RecordIdString
 }
 
-export type TestRecord<Tmoods = unknown> = {
-	date?: IsoDateString
-	mood?: string
-	moods?: null | Tmoods
-	pseudo?: string
+export type MessagesRecord = {
+	message?: string
+	user?: RecordIdString[]
 }
 
 export type MoodRecord = {
@@ -56,27 +54,28 @@ export type MoodRecord = {
 
 export type UsersRecord = {
 	avatar?: string
+	friends?: RecordIdString[]
 	name?: string
 }
 
 // Response types include system fields and match responses from the PocketBase API
-export type MemorieResponse<Texpand = unknown> = Required<MemorieRecord> & BaseSystemFields<Texpand>
-export type TestResponse<Tmoods = unknown, Texpand = unknown> = Required<TestRecord<Tmoods>> & BaseSystemFields<Texpand>
+export type MemoriesResponse<Texpand = unknown> = Required<MemoriesRecord> & BaseSystemFields<Texpand>
+export type MessagesResponse<Texpand = unknown> = Required<MessagesRecord> & BaseSystemFields<Texpand>
 export type MoodResponse<Texpand = unknown> = Required<MoodRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
-	Memorie: MemorieRecord
-	Test: TestRecord
+	memories: MemoriesRecord
+	messages: MessagesRecord
 	mood: MoodRecord
 	users: UsersRecord
 }
 
 export type CollectionResponses = {
-	Memorie: MemorieResponse
-	Test: TestResponse
+	memories: MemoriesResponse
+	messages: MessagesResponse
 	mood: MoodResponse
 	users: UsersResponse
 }
@@ -85,8 +84,8 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
-	collection(idOrName: 'Memorie'): RecordService<MemorieResponse>
-	collection(idOrName: 'Test'): RecordService<TestResponse>
+	collection(idOrName: 'memories'): RecordService<MemoriesResponse>
+	collection(idOrName: 'messages'): RecordService<MessagesResponse>
 	collection(idOrName: 'mood'): RecordService<MoodResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }

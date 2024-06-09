@@ -13,7 +13,7 @@ import { onMounted, provide, ref } from 'vue';
 import { pb } from '@/backend';
 
 // Importe les données de la base de données
-const memoriesList: any[] = await pb.collection('memorie').getFullList({
+const memoriesList: any[] = await pb.collection('memories').getFullList({
     filter : `user = '${pb.authStore.model?.id}'`,
     sort: '-created'
 });
@@ -35,8 +35,6 @@ let moodList = ref<any[]>([]);
     sort: '-created'
     });
 
-console.log("moodList.value");
-console.log(moodList.value);
 
 provide('moodList', moodList);
 

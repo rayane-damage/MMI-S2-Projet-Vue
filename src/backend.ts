@@ -7,7 +7,7 @@ export const pb = new PocketBase('https://to-gather.mathisliegeon.fr:443');
 // export const userData = await pb.collection('users').getFullList();
 
 export async function getUserMood(id:string) {
-    const user = await pb?.collection('mood').getFullList({
+    const user = await pb.collection('mood').getFullList({
         filter : `user = "${id}"`
     });
     if (user.length === 0) {
@@ -17,3 +17,14 @@ export async function getUserMood(id:string) {
     }
 }
 
+export async function getUserFriends() {
+    const record = await pb.collection('users').getFullList();
+    return record;
+}
+
+export async function allUserMoods(id:string) {
+    const record = await pb.collection('mood').getFullList({
+        filter : `user = "${id}"`
+    });
+    return record;
+}
