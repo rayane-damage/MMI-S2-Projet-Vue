@@ -30,14 +30,26 @@ onMounted(() => {
 
 let moodList = ref<any[]>([]);
 
-moodList.value = await pb.collection('mood').getFullList({
+    moodList.value = await pb.collection('mood').getFullList({
     filter : `user = '${pb.authStore.model?.id}'`,
     sort: '-created'
-});
+    });
+
+console.log("moodList.value");
+console.log(moodList.value);
 
 provide('moodList', moodList);
 
-let currentMood = ref(moodList.value[0].mood);
+let currentMood = ref();
+
+//Mood par défaut si il n'y a pas de mood (arrive quand on supprime le dernier mood)
+if (moodList.value.length > 0) {
+
+    currentMood.value = moodList.value[0].mood;
+    } else {
+        currentMood.value = 'Bien';
+    }
+provide ('currentMood', currentMood);
 
 async function addMood(mood:string) {
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});

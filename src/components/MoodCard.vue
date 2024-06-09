@@ -21,6 +21,7 @@ const moodClass: { [key: string]: string } = {
 };
 
 const moodList = inject('moodList') as Ref<any[]>;
+const currentMood = inject('currentMood') as Ref<string>;
 
 const deleteMood = async (mood: string) => {
     await pb.collection('mood').delete(props.id);
@@ -29,10 +30,16 @@ const deleteMood = async (mood: string) => {
         filter : `user = '${pb.authStore.model?.id}'`,
         sort: '-created'
     });
-    console.log(moodList.value)
+    // Permet d'actualiser la liste des moods
     moodList.value = updatedMoodList;
-    console.log('Mood deleted')
-    console.log(moodList.value)
+    // Permet de changer le Header et mettre un Mood par défaut si il n'y a pas de mood (arrive quand on supprime le dernier mood)
+    if (moodList.value.length > 0) {
+    console.log('moodList.value[0].mood');
+    console.log(moodList.value[0].mood);
+    currentMood.value = moodList.value[0].mood;
+    } else {
+        currentMood.value = 'Bien';
+    }
 }
 </script>
 
@@ -54,7 +61,7 @@ const deleteMood = async (mood: string) => {
                 >{{ mood }}</p>
             </div>
         </div>
-        <div class="pr-1" @click="cardSettingClicked = !cardSettingClicked">
+        <div class="p-4" @click="cardSettingClicked = !cardSettingClicked">
             <IconSmallSettings />
         </div>
         <div 
