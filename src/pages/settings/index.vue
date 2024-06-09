@@ -29,7 +29,7 @@ if (isActive.value == false) {
 </script>
 
 <script lang=ts>
-export const sectionOpen = ref(1)
+export const sectionOpen = ref(0)
 
 </script>
 

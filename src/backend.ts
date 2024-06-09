@@ -5,3 +5,15 @@ import PocketBase from 'pocketbase'
 export const pb = new PocketBase('https://to-gather.mathisliegeon.fr:443');
 // Copier ici les fonctions developpées en R214 | Système d'information
 // export const userData = await pb.collection('users').getFullList();
+
+export async function getUserMood(id:string) {
+    const user = await pb?.collection('mood').getFullList({
+        filter : `user = "${id}"`
+    });
+    if (user.length === 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+

@@ -11,6 +11,8 @@ import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
 import { useRouter } from 'vue-router';
 
+import { getUserMood } from '@/backend';
+
 const route = useRouter();
 
 const currentUser = ref();
@@ -44,8 +46,7 @@ const doLogin = async () => {
     console.log(pb.authStore.model);
     currentUser.value = pb.authStore.model;
     loginError.value = "";
-    // CA A CHANGER
-    if (!await pb.collection('users').getOne(pb.authStore.model?.id)) {
+    if (await getUserMood(pb.authStore.model?.id) === false) {
         loginMode.value='moodChoice'
     } else {
         route.push('/');
@@ -84,12 +85,14 @@ async function addMood(mood:string) {
     route.push('/');
 }
 
-let isUser = ref(false);
+const isUser = ref(false);
 
-if (loginMode.value === 'moodChoice') {
-    isUser.value = await pb.collection('users').getOne(pb.authStore.model?.id);
-    console.log(isUser.value);
-}
+// if (loginMode.value === 'moodChoice') {
+//     isUser.value = await pb.collection('users').getOne(pb.authStore.model?.id);
+//     console.log(isUser.value);
+// }
+console.log("pb.authStore.model?.id")
+console.log(getUserMood(pb.authStore.model?.id) )
 </script>
 
 <template>
