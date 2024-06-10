@@ -6,6 +6,8 @@ import type { Ref } from 'vue';
 // const props = defineProps<MessagesResponse>();
 const text = ref<string>('');
 const allMessagesByUsers = inject('allMessagesByUsers') as Ref<any[]>;
+const userFrom = inject('userFrom') as Ref<string>;
+
 
 const doSendMessage = async (message:string) => {
     if (message) {
@@ -13,14 +15,14 @@ const doSendMessage = async (message:string) => {
         await pb.collection('messages').create({
             message: message,
             from: pb.authStore.model?.id,
-            to: "jgd9q7r3l6u7loo"
+            to: userFrom.value,
         });
         text.value = '';
         allMessagesByUsers.value = await pb.collection('messages').getFullList({
-            filter: `from = '${pb.authStore.model?.id}' && to = "jgd9q7r3l6u7loo" || to = '${pb.authStore.model?.id}' && from = "jgd9q7r3l6u7loo" `,
+            filter: `from = '${pb.authStore.model?.id}' && to = '${userFrom.value}' || to = '${pb.authStore.model?.id}' && from = '${userFrom.value}' `,
             expand : 'from && to'
         });
-        
+
     } else {
         console.log('No message to send');
         alert('No message to send');
