@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       spacing: {
-        'header' : '92px',
+        'header' : '88px',
         'footer' : '80px',
       },
       fontFamily: {

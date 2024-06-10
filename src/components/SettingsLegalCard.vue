@@ -19,16 +19,16 @@ const props = defineProps<{
         :class="{ '-rotate-90': sectionOpen === number }"
         />
         </button>
-        <Transition
+        <!-- <Transition
         class="transition-transform duration-300"
         enter-to-class="translate-y-0"
         leave-active-class="-translate-y-full"
         enter-from-class="-translate-y-full"
-        >
+        > -->
         <p v-show="sectionOpen === number">
         {{ text }}
         </p>
-    </Transition>
+    <!-- </Transition> -->
 
     </section>
 </template>

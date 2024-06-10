@@ -147,7 +147,7 @@ provide('memorieCardNumber', memorieCardNumber);
         </div>
         <div
         v-scroll-lock="true"
-        v-if="!memorieMode" class="flex flex-col h-screen justify-center gap-20 items-center">
+        v-if="!memorieMode" class="flex flex-col h-screen gap-20 items-center">
             <div class="w-80 h-52 flex flex-col items-center gap-4">
                 <div>Ajoutez une image !</div>
                 <input v-model="description" class="w-full h-full flex" type="text" placeholder="Ajoutez une description !">
