@@ -44,7 +44,8 @@ export type MemoriesRecord = {
 
 export type MessagesRecord = {
 	message?: string
-	user?: RecordIdString[]
+	from?: RecordIdString[]
+	to?: RecordIdString[]
 }
 
 export type MoodRecord = {
