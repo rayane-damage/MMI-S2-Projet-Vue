@@ -17,6 +17,15 @@ const doLogout = () => {
     route.push('/connexion');
 }
 
+const doDeletAcount = () => {
+    pb.collection('users').delete(pb.authStore.model?.id);
+    pb.authStore.clear();
+    route.push('/connexion');
+}
+
+const doLogoutConfirm = ref(false);
+const doDeleteConfirm = ref(false);
+
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
         sort: '-created'
@@ -52,8 +61,26 @@ export const sectionOpen = ref(0)
                 <IconLogout class="h-4"/>
             </div>
             <div class="*:px-10 flex flex-col gap-2 items-start">
-                <SettingsCard title="Se déconnecter" @click="doLogout"/>
-                <SettingsCard title="Désactiver le compte"/>
+                <div class="flex flex-col items-center w-full">
+                    <SettingsCard title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
+                    <div v-if="doLogoutConfirm" class="flex flex-col justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
+                        <p>Voulez-vous vraiment vous déconnecter ?</p>
+                        <span class="flex gap-6">
+                            <p class="text-green-500 p-2 bg-green-200" @click="doLogout">oui</p>
+                            <p class="text-red-500 p-2 bg-red-200" @click="doLogoutConfirm = false">non</p>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center w-full">
+                    <SettingsCard title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
+                    <div v-if="doDeleteConfirm" class="flex flex-col justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
+                        <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ?</p>
+                        <span class="flex gap-6">
+                            <p class="text-green-500 p-2 bg-green-200" @click="doDeletAcount">oui</p>
+                            <p class="text-red-500 p-2 bg-red-200" @click="doDeleteConfirm = false">non</p>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
