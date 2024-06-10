@@ -4,6 +4,7 @@ import ProfileCard from '@/components/ProfileCard.vue';
 import MessageCard from '@/components/MessageCard.vue';
 import MessageInput from '@/components/MessageInput.vue';
 import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
+import ButtonAdd from '@/components/ButtonAdd.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
@@ -107,6 +108,14 @@ onMounted( async () =>{
 // onDestroy(() => {
 //     unsuscribe?.();
 // });
+
+
+// ----------------------------------------- Amis -----------------------------------------
+const addfriendMode = ref(false)
+const doAddFriend = async () => {
+    return true
+}
+
 </script>
 
 
@@ -127,6 +136,16 @@ onMounted( async () =>{
     </section>
 
     <section v-if="isActive === false">
-        <ProfileCard v-for="friend in userFriends" :key="friend.id" v-bind="friend"  />
+        <ProfileCard
+        v-if="!addfriendMode"
+        v-for="friend in allFriends" :key="friend.id" v-bind="friend"
+        />
+
+        <ButtonAdd @click="addfriendMode = true, doAddFriend"/>
+
+        <div v-if="addfriendMode">
+            <p class="p-4 bg-red-200" @click="addfriendMode = false">Annuler</p>
+            <h1>Ajouter un ami</h1>
+        </div>
     </section>
 </template>
