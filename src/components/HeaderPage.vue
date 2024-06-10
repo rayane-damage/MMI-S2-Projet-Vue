@@ -27,7 +27,7 @@ export const isActive = ref(true);
             <nav>
                 <ul class="flex justify-between px-8 pt-4">
                     <li>
-                        <RouterLink to="/">
+                        <RouterLink to="/profil">
                             <img src="/img/pfp default.png" alt="Profile picture" />
                             <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
                                 <IconMoodGood v-if="props.currentMood === 'Bien'"/>
