@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
     <section class="*:text-white py-2">
-        <button class="flex justify-between items-center w-full border-b-2 border-orange-400 py-2 px-10">
+        <button class="flex justify-between items-center w-full border-b-2 border-mainOrange py-2 px-10">
             <h4>{{ title }}</h4>
         <IconArrowLeft
         class="h-4 rotate-180"
