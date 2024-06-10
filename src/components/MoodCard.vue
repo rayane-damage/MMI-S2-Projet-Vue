@@ -64,8 +64,8 @@ const deleteMood = async (mood: string) => {
         <div class="p-4" @click="cardSettingClicked = !cardSettingClicked">
             <IconSmallSettings />
         </div>
-        <div 
-        v-show="cardSettingClicked" 
+        <div
+        v-show="cardSettingClicked"
         class="absolute bg-red-300 right-0 h-1/2 p-4 flex items-center justify-center rounded-xl"
         @click="deleteMood(mood)"
         >

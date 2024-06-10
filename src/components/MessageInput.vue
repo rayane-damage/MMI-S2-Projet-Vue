@@ -32,7 +32,7 @@ const doSendMessage = async (message:string) => {
 </script>
 
 <template>
-    <section class="absolute bottom-[80px] w-full flex justify-center items-center">
+    <section class="w-full flex justify-center items-center">
         <div class="w-full">
             <input v-model="text" type="text" class="p-2 rounded-full py-4 w-full" placeholder="Message" />
         </div>

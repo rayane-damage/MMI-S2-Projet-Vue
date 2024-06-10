@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MemoriesCard from '@/components/MemoriesCard.vue'
 import HeaderPage from '@/components/HeaderPage.vue'
+import MoodCard from '@/components/MoodCard.vue'
 
 import IconMoodBad from '@/components/icons/IconMoodBad.vue'
 import IconMoodMid from '@/components/icons/IconMoodMid.vue'
