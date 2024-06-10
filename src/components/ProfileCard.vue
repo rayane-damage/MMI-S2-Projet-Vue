@@ -22,6 +22,8 @@ const props = defineProps<UsersResponse<any>>();
 // console.log(props.expand.friends);
 
 // console.log(currentMood);
+
+console.log("props", props);
 </script>
 
 
