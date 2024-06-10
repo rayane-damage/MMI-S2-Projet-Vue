@@ -16,6 +16,7 @@ export default {
         'mainBlue' : "#1F8389",
         'mainOrange' : "#FFAB6F",
         'lightBeige' : "#FFF1E7",
+        'grayDark' : "#625B66",
       },
       boxShadow: {
         'inner-orange': 'inset 0px -6px 0px #FFAB6F',

@@ -23,18 +23,18 @@ if (isActive.value == false) {
 <template>
     <HeaderPage active="Profil" inactive="Éditer" :currentMood="moodList[0].mood"/> 
     <section v-if="isActive === true" class="h-screen" v-scroll-lock="true">
-        <div class="flex flex-col justify-between gap-4 mx-8">
-            <div>
-                <div>
-                    <img src="/img/pfp default.png" alt="Profile picture" class="w-full aspect-square" />
+        <div class="flex flex-col justify-between gap-6 mx-8">
+            <div class="mt-16 flex flex-col items-center">
+                <div class="h-44">
+                    <img src="/img/pfp default.png" alt="Profile picture" class="h-full aspect-square" />
                 </div>
                 <div class="*:text-center">
-                    <p>name</p>
-                    <p class="text-gray-600">full_name</p>
+                    <p class="text-2xl font-regular">Name</p>
+                    <p class="text-grayDark tracking-wider">Full_Name</p>
                 </div>
             </div>
 
-            <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p class="text-grayDark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua.</p>
             <div class="flex flex-col gap-2">
                 <h4>Amis</h4>
                 <div class="flex justify-between">
