@@ -9,6 +9,8 @@ export default {
       },
       fontFamily: {
         'Hegante': ['Hegante', 'sans-serif'],
+        'comfortaa' : ['Comfortaa', 'sans-serif'],
+        'sniglet' : ['Sniglet', 'sans-serif']
       },
       colors: {
         'mainBlue' : "#1F8389",
