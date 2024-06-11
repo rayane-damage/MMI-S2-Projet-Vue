@@ -16,9 +16,9 @@ const cardSettingClicked = ref(false);
 
 
 const moodClass: { [key: string]: string } = {
-    Bien: 'text-green-500',
-    Moyen: 'text-yellow-500',
-    Mal: 'text-red-500',
+    Bien: 'text-mainGreen',
+    Moyen: 'text-mainOrange',
+    Mal: 'text-mainRed',
 };
 
 const moodList = inject('moodList') as Ref<any[]>;
