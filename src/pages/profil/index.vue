@@ -52,7 +52,7 @@ if (isActive.value == false) {
             <div class="flex flex-col gap-6">
                 <div class="mt-16 flex flex-col items-center">
                     <div class="h-44 grid">
-                        <div class="absolute flex justify-center items-center justify-self-end
+                        <div class="absolute flex justify-center items-center justify-self-end 
                                 bg-white rounded-full w-12 aspect-square">
                             <IconPen class="fill-mainOrange w-8 aspect-square" />
                         </div>
