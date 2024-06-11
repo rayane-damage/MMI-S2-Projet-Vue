@@ -62,7 +62,10 @@ onClickOutside(moodCardSettings, () => {
                 <IconMoodBad v-if="mood === 'Mal'" />
             </div>
             <div>
-                <p class="text-sm text-gray-600">{{ created }}</p>
+                <span class="flex">
+                            <p>{{ props.created[0] }}</p>
+                            <p v-for="xValue in 10" :key="xValue" v-bind="xValue">{{props.created[xValue] }}</p>
+                        </span>
                 <p
                     class="font-Hegante text-xl"
                     :class="moodClass[mood || '']"
@@ -75,7 +78,7 @@ onClickOutside(moodCardSettings, () => {
         <div
         v-show="cardSettingClicked"
         ref="moodCardSettings"
-        class="absolute bg-red-300 right-0 h-1/2 p-4 flex items-center justify-center rounded-xl"
+        class="absolute bg-mainRed text-white right-0 h-1/2 p-4 flex items-center justify-center rounded-xl"
         @click="deleteMood(mood)"
         >
             Supprimer

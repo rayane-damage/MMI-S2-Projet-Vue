@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { MemoriesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
-import { ref, inject } from 'vue';
-import type { Ref } from 'vue';
+import { ref} from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import ImgPb from '@/components/ImgPb.vue';
 
 import IconSmallSettings from './icons/IconSmallSettings.vue';
 
@@ -33,9 +33,13 @@ onClickOutside(memorieCardSettings, () => {
                     alt="Profile Picture"
                     class="h-16"
                     >
+                    <!-- <ImgPb :record="props" :filename="props.img" class="h-16" alt="photo de profil" /> -->
                     <span>
                         <p class="font-bold">{{ (props.expand as any).user.name }}</p>
-                        <p>3 hours ago</p>
+                        <span class="flex">
+                            <p>{{ props.created[0] }}</p>
+                            <p v-for="xValue in 10" :key="xValue" v-bind="xValue">{{props.created[xValue] }}</p>
+                        </span>
                     </span>
                 </div>
                 <div class="relative">
@@ -44,16 +48,17 @@ onClickOutside(memorieCardSettings, () => {
                     ref="memorieCardSettings"
                     @click="doDeleteMemorie"
                     v-show="cardClicked"
-                    class="absolute bg-red-300 -top-2 right-0 p-4 flex items-center justify-center rounded-xl"
+                    class="absolute bg-mainRed text-white -top-2 right-0 p-4 flex items-center justify-center rounded-xl"
                     >Supprimer</div>
                 </div>
             </div>
             <div class="max-h-96 w-auto overflow-hidden rounded-b-3xl">
-                <img
+                <!-- <img
                 src="/public/img/background-image.png"
                 alt="Image de souvenirs"
                 class="w-full h-auto object-cover"
-                >
+                > -->
+                <ImgPb :record="props" :filename="props.img" class="w-full h-auto object-cover" alt="Photo de memories" />
             </div>
         </div>
     </section>
