@@ -13,6 +13,7 @@ import { isActive } from '@/components/HeaderPage.vue'
 import { useRouter } from 'vue-router';
 import { onMounted, provide, ref, watch } from 'vue';
 import { pb } from '@/backend';
+import { onClickOutside } from '@vueuse/core';
 
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
 const route = useRouter();
@@ -116,10 +117,6 @@ onMounted( async () =>{
     });
 });
 
-const cardClicked = ref(false);
-const memorieCardNumber = ref(0);
-// provide('cardClicked', cardClicked);
-provide('memorieCardNumber', memorieCardNumber);
 </script>
 
 <template>
@@ -143,7 +140,7 @@ provide('memorieCardNumber', memorieCardNumber);
         <div v-if="memorieMode">
             <MemoriesCard
             v-for="memorie in memoriesList" v-bind="memorie" :key="memorie.id"/>
-            <ButtonAdd @click=" memorieMode = !memorieMode" />
+            <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
         <div
         v-scroll-lock="true"
@@ -171,7 +168,7 @@ provide('memorieCardNumber', memorieCardNumber);
                 </div>
                 <div class="flex flex-col gap-4">
                     <button class="w-80 py-2 bg-mainBlue rounded-full text-white" @click="doAddMemorie">Publier</button>
-                    <button @click="memorieMode = !memorieMode, errorMessage = ''">Annuler</button>
+                    <button @click="memorieMode = !memorieMode">Annuler</button>
                 </div>
             </div>
         </div>

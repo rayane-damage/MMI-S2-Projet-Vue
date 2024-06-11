@@ -8,6 +8,7 @@ import { pb } from '@/backend';
 import { ref, inject } from 'vue';
 import type { Ref } from 'vue';
 import type { MoodResponse } from '@/pocketbase-types';
+import { onClickOutside } from '@vueuse/core';
 
 const props = defineProps<MoodResponse>();
 
@@ -41,6 +42,13 @@ const deleteMood = async (mood: string) => {
         currentMood.value = 'Bien';
     }
 }
+
+const moodCardSettings = ref(null);
+
+onClickOutside(moodCardSettings, () => {
+    cardSettingClicked.value = false;
+});
+
 </script>
 
 
@@ -66,10 +74,11 @@ const deleteMood = async (mood: string) => {
         </div>
         <div
         v-show="cardSettingClicked"
+        ref="moodCardSettings"
         class="absolute bg-red-300 right-0 h-1/2 p-4 flex items-center justify-center rounded-xl"
         @click="deleteMood(mood)"
         >
-            Supprimer le mood
+            Supprimer
         </div>
     </section>
 </template>
