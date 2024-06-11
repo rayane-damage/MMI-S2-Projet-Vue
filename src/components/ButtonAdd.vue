@@ -1,10 +1,10 @@
 <script setup lang="ts">
-// const props = defineProps<{
-// }>();
+    import IconAdd from './icons/IconAdd.vue';
 </script>
 
 <template>
-    <div class="fixed bottom-20 right-10 px-4 py-2 bg-mainBlue rounded-full">
-        <h1 class="text-3xl text-white">+</h1>
+    <div class="fixed w-16 aspect-square bottom-20 right-10 bg-mainBlue rounded-full
+                flex justify-center items-center">
+        <IconAdd class="fill-white stroke-white" />
     </div>
 </template>
