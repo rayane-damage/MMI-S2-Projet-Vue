@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { MessagesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
 import { ref, inject } from 'vue';
 import type { Ref } from 'vue';
-// const props = defineProps<MessagesResponse>();
+import IconSend from '@/components/icons/IconSend.vue';
+
 const text = ref<string>('');
 const allMessagesByUsers = inject('allMessagesByUsers') as Ref<any[]>;
 const userFrom = inject('userFrom') as Ref<string>;
@@ -32,12 +32,14 @@ const doSendMessage = async (message:string) => {
 </script>
 
 <template>
-    <section class="w-full flex justify-center items-center">
+    <section class="w-full flex justify-center items-center py-2 px-2 gap-1">
         <div class="w-full">
             <input v-model="text" type="text" class="p-2 rounded-full py-4 w-full" placeholder="Message" />
         </div>
-        <div class="bg-white rounded-full p-2">
-            <button @click="doSendMessage(text)">Envoyer</button>
+        <div class="bg-white rounded-full p-1 h-full flex justify-center items-center">
+            <button @click="doSendMessage(text)">
+                <IconSend />
+            </button>
         </div>
     </section>
 </template>

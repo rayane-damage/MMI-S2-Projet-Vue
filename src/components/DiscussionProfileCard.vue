@@ -35,6 +35,8 @@ const doLoadUser = async () => {
 
 </script>
 
+
+
 <template>
     <section class="flex justify-between items-center mx-4 p-4 bg-white rounded-full" @click="msgMode = true, doLoadUser()">
         <div class="flex gap-1">
