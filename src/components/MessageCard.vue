@@ -5,7 +5,6 @@ import type { MessagesResponse, UsersResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
 import { ref, onMounted, watch, inject } from 'vue';
 import type { Ref } from 'vue';
-import { get } from 'http';
 
 const msgMode = inject('msgMode') as Ref<boolean>;
 const props = defineProps<MessagesResponse>();

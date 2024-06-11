@@ -32,7 +32,7 @@ moodList.value = await pb.collection('mood').getFullList({
     sort: '-created'
 });
 
-
+// Permet d'utiliser la variable moodList dans les composants enfants
 provide('moodList', moodList);
 
 let currentMood = ref();
@@ -46,6 +46,7 @@ if (moodList.value.length > 0) {
     }
 provide ('currentMood', currentMood);
 
+//Permet d'ajouter un mood dans la base de donnée
 async function addMood(mood:string) {
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
     currentMood.value = mood;

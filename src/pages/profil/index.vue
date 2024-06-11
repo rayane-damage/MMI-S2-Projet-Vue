@@ -1,12 +1,13 @@
 <script setup lang="ts">
-    import HeaderPage from '@/components/HeaderPage.vue';
-    import ProfileIcon from '@/components/ProfileIcon.vue';
-    import ButtonAdd from '@/components/ButtonAdd.vue';
-    import IconPen from '@/components/icons/IconPen.vue';
-    import Button from '@/components/Button.vue';
-    import { pb } from '@/backend';
-    //Varibale pour savoir si on est sur la page des moods ou des memories
-    import { isActive } from '@/components/HeaderPage.vue';
+import HeaderPage from '@/components/HeaderPage.vue';
+import ProfileIcon from '@/components/ProfileIcon.vue';
+import ButtonAdd from '@/components/ButtonAdd.vue';
+import IconPen from '@/components/icons/IconPen.vue';
+import Button from '@/components/Button.vue';
+import { pb } from '@/backend';
+
+//Varibale pour savoir si on est sur la page des moods ou des memories
+import { isActive } from '@/components/HeaderPage.vue';
 
 
 const moodList = await pb.collection('mood').getFullList({

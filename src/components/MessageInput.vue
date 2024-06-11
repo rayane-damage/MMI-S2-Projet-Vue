@@ -8,7 +8,7 @@ const text = ref<string>('');
 const allMessagesByUsers = inject('allMessagesByUsers') as Ref<any[]>;
 const userFrom = inject('userFrom') as Ref<string>;
 
-
+// Envoie un message
 const doSendMessage = async (message:string) => {
     if (message) {
         console.log('Sending message', text);

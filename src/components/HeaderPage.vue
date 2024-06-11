@@ -33,7 +33,6 @@ export const isActive = ref(true);
                 <ul class="flex justify-between px-8 pt-4">
                     <li>
                         <RouterLink to="/profil">
-                            <!-- <img src="/img/pfp default.png" alt="Profile picture" /> -->
                              <ImgPb :record="currentUser" :filename="currentUser.avatar" alt="Photo de profil" class="w-10 h-10 first-letter:object-cover rounded-full"/>
                             <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
                                 <IconMoodGood v-if="props.currentMood === 'Bien'"/>

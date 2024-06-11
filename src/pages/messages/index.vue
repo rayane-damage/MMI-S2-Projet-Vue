@@ -7,26 +7,26 @@ import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
 
-import { UserName, UserId, UserAvatar } from '@/components/MessageCard.vue';
-import { usernameBis } from '@/components/DiscussionProfileCard.vue';
+import { UserId } from '@/components/MessageCard.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { ref, provide, onMounted, watch } from 'vue';
 import type { Ref } from 'vue';
-import ImgPb from '@/components/ImgPb.vue';
 
+// Liste des moods par utilisateur
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
         sort: '-created'
     });
 
+//Permet de gerer le header
 if (isActive.value == false) {
     isActive.value = true;
 }
 
-
+//Permet de recuperer tous les amis de l'utilisateur puis de les mettre dans un tableau
 const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
     expand: 'friends'
@@ -50,14 +50,13 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
     allFriends.value.push( newuser.value[0])};
 }
 
-
+// On exporte ces deux variables pour les utiliser dans les composants enfants
 const msgMode = ref()
 const userFrom = ref('')
 provide('userFrom', userFrom);
 provide('msgMode', msgMode);
 
-
-
+// Permet de recuperer tous les messages de l'utilisateur en fonction de l'utilisateur avec qui il discute
 const allMessagesByUsers = ref() as Ref<any[]>;
 const allMessages: MessagesResponse[] = await pb.collection('messages').getFullList({
     filter: `from = '${pb.authStore.model?.id}' && to = '${userFrom.value}' || to = '${pb.authStore.model?.id}' && from = '${userFrom.value}' `,
@@ -68,6 +67,7 @@ allMessagesByUsers.value = allMessages;
 
 provide('allMessagesByUsers', allMessagesByUsers);
 
+// Permet de recuperer les messages en temps reel
 let unsuscribe: () => void;
 
 onMounted( async () =>{
@@ -91,20 +91,11 @@ onMounted( async () =>{
 
 
 // ----------------------------------------- Amis -----------------------------------------
+//Fonction pas encore implementée
 const addfriendMode = ref(false)
 const doAddFriend = async () => {
     return true
 }
-// console.log("INDEX, useravatar", UserAvatarIndex.value)
-
-// watch(msgMode, (newVal, oldVal) => {
-//     if (newVal !== oldVal) {
-//         console.log('-----------------WATCH--------------------')
-//         console.log(UserAvatar.value)
-//         UserAvatar.value = UserAvatar.value
-//         console.log(UserAvatar.value)
-//     }
-// })
 
 console.log("INDEX, userid", UserId.value)
 </script>
@@ -124,7 +115,7 @@ console.log("INDEX, userid", UserId.value)
                          <ImgPb :record="UserId" :filename="UserAvatar" alt="Photo de profil" class="w-10 h-10 object-cover rounded-full"/>
                         <span>
                             <p class="text-white">
-                                {{ UserName }}  
+                                {{ UserName }}
                             </p>
 
                         </span>

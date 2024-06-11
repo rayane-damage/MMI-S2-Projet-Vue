@@ -10,7 +10,7 @@ import IconSmallSettings from './icons/IconSmallSettings.vue';
 
 const props = defineProps<MemoriesResponse>();
 
-
+// Supprime la memorie
 const doDeleteMemorie = () => {
     pb.collection('memories').delete(props.id);
 };
@@ -18,14 +18,11 @@ const doDeleteMemorie = () => {
 const memorieCardSettings = ref(null);
 const cardClicked = ref(false);
 
+// Ferme les settings si on clique en dehors
 onClickOutside(memorieCardSettings, () => {
     cardClicked.value = false;
 });
 
-
-
-console.log("props id=", (props.expand as any).user.id);
-console.log("pb.authStore.model?.id=", pb.authStore.model?.id);
 </script>
 
 <template>

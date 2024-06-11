@@ -17,7 +17,6 @@ const allMessagesByUsers = await inject('allMessagesByUsers') as Ref<any[]>;
 
 
 const lastMessage = ref() as Ref<any>;
-// lastMessage.value = allMessagesByUsers.value;
 
 console.log('lastMessage', lastMessage.value)
 
@@ -33,7 +32,6 @@ const doLoadUser = async () => {
     allMessagesByUsers.value = allMessages;
 }
 
-// UserAvatar.value = props.avatar;
 usernameBis.value = props.name;
 </script>
 
