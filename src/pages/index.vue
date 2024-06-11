@@ -94,19 +94,25 @@ function changeFileName(e:any) {
     // }
 }
 const doAddMemorie = () => {
-    if (description.value && file && memorieStatus.value) {
+    if (description.value && file.value != null && memorieStatus.value) {
         const formData = new FormData();
-        
+
         formData.append('img', file.value);
+        console.log("doaddMemorie, file.value = ", file.value, "fin")
+        try {
         pb.collection('memories').create({
             img: file.value,
             description: description.value,
             status: memorieStatus.value,
             user: pb.authStore.model?.id
         });
-        pb.collection('example').create(
-            formData
-        );
+        } catch (error) {
+            alert('Erreur lors de la publication, essayez de changer d image')
+            console.log(error)
+        }
+        // pb.collection('example').create(
+        //     formData
+        // );
         memorieMode.value = !memorieMode.value
     } else {
         errorMessage.value = 'Champs manquants';
@@ -194,7 +200,7 @@ onMounted( async () =>{
             <div class="w-80 h-52 flex flex-col items-center gap-4">
                 <div>
                     <label for="file">Ajoutez une image
-                        <input type="file" id="file" ref="file" @change="changeFileName">
+                        <input type="file" @change="changeFileName">
                     </label>
                 </div>
 
@@ -204,7 +210,7 @@ onMounted( async () =>{
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
                 <div class="flex *:py-2  *:w-40">
                     <button
-                    @click="memorieStatus = 'private', onStatusSelected"
+                    @click="memorieStatus = 'private'"
                     class="border-2 border-mainOrange rounded-l-full"
                     :class="memorieStatus === 'private' ? 'bg-mainOrange' : 'bg-transparent'"
                     >Privé
