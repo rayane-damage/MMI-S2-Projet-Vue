@@ -180,7 +180,7 @@ onMounted( async () =>{
             allFriends.value =  await pb.collection('users').getFullList({
             filter: `id = '${currentUserFriends.value[i]}'`,
         });
-        } else {    
+        } else {
         const newuser = ref()
         newuser.value = await pb.collection('users').getFullList({
             filter: `id = '${currentUserFriends.value[i]}'`
