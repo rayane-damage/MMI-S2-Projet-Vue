@@ -48,7 +48,7 @@ onClickOutside(memorieCardSettings, () => {
                     ref="memorieCardSettings"
                     @click="doDeleteMemorie"
                     v-show="cardClicked"
-                    class="absolute bg-red-300 -top-2 right-0 p-4 flex items-center justify-center rounded-xl"
+                    class="absolute bg-mainRed text-white -top-2 right-0 p-4 flex items-center justify-center rounded-xl"
                     >Supprimer</div>
                 </div>
             </div>

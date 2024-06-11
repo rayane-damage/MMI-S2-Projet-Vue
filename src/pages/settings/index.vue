@@ -73,8 +73,8 @@ export const sectionOpen = ref(0)
                     <div v-if="doLogoutConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
                         <p>Voulez-vous vraiment vous déconnecter ?</p>
                         <span class="flex gap-6">
-                            <p class="text-green-500 p-2 bg-green-200" @click="doLogout">oui</p>
-                            <p class="text-red-500 p-2 bg-red-200" @click="doLogoutConfirm = false">non</p>
+                            <p class="border-2 border-mainGreen p-2 rounded-xl" @click="doLogout">oui</p>
+                            <p class="border-2 border-mainRed p-2 rounded-xl" @click="doLogoutConfirm = false">non</p>
                         </span>
                     </div>
                 </div>
@@ -83,8 +83,8 @@ export const sectionOpen = ref(0)
                     <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
                         <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ? Cette action est irréversible</p>
                         <span class="flex gap-6">
-                            <p class="text-green-500 p-2 bg-green-200" @click="doDeletAcount">oui</p>
-                            <p class="text-red-500 p-2 bg-red-200" @click="doDeleteConfirm = false">non</p>
+                            <p class="border-2 border-mainGreen p-2 rounded-xl" @click="doDeletAcount">oui</p>
+                            <p class="border-2 border-mainRed p-2 rounded-xl" @click="doDeleteConfirm = false">non</p>
                         </span>
                     </div>
                 </div>
