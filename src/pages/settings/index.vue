@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import HeaderPage from '@/components/HeaderPage.vue';
-import { isActive } from '@/components/HeaderPage.vue'
-import { pb } from '@/backend';
-import { useRouter } from 'vue-router';
 import SettingsCard from '@/components/SettingsCard.vue';
 import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 import SettingsLegalCard from '@/components/SettingsLegalCard.vue';
-import { ref } from 'vue';
+import HeaderPage from '@/components/HeaderPage.vue';
 
+import { isActive } from '@/components/HeaderPage.vue'
+import { pb } from '@/backend';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+
+const confirmCard = ref(null);
+onClickOutside(confirmCard, () => {
+    doLogoutConfirm.value = false;
+    doDeleteConfirm.value = false;
+});
 
 const route = useRouter();
 
@@ -62,7 +69,7 @@ export const sectionOpen = ref(0)
             </div>
             <div class="*:px-10 flex flex-col gap-2 items-start">
                 <div class="flex flex-col items-center w-full">
-                    <SettingsCard title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
+                    <SettingsCard ref="confirmCard" title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
                     <div v-if="doLogoutConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
                         <p>Voulez-vous vraiment vous déconnecter ?</p>
                         <span class="flex gap-6">
@@ -72,7 +79,7 @@ export const sectionOpen = ref(0)
                     </div>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <SettingsCard title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
+                    <SettingsCard ref="confirmCard" title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
                     <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
                         <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ? Cette action est irréversible</p>
                         <span class="flex gap-6">

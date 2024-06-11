@@ -13,7 +13,6 @@ import { isActive } from '@/components/HeaderPage.vue'
 import { useRouter } from 'vue-router';
 import { onMounted, provide, ref, watch } from 'vue';
 import { pb } from '@/backend';
-import { onClickOutside } from '@vueuse/core';
 
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
 const route = useRouter();
