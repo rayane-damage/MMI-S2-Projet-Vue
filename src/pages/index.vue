@@ -169,14 +169,18 @@ onMounted( async () =>{
         <div
         v-scroll-lock="true"
         v-if="!memorieMode" class="flex flex-col h-screen gap-20 items-center">
-            <div class="w-80 h-52 flex flex-col items-center gap-4">
-                <div>
-                    <label for="file">Ajoutez une image
-                        <input type="file" @change="changeFileName">
-                    </label>
+            <div class="w-80 h-60 flex flex-col items-center gap-4 mt-10">
+                <div class="flex justify-center items-center pt-4 relative">
+                        <input type="file" @change="changeFileName"
+                        class="bg-white rounded-3xl w-full place-content-center px-10 py-20
+                        before:w-full before:block before:absolute before:h-full before:bg-transparent before:rounded-3xl before:place-content-center before:top-0 before:left-0 before:z-30
+                        after:w-full after:block after:absolute after:h-full after:bg-white after:rounded-3xl after:place-content-center after:top-0 after:left-0 after:z-10
+
+                        ">
+                        <span class="absolute text-mainOrange font-bold z-20">Ajoutez une image !</span>
                 </div>
 
-                <input v-model="description" class="w-full h-full flex" type="text" placeholder="Ajoutez une description !">
+                <input v-model="description" class="w-full h-full min-h-20 flex rounded-3xl" type="text" placeholder="Ajoutez une description !">
             </div>
             <div class="flex flex-col gap-4 relative">
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
