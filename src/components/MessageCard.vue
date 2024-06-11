@@ -3,36 +3,51 @@ import ImgPb from './ImgPb.vue';
 
 import type { MessagesResponse, UsersResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, inject } from 'vue';
 import type { Ref } from 'vue';
 
-
+const msgMode = inject('msgMode') as Ref<boolean>;
 const props = defineProps<MessagesResponse>();
 const userName = ref() as Ref<string>;
 const imgUrl = ref() as Ref<string>;
 
-console.log('props', props.from);
+console.log('props', props.to);
 // const userByMessage = ref() as Ref<UsersResponse[]>;
 onMounted (async () => {
     userByMessage.value = await pb.collection('users').getOne(String(props.from));
     console.log('userByMessage', userByMessage.value);
     if (userByMessage.value.id === pb.authStore.model?.id) {
         userName.value = "Vous"
+        const getUser = await pb.collection('users').getOne(String(props.to));
+        UserName.value = getUser.name
+        UserAvatar.value = getUser.avatar
+        UserId.value = getUser[0]
     } else {
-        userName.value = userByMessage.value.name;
-        UserName.value = userByMessage.value.name;
+        const getUser = await pb.collection('users').getOne(String(props.from));
+        userName.value = getUser.name
+        UserName.value = getUser.name
+        UserAvatar.value = getUser.avatar
+        UserId.value = getUser[0]
+
     }
     // imgUrl.value = userByMessage.value.avatar;
-    // console.log("img", imgUrl.value)
+    console.log("img", imgUrl.value)
 
 });
 
 console.log('userByMessage2', userByMessage.value);
+watch(msgMode, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        console.log('CARD-----------------WATCH--------------------')
+    }
+})
 </script>
 
 <script lang="ts">
 export const UserName = ref() as Ref<string>;
+export const UserAvatar = ref() as Ref<string>;
 export const userByMessage = ref() as Ref<UsersResponse[]>;
+export const UserId = ref() as Ref<UsersResponse>;
 </script>
 
 

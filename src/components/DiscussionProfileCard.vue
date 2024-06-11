@@ -6,6 +6,7 @@ import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
 import { inject, ref } from 'vue';
 import type { Ref } from 'vue';
+import ImgPb from './ImgPb.vue';
 
 const props = defineProps<UsersResponse<any>>();
 
@@ -32,6 +33,17 @@ const doLoadUser = async () => {
     allMessagesByUsers.value = allMessages;
 }
 
+// UserAvatar.value = props.avatar;
+
+
+console.log("CARD, useravatar",props.avatar)
+UserAvatarBis.value = props.avatar;
+</script>
+
+<script lang="ts">
+
+export const UserAvatarBis = ref() as Ref<string>;
+console.log("CARD, useravatar v2",UserAvatarBis.value)
 
 </script>
 
@@ -40,7 +52,7 @@ const doLoadUser = async () => {
 <template>
     <section class="flex justify-between items-center mx-4 p-4 bg-white rounded-full" @click="msgMode = true, doLoadUser()">
         <div class="flex gap-1">
-            <IconProfileSmall/>
+            <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-14 w-14 object-cover" />
             <span>
                 <p class="self-start">{{ name }}</p>
                 <p>{{ lastMessage }}</p>

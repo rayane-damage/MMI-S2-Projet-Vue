@@ -53,11 +53,6 @@ onClickOutside(memorieCardSettings, () => {
                 </div>
             </div>
             <div class="max-h-96 w-auto overflow-hidden rounded-b-3xl">
-                <!-- <img
-                src="/public/img/background-image.png"
-                alt="Image de souvenirs"
-                class="w-full h-auto object-cover"
-                > -->
                 <ImgPb :record="props" :filename="props.img" class="w-full h-auto object-cover" alt="Photo de memories" />
             </div>
         </div>

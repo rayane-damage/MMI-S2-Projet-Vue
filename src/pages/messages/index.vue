@@ -6,14 +6,25 @@ import MessageInput from '@/components/MessageInput.vue';
 import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
-import { UserName } from '@/components/MessageCard.vue';
+
+import { UserName, UserId, UserAvatar } from '@/components/MessageCard.vue';
+// import { UserAvatarBis } from '@/components/DiscussionProfileCard.vue';
+console.log("INDEX, useravatar", UserAvatar.value)
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { ref, provide, onMounted, watch } from 'vue';
 import type { Ref } from 'vue';
+import ImgPb from '@/components/ImgPb.vue';
 
+// const UserAvatarIndex = ref() as Ref<any>;
+// onMounted( async () => {
+//     const { default: UserAvatar } = await import('@/components/DiscussionProfileCard.vue');
+//     UserAvatarIndex.value = UserAvatar;
+//     console.log("isActive", isActive)
+//     console.log("INDEX mounted, useravatar", UserAvatarIndex.value)
+// })
 
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
@@ -57,7 +68,7 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
 
 console.log("allFriends", allFriends)
 
-const msgMode = ref(false)
+const msgMode = ref()
 const userFrom = ref('')
 provide('userFrom', userFrom);
 provide('msgMode', msgMode);
@@ -77,6 +88,7 @@ provide('allMessagesByUsers', allMessagesByUsers);
 let unsuscribe: () => void;
 
 onMounted( async () =>{
+    msgMode.value = false;
     pb.collection('messages').subscribe('*', async ({action, record }) => {
         if (action === 'create') {
             allMessagesByUsers.value = await pb.collection('messages').getFullList({
@@ -100,12 +112,18 @@ const addfriendMode = ref(false)
 const doAddFriend = async () => {
     return true
 }
-watch(UserName, (newVal, oldVal) => {
+// console.log("INDEX, useravatar", UserAvatarIndex.value)
+
+watch(msgMode, (newVal, oldVal) => {
     if (newVal !== oldVal) {
-        console.log('WATCH : newVal', newVal)
-        UserName.value = newVal
+        console.log('-----------------WATCH--------------------')
+        console.log(UserAvatar.value)
+        UserAvatar.value = UserAvatar.value
+        console.log(UserAvatar.value)
     }
 })
+
+console.log("INDEX, userid", UserId.value)
 </script>
 
 
@@ -121,7 +139,8 @@ watch(UserName, (newVal, oldVal) => {
                 <h1  class="fixed z-20 w-full bg-mainBlue p-4 flex gap-4 items-center">
                     <IconArrowLeft class="w-8 h-8" @click="msgMode = false"/>
                     <div class="flex gap-2">
-                        <span class="h-10 w-10 bg-mainOrange rounded-full"></span>
+                        <!-- <span class="h-10 w-10 bg-mainOrange rounded-full">{{ UserAvatar }}</span> -->
+                         <ImgPb :record="UserId" :filename="UserAvatar" alt="Photo de profil" class="w-10 h-10 object-cover rounded-full"/>
                         <span>
                             <p class="text-white">
                                 {{ UserName }}
