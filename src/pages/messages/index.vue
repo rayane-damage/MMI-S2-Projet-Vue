@@ -5,12 +5,15 @@ import MessageCard from '@/components/MessageCard.vue';
 import MessageInput from '@/components/MessageInput.vue';
 import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
+import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
+import { UserName } from '@/components/MessageCard.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
-import { ref, provide, onMounted } from 'vue';
+import { ref, provide, onMounted, watch } from 'vue';
 import type { Ref } from 'vue';
+
 
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
@@ -21,23 +24,9 @@ if (isActive.value == false) {
     isActive.value = true;
 }
 
-// const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
-//     filter: `id = '${pb.authStore.model?.id}'`,
-// });
-// console.log("currentUser")
-// console.log(currentUser)
-// console.log(currentUser[0])
 console.log("user=", pb.authStore.model)
 console.log(pb.authStore.model?.friends)
 
-// const userFriends: UsersResponse[] = await pb.collection('users').getFullList({
-//     // filter: `friends = '${pb.authStore.model?.friends}'`,
-//     expand : 'friends'
-// });
-const userFriends: UsersResponse[] = await pb.collection('users').getFullList({
-    filter: `id != '${pb.authStore.model?.id}'`,
-    expand : 'friends'
-});
 
 const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
@@ -73,10 +62,7 @@ const userFrom = ref('')
 provide('userFrom', userFrom);
 provide('msgMode', msgMode);
 
-// const allMessages: MessagesResponse[] = await pb.collection('messages').getFullList({
-//     filter: `from = '${pb.authStore.model?.id}' && to = '${userFrom.value}' || to = '${pb.authStore.model?.id}' && from = '${userFrom.value}' `,
-//     expand : 'from && to',
-// });
+
 
 const allMessagesByUsers = ref() as Ref<any[]>;
 const allMessages: MessagesResponse[] = await pb.collection('messages').getFullList({
@@ -84,7 +70,6 @@ const allMessages: MessagesResponse[] = await pb.collection('messages').getFullL
     expand : 'from && to',
 });
 allMessagesByUsers.value = allMessages;
-// console.log("allMessagesByUsers", allMessagesByUsers)
 
 
 provide('allMessagesByUsers', allMessagesByUsers);
@@ -115,7 +100,12 @@ const addfriendMode = ref(false)
 const doAddFriend = async () => {
     return true
 }
-
+watch(UserName, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        console.log('WATCH : newVal', newVal)
+        UserName.value = newVal
+    }
+})
 </script>
 
 
@@ -127,8 +117,23 @@ const doAddFriend = async () => {
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
         </div>
         <div v-if="msgMode === true" class="flex flex-col gap-2" >
-            <h1 @click="msgMode = false" class="p-4 fixed z-20 bg-red-200">retour</h1>
-            <div class="w-full flex flex-col gap-1 mb-8">
+            <div>
+                <h1  class="fixed z-20 w-full bg-mainBlue p-4 flex gap-4 items-center">
+                    <IconArrowLeft class="w-8 h-8" @click="msgMode = false"/>
+                    <div class="flex gap-2">
+                        <span class="h-10 w-10 bg-mainOrange rounded-full"></span>
+                        <span>
+                            <p class="text-white">
+                                {{ UserName }}
+                            </p>
+                            <p class="text-mainOrange text-xs">
+                                <!-- {{ userToUsername }} -->
+                            </p>
+                        </span>
+                    </div>
+                </h1>
+            </div>
+            <div class="w-full flex flex-col gap-1 mb-8 mt-20">
                 <MessageCard v-for="message in allMessagesByUsers" :key="message.id" v-bind="message" />
             </div>
         <MessageInput class="fixed bottom-[50px]"/>
@@ -136,10 +141,11 @@ const doAddFriend = async () => {
     </section>
 
     <section v-if="isActive === false">
-        <ProfileCard
-        v-if="!addfriendMode"
-        v-for="friend in allFriends" :key="friend.id" v-bind="friend"
-        />
+        <div v-if="!addfriendMode">
+            <ProfileCard
+            v-for="friend in allFriends" :key="friend.id" v-bind="friend"
+            />
+        </div>
 
         <ButtonAdd @click="addfriendMode = true, doAddFriend"/>
 

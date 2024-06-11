@@ -4,6 +4,7 @@ import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 import SettingsLegalCard from '@/components/SettingsLegalCard.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
+import IconMessage from '@/components/icons/IconMessage.vue';
 
 import { isActive } from '@/components/HeaderPage.vue'
 import { pb } from '@/backend';
