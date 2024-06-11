@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(
     defineProps<{
-        variant?: 'default' | 'white'
+        variant?: 'default' | 'white' | 'transparent'
         text?: string
     }>(),
     {
@@ -10,8 +10,9 @@ const props = withDefaults(
 )
 
 const variantClass = {
-    default: 'text-white bg-orange-300',
-    white: 'text-black bg-white'
+    default: 'text-dark bg-mainOrange',
+    white: 'text-grayDark bg-white',
+    transparent : 'text-grayDark bg-none'
 }
 
 </script>
@@ -19,7 +20,7 @@ const variantClass = {
 <template>
     <button 
     type="button"
-    class="rounded-full p-2 w-full"
+    class="rounded-full p-2 w-full font-sniglet tracking-wider"
     :class="variantClass[variant]"
     >
         {{ text }}
