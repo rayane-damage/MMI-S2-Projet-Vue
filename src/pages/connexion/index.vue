@@ -103,7 +103,7 @@ console.log(getUserMood(pb.authStore.model?.id) )
 
     <div v-scroll-lock="true" class="flex flex-col h-screen justify-center pb-16">
         <section v-if="loginMode==='start'" class="flex flex-col gap-4 mx-4 items-center">
-            <h1 class="text-4xl font-Hegante text-center mx-8">Bienvenue sur to-Gather !</h1>
+            <h1 class="text-4xl font-Hegante text-center mx-4">Bienvenue sur to-Gather </h1>
             <Button @click="loginMode='pseudo'" text="Créer un compte"/>
             <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
         </section>
