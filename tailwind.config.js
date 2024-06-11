@@ -8,7 +8,7 @@ export default {
         'footer' : '44px',
       },
       fontFamily: {
-        'Hegante': ['Hegante', 'sans-serif'],
+        'Hegante': ['hegante', 'sans-serif'],
         'comfortaa' : ['Comfortaa', 'sans-serif'],
         'sniglet' : ['Sniglet', 'sans-serif']
       },
