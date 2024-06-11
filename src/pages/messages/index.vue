@@ -8,8 +8,6 @@ import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
 
 import { UserName, UserId, UserAvatar } from '@/components/MessageCard.vue';
-// import { UserAvatarBis } from '@/components/DiscussionProfileCard.vue';
-console.log("INDEX, useravatar", UserAvatar.value)
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
@@ -17,14 +15,6 @@ import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { ref, provide, onMounted, watch } from 'vue';
 import type { Ref } from 'vue';
 import ImgPb from '@/components/ImgPb.vue';
-
-// const UserAvatarIndex = ref() as Ref<any>;
-// onMounted( async () => {
-//     const { default: UserAvatar } = await import('@/components/DiscussionProfileCard.vue');
-//     UserAvatarIndex.value = UserAvatar;
-//     console.log("isActive", isActive)
-//     console.log("INDEX mounted, useravatar", UserAvatarIndex.value)
-// })
 
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
@@ -35,21 +25,14 @@ if (isActive.value == false) {
     isActive.value = true;
 }
 
-console.log("user=", pb.authStore.model)
-console.log(pb.authStore.model?.friends)
-
 
 const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
     expand: 'friends'
 });
 
-console.log("currentUser", currentUser)
-
 const currentUserFriends = ref()
 currentUserFriends.value = currentUser[0].friends
-
-console.log("currentUserFriends", currentUserFriends.value[0])
 
 const allFriends = ref();
 for (let i = 0; i < currentUserFriends.value.length; i++) {
@@ -66,7 +49,6 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
     allFriends.value.push( newuser.value[0])};
 }
 
-console.log("allFriends", allFriends)
 
 const msgMode = ref()
 const userFrom = ref('')
@@ -114,14 +96,14 @@ const doAddFriend = async () => {
 }
 // console.log("INDEX, useravatar", UserAvatarIndex.value)
 
-watch(msgMode, (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-        console.log('-----------------WATCH--------------------')
-        console.log(UserAvatar.value)
-        UserAvatar.value = UserAvatar.value
-        console.log(UserAvatar.value)
-    }
-})
+// watch(msgMode, (newVal, oldVal) => {
+//     if (newVal !== oldVal) {
+//         console.log('-----------------WATCH--------------------')
+//         console.log(UserAvatar.value)
+//         UserAvatar.value = UserAvatar.value
+//         console.log(UserAvatar.value)
+//     }
+// })
 
 console.log("INDEX, userid", UserId.value)
 </script>
@@ -129,8 +111,7 @@ console.log("INDEX, userid", UserId.value)
 
 <template>
     <HeaderPage active="Discussions" inactive="Amis" :currentMood="moodList[0].mood" />
-    <!-- :class="[msgMode ? 'overflow-hidden absolute top-0 w-full' : '']"  -->
-    <section v-if="isActive === true" >
+    <section v-if="isActive === true" class="pt-4">
         <div v-if="msgMode === false" class="flex flex-col gap-4">
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
         </div>
@@ -159,7 +140,7 @@ console.log("INDEX, userid", UserId.value)
         </div>
     </section>
 
-    <section v-if="isActive === false">
+    <section v-if="isActive === false" class="pt-4">
         <div v-if="!addfriendMode">
             <ProfileCard
             v-for="friend in allFriends" :key="friend.id" v-bind="friend"

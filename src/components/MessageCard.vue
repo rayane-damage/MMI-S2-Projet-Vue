@@ -9,7 +9,6 @@ import type { Ref } from 'vue';
 const msgMode = inject('msgMode') as Ref<boolean>;
 const props = defineProps<MessagesResponse>();
 const userName = ref() as Ref<string>;
-const imgUrl = ref() as Ref<string>;
 
 console.log('props', props.to);
 // const userByMessage = ref() as Ref<UsersResponse[]>;
@@ -31,11 +30,9 @@ onMounted (async () => {
 
     }
     // imgUrl.value = userByMessage.value.avatar;
-    console.log("img", imgUrl.value)
 
 });
 
-console.log('userByMessage2', userByMessage.value);
 watch(msgMode, (newVal, oldVal) => {
     if (newVal !== oldVal) {
         console.log('CARD-----------------WATCH--------------------')

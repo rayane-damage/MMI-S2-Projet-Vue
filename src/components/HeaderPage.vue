@@ -3,7 +3,9 @@ import IconLogo from './icons/IconLogo.vue'
 import IconMoodBad from './icons/IconMoodBad.vue';
 import IconMoodMid from './icons/IconMoodMid.vue';
 import IconMoodGood from './icons/IconMoodGood.vue';
+import ImgPb from './ImgPb.vue';
 
+import { pb } from '@/backend';
 import { ref } from 'vue'
 // import { test } from '@/pages/index.vue';
 
@@ -14,6 +16,9 @@ const props = defineProps<{
     inactive: string
     currentMood: string
 }>();
+
+const currentUser = await pb.collection('users').getOne(pb.authStore.model?.id);
+console.log(currentUser.avatar)
 </script>
 <script lang="ts">
 // //Utilisation d'un script normal pour pouvoir exporter des variables
@@ -28,7 +33,8 @@ export const isActive = ref(true);
                 <ul class="flex justify-between px-8 pt-4">
                     <li>
                         <RouterLink to="/profil">
-                            <img src="/img/pfp default.png" alt="Profile picture" />
+                            <!-- <img src="/img/pfp default.png" alt="Profile picture" /> -->
+                             <ImgPb :record="currentUser" :filename="currentUser.avatar" alt="Photo de profil" class="w-10 h-10 first-letter:object-cover rounded-full"/>
                             <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
                                 <IconMoodGood v-if="props.currentMood === 'Bien'"/>
                                 <IconMoodMid v-if="props.currentMood === 'Moyen'"/>

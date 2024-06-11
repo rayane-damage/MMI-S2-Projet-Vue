@@ -35,16 +35,6 @@ const doLoadUser = async () => {
 
 // UserAvatar.value = props.avatar;
 
-
-console.log("CARD, useravatar",props.avatar)
-UserAvatarBis.value = props.avatar;
-</script>
-
-<script lang="ts">
-
-export const UserAvatarBis = ref() as Ref<string>;
-console.log("CARD, useravatar v2",UserAvatarBis.value)
-
 </script>
 
 
