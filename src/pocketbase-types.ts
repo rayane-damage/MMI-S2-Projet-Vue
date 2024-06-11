@@ -38,7 +38,7 @@ export type AuthSystemFields<T = never> = {
 
 export type MemoriesRecord = {
 	img?: string
-	title?: string
+	description?: string
 	user?: RecordIdString
 }
 

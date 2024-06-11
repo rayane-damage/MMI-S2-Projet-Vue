@@ -14,6 +14,7 @@ import { useRouter } from 'vue-router';
 import { onMounted, provide, ref, watch } from 'vue';
 import { pb } from '@/backend';
 
+
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
 const route = useRouter();
 onMounted(() => {
@@ -68,7 +69,6 @@ memoriesList.value = await pb.collection('memories').getFullList({
     sort: '-created'
 });
 
-console.log("memoriesList", memoriesList);
 
 const memorieMode = ref(true);
 watch(isActive, (newValue) => {
@@ -82,14 +82,31 @@ watch(isActive, (newValue) => {
 const memorieStatus = ref('private');
 const description = ref();
 const errorMessage = ref('');
+const file = ref();
+function changeFileName(e:any) {
+    console.log("FILENAME",e.target.files[0])
+    // if (e.target.files[0] != null) {
+        file.value = e.target.files[0];
+    console.log("FILENAMEVALUE",file.value)
 
+    // } else {
+    //     file.value = '';
+    // }
+}
 const doAddMemorie = () => {
-    if (description.value) {
+    if (description.value && file && memorieStatus.value) {
+        const formData = new FormData();
+        
+        formData.append('img', file.value);
         pb.collection('memories').create({
+            img: file.value,
             description: description.value,
             status: memorieStatus.value,
             user: pb.authStore.model?.id
         });
+        pb.collection('example').create(
+            formData
+        );
         memorieMode.value = !memorieMode.value
     } else {
         errorMessage.value = 'Champs manquants';
@@ -116,7 +133,37 @@ onMounted( async () =>{
     });
 });
 
+
 </script>
+
+<!-- <script lang="ts">
+
+// export default {
+//     name: 'HelloWorld',
+//     data () {
+//         return {
+//             selectedFile: null,
+//         }
+//     },
+//     methods: {
+//         // onFileSelected(event:any) {
+//         //     this.selectedFile = event.target.files[0];
+//         // },
+//         // onStatusSelected() {
+
+//         //     const formData = new FormData();
+//         //     if (this.selectedFile) {
+//         //     formData.append('avatar', this.selectedFile);
+//         //     // const createRecord = pb.collection('users').update(pb.authStore.model?.id, formData);
+//         //     // return formData;
+//         //     } else {
+//         //         console.log('No file selected');
+//         //     }
+
+//         // }
+//     }
+// }
+</script> -->
 
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
@@ -145,14 +192,19 @@ onMounted( async () =>{
         v-scroll-lock="true"
         v-if="!memorieMode" class="flex flex-col h-screen gap-20 items-center">
             <div class="w-80 h-52 flex flex-col items-center gap-4">
-                <div>Ajoutez une image !</div>
+                <div>
+                    <label for="file">Ajoutez une image
+                        <input type="file" id="file" ref="file" @change="changeFileName">
+                    </label>
+                </div>
+
                 <input v-model="description" class="w-full h-full flex" type="text" placeholder="Ajoutez une description !">
             </div>
             <div class="flex flex-col gap-4 relative">
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
                 <div class="flex *:py-2  *:w-40">
                     <button
-                    @click="memorieStatus = 'private'"
+                    @click="memorieStatus = 'private', onStatusSelected"
                     class="border-2 border-mainOrange rounded-l-full"
                     :class="memorieStatus === 'private' ? 'bg-mainOrange' : 'bg-transparent'"
                     >Privé
