@@ -22,9 +22,10 @@ onClickOutside(memorieCardSettings, () => {
     cardClicked.value = false;
 });
 
-// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",(props.expand as any).user.avatar)
-    // const userMemorie = await pb.collection('users').getOne(props.user);
-    // console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBB",userMemorie)
+
+
+console.log("props id=", (props.expand as any).user.id);
+console.log("pb.authStore.model?.id=", pb.authStore.model?.id);
 </script>
 
 <template>
@@ -32,11 +33,6 @@ onClickOutside(memorieCardSettings, () => {
         <div>
             <div class="flex justify-between items-center gap-2 p-2">
                 <div class="flex gap-2">
-                    <!-- <img
-                    src="/public/img/pfp default.png"
-                    alt="Profile Picture"
-                    class="h-16"
-                    > -->
                     <ImgPb :record="(props.expand as any).user" :filename="(props.expand as any).user.avatar" class="h-12 w-12 object-cover rounded-full" alt="photo de profil" />
                     <span>
                         <p class="font-bold">{{ (props.expand as any).user.name }}</p>
@@ -46,7 +42,9 @@ onClickOutside(memorieCardSettings, () => {
                         </span>
                     </span>
                 </div>
-                <div class="relative">
+                <div 
+                v-if="(props.expand as any).user.id === pb.authStore.model?.id"
+                class="relative">
                     <IconSmallSettings @click="cardClicked = !cardClicked" class="mx-4"/>
                     <div
                     ref="memorieCardSettings"
