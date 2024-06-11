@@ -96,48 +96,91 @@ console.log(getUserMood(pb.authStore.model?.id) )
 </script>
 
 <template>
-    <section v-if="loginMode==='start'" class="flex flex-col gap-4 mx-4 items-center">
-        <IconLogo />
-        <Button @click="loginMode='pseudo'" text="Créer un compte" />
-        <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
-    </section>
+    <div class="flex justify-center items-center
+                bg-mainBlue w-screen h-16">
+        <IconLogo />            
+    </div>
 
-    <section v-if="loginMode!=='start'" class="flex flex-col gap-4 mx-4 items-center">
-        <header>
-            <h2 v-if="loginMode == 'pseudo'">Choisissez un pseudo</h2>
-            <h2 v-if="loginMode === 'info'">Informations de compte</h2>
-            <h2 v-if="loginMode === 'connexion'">Connectez vous</h2>
-        </header>
-        <div v-if="loginMode === 'pseudo'">
-            <IconArrowLeft @click="loginMode='start', loginError = ''"/>
-            <InputConnexion v-model="username" :text="'Pseudonyme'" :labelfor="'username'" :type="'text'" :name="'username'" :id="'username'" :placeholder="''"/>
-            <Button @click="loginMode='info'" text="Continuer" :disabled="!username"/>
-        </div>
-        <div>
-                <div v-if="loginMode==='info' || loginMode==='connexion'">
-                    <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start'), loginError = ''"/>
-                    <p class="text-red-500" v-if="loginError">{{ loginError }}</p>
-                    <InputConnexion v-model="mail" :text="'Adresse e-mail'"         :labelfor="'mail'" :type="'email'" :name="'mail'" :id="'mail'"      :placeholder="''"/>
-                    <InputConnexion v-model="password" :text="'Mot de passe'"       :labelfor="'password'" :type="'password'" :name="'password'"    :id="'password'" :placeholder="''"/>
-                    <InputConnexion v-if="loginMode==='info'" v-model="passwordConfirm" :text="'Confirmer le  mot de  passe'" :labelfor="'passwordConfirm'"     :type="'password'"  :name="'passwordConfirm'"     :id="'passwordConfirm'" :placeholder="''" />
+    <div v-scroll-lock="true" class="flex flex-col h-screen justify-center pb-16">
+        <section v-if="loginMode==='start'" class="flex flex-col gap-4 mx-4 items-center">
+            <h1 class="text-4xl font-Hegante text-center mx-8">Bienvenue sur to-Gather !</h1>
+            <Button @click="loginMode='pseudo'" text="Créer un compte"/>
+            <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
+        </section>
+
+
+        <section v-if="loginMode!=='start'" class="flex flex-col gap-4 mx-4 items-center">
+            <header>
+                <h2 v-if="loginMode === 'info'" class="font-sniglet tracking-wide text-xl">Informations du compte</h2>
+                <h2 v-if="loginMode === 'connexion'" class="font-sniglet tracking-wide text-xl">Connectez-vous</h2>
+            </header>
+            <div v-if="loginMode === 'pseudo'" class="flex flex-col gap-4 w-full indent-4">
+                <IconArrowLeft @click="loginMode='start', loginError = ''" 
+                                class="absolute top-4"/>
+                <InputConnexion v-model="username" 
+                                :text="'Choisissez un Pseudo'" 
+                                :labelfor="'username'" 
+                                :type="'text'" 
+                                :name="'username'" 
+                                :id="'username'" 
+                                :placeholder="''"/>
+                <Button @click="loginMode='info'" 
+                        text="Continuer" 
+                        :disabled="!username"/>
+            </div>
+                <div class="flex flex-col gap-4 w-full mx-4">
+                    <div v-if="loginMode==='info' || loginMode==='connexion'">
+                        <IconArrowLeft  @click="loginMode = (loginMode ==='info' ? 'pseudo' : 'start'), loginError = ''" class="absolute top-4"/>
+                        <p class="text-mainRed" v-if="loginError">{{ loginError }}</p>
+                        <InputConnexion v-model="mail" 
+                                        :text="'Adresse e-mail'"         
+                                        :labelfor="'mail'" 
+                                        :type="'email'" 
+                                        :name="'mail'" 
+                                        :id="'mail'"      
+                                        :placeholder="''"/>
+                        <InputConnexion v-model="password" 
+                                        :text="'Mot de passe'"       
+                                        :labelfor="'password'" 
+                                        :type="'password'" 
+                                        :name="'password'"    
+                                        :id="'password'" 
+                                        :placeholder="''"/>
+                        <InputConnexion v-if="loginMode==='info'" v-model="passwordConfirm" 
+                                        :text="'Confirmer le  mot de  passe'" 
+                                        :labelfor="'passwordConfirm'"     
+                                        :type="'password'"  
+                                        :name="'passwordConfirm'"     
+                                        :id="'passwordConfirm'" 
+                                        :placeholder="''"/>
+                    </div>
+                    <Button v-if="loginMode==='info'" 
+                                        @click="doCreateAccount"   
+                                        text="créer" 
+                                        :disabled="!mail || !password" 
+                                        class="mt-4"/>
+                    <Button v-if="loginMode==='connexion'" 
+                                        @click="doLogin" 
+                                        text="Se connecter" 
+                                        :disabled="!mail || !password" 
+                                        class="mt-4"/>
                 </div>
-                <Button v-if="loginMode==='info'" @click="doCreateAccount" text="créer" :disabled="!mail || !password"/>
-                <Button v-if="loginMode==='connexion'" @click="doLogin" text="Se connecter" :disabled="!mail || !password"/>
-        </div>
-    </section>
+        </section>
 
-    <section v-if="loginMode==='moodChoice'" class="w-full h-full flex flex-col justify-center items-center gap-6">
-        <h1 class="font-bold text-2xl font-red-600">Comment allez vous ?</h1>
-        <ul class="flex gap-6 justify-items-center h-full items-center">
-            <li>
-                <IconMoodGood @click="addMood('Bien')"/>
-            </li>
-            <li>
-                <IconMoodMid @click="addMood('Moyen')" />
-            </li>
-            <li>
-                <IconMoodBad @click="addMood('Mal')"/>
-            </li>
-        </ul>
-    </section>
+
+        <section v-if="loginMode==='moodChoice'" class="w-full h-full flex flex-col justify-center items-center gap-6">
+            <h1 class="font-bold text-2xl font-red-600">Comment allez vous ?</h1>
+            <ul class="flex gap-6 justify-items-center h-full items-center">
+                <li>
+                    <IconMoodGood @click="addMood('Bien')"/>
+                </li>
+                <li>
+                    <IconMoodMid @click="addMood('Moyen')" />
+                </li>
+                <li>
+                    <IconMoodBad @click="addMood('Mal')"/>
+                </li>
+            </ul>
+        </section>
+    </div>
 </template>
