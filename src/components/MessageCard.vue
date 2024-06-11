@@ -5,6 +5,7 @@ import type { MessagesResponse, UsersResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
 import { ref, onMounted, watch, inject } from 'vue';
 import type { Ref } from 'vue';
+import { get } from 'http';
 
 const msgMode = inject('msgMode') as Ref<boolean>;
 const props = defineProps<MessagesResponse>();
@@ -13,22 +14,35 @@ const userName = ref() as Ref<string>;
 console.log('props', props.to);
 // const userByMessage = ref() as Ref<UsersResponse[]>;
 onMounted (async () => {
+    console.log('props to mounted in card', props.from);
     userByMessage.value = await pb.collection('users').getOne(String(props.from));
     console.log('userByMessage', userByMessage.value);
-    if (userByMessage.value.id === pb.authStore.model?.id) {
-        userName.value = "Vous"
-        const getUser = await pb.collection('users').getOne(String(props.to));
-        UserName.value = getUser.name
-        UserAvatar.value = getUser.avatar
-        UserId.value = getUser[0]
-    } else {
-        const getUser = await pb.collection('users').getOne(String(props.from));
-        userName.value = getUser.name
-        UserName.value = getUser.name
-        UserAvatar.value = getUser.avatar
-        UserId.value = getUser[0]
+    const test = ref() as Ref<UsersResponse[]>;
+    test.value = userByMessage.value;
+    // if (test === pb.authStore.model?.id) {
+        // userName.value = "Vous"
+        // const getUser1 = await pb.collection('users').getOne(String(props.to));
+        // if (UserName.value === undefined) {
+        //     UserName.value = getUser1.name
+        // }
+        // UserAvatar.value = getUser1.avatar
+        // UserId.value = getUser1[0]
+    // } else {
+    
+        const getUser2 = await pb.collection('users').getOne(String(props.from));
+        userName.value = getUser2.name
+        if (UserName.value !== getUser2.name) {
+            UserName.value = getUser2.name
+        }
+        // if (UserName.value === pb.authStore.model?.name) {
+        //     console.log("TEST")
+        //     console.log(UserName.value, pb.authStore.model?.name)
+        //     UserName.value = "Vous"
+        // }
+        UserAvatar.value = getUser2.avatar
+        UserId.value = getUser2[0]
 
-    }
+    // }
     // imgUrl.value = userByMessage.value.avatar;
 
 });
@@ -56,11 +70,11 @@ export const UserId = ref() as Ref<UsersResponse>;
         <div
         :class="[props.from == pb.authStore.model?.id ? '' : 'order-2']"
         class="w-full">
-            <p
+            <!-- <p
             class="font-bold w-full"
             :class="[props.from == pb.authStore.model?.id ? 'text-end' : '']"
             >{{ userName }}
-            </p>
+            </p> -->
 
             <div
             :class="[props.from == pb.authStore.model?.id ? 'bg-blue-400' : 'bg-blue-200']"

@@ -8,6 +8,7 @@ import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
 
 import { UserName, UserId, UserAvatar } from '@/components/MessageCard.vue';
+import { usernameBis } from '@/components/DiscussionProfileCard.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
@@ -111,7 +112,7 @@ console.log("INDEX, userid", UserId.value)
 
 <template>
     <HeaderPage active="Discussions" inactive="Amis" :currentMood="moodList[0].mood" />
-    <section v-if="isActive === true" class="pt-4">
+    <section v-if="isActive === true" :class="msgMode ? '' : 'pt-4'">
         <div v-if="msgMode === false" class="flex flex-col gap-4">
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
         </div>
@@ -119,21 +120,18 @@ console.log("INDEX, userid", UserId.value)
             <div>
                 <h1  class="fixed z-20 w-full bg-mainBlue p-4 flex gap-4 items-center">
                     <IconArrowLeft class="w-8 h-8" @click="msgMode = false"/>
-                    <div class="flex gap-2">
-                        <!-- <span class="h-10 w-10 bg-mainOrange rounded-full">{{ UserAvatar }}</span> -->
+                    <!-- <div class="flex gap-2">
                          <ImgPb :record="UserId" :filename="UserAvatar" alt="Photo de profil" class="w-10 h-10 object-cover rounded-full"/>
                         <span>
                             <p class="text-white">
-                                {{ UserName }}
+                                {{ UserName }}  
                             </p>
-                            <p class="text-mainOrange text-xs">
-                                <!-- {{ userToUsername }} -->
-                            </p>
+
                         </span>
-                    </div>
+                    </div> -->
                 </h1>
             </div>
-            <div class="w-full flex flex-col gap-1 mb-8 mt-20">
+            <div class="w-full flex flex-col gap-2 mb-10 mt-20">
                 <MessageCard v-for="message in allMessagesByUsers" :key="message.id" v-bind="message" />
             </div>
         <MessageInput class="fixed bottom-[50px]"/>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { MemoriesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
-import { ref} from 'vue';
+import { onMounted, ref} from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import type { Ref } from 'vue';
 import ImgPb from '@/components/ImgPb.vue';
 
 import IconSmallSettings from './icons/IconSmallSettings.vue';
@@ -21,6 +22,9 @@ onClickOutside(memorieCardSettings, () => {
     cardClicked.value = false;
 });
 
+// console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",(props.expand as any).user.avatar)
+    // const userMemorie = await pb.collection('users').getOne(props.user);
+    // console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBB",userMemorie)
 </script>
 
 <template>
@@ -28,12 +32,12 @@ onClickOutside(memorieCardSettings, () => {
         <div>
             <div class="flex justify-between items-center gap-2 p-2">
                 <div class="flex gap-2">
-                    <img
+                    <!-- <img
                     src="/public/img/pfp default.png"
                     alt="Profile Picture"
                     class="h-16"
-                    >
-                    <!-- <ImgPb :record="props" :filename="props.img" class="h-16" alt="photo de profil" /> -->
+                    > -->
+                    <ImgPb :record="(props.expand as any).user" :filename="(props.expand as any).user.avatar" class="h-12 w-12 object-cover rounded-full" alt="photo de profil" />
                     <span>
                         <p class="font-bold">{{ (props.expand as any).user.name }}</p>
                         <span class="flex">

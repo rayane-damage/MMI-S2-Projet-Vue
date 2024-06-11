@@ -142,34 +142,6 @@ onMounted( async () =>{
 
 </script>
 
-<!-- <script lang="ts">
-
-// export default {
-//     name: 'HelloWorld',
-//     data () {
-//         return {
-//             selectedFile: null,
-//         }
-//     },
-//     methods: {
-//         // onFileSelected(event:any) {
-//         //     this.selectedFile = event.target.files[0];
-//         // },
-//         // onStatusSelected() {
-
-//         //     const formData = new FormData();
-//         //     if (this.selectedFile) {
-//         //     formData.append('avatar', this.selectedFile);
-//         //     // const createRecord = pb.collection('users').update(pb.authStore.model?.id, formData);
-//         //     // return formData;
-//         //     } else {
-//         //         console.log('No file selected');
-//         //     }
-
-//         // }
-//     }
-// }
-</script> -->
 
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
