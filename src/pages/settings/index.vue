@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import HeaderPage from '@/components/HeaderPage.vue';
-import { isActive } from '@/components/HeaderPage.vue'
-import { pb } from '@/backend';
-import { useRouter } from 'vue-router';
 import SettingsCard from '@/components/SettingsCard.vue';
 import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 import SettingsLegalCard from '@/components/SettingsLegalCard.vue';
-import { ref } from 'vue';
+import HeaderPage from '@/components/HeaderPage.vue';
 
+import { isActive } from '@/components/HeaderPage.vue'
+import { pb } from '@/backend';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+
+const confirmCard = ref(null);
+onClickOutside(confirmCard, () => {
+    doLogoutConfirm.value = false;
+    doDeleteConfirm.value = false;
+});
 
 const route = useRouter();
 
@@ -62,8 +69,8 @@ export const sectionOpen = ref(0)
             </div>
             <div class="*:px-10 flex flex-col gap-2 items-start">
                 <div class="flex flex-col items-center w-full">
-                    <SettingsCard title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
-                    <div v-if="doLogoutConfirm" class="flex flex-col justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
+                    <SettingsCard ref="confirmCard" title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
+                    <div v-if="doLogoutConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
                         <p>Voulez-vous vraiment vous déconnecter ?</p>
                         <span class="flex gap-6">
                             <p class="text-green-500 p-2 bg-green-200" @click="doLogout">oui</p>
@@ -72,9 +79,9 @@ export const sectionOpen = ref(0)
                     </div>
                 </div>
                 <div class="flex flex-col items-center w-full">
-                    <SettingsCard title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
-                    <div v-if="doDeleteConfirm" class="flex flex-col justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
-                        <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ?</p>
+                    <SettingsCard ref="confirmCard" title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
+                    <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
+                        <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ? Cette action est irréversible</p>
                         <span class="flex gap-6">
                             <p class="text-green-500 p-2 bg-green-200" @click="doDeletAcount">oui</p>
                             <p class="text-red-500 p-2 bg-red-200" @click="doDeleteConfirm = false">non</p>
@@ -84,10 +91,11 @@ export const sectionOpen = ref(0)
             </div>
         </div>
     </section>
-    <section  v-if="isActive === false" class="bg-mainBlue h-screen flex flex-col gap-4 pt-4" v-scroll-lock="sectionOpen">
+    <section
+    v-if="isActive === false" class="bg-mainBlue flex h-screen flex-col pt-2" v-scroll-lock="!sectionOpen">
         <SettingsLegalCard @pointerdown="sectionOpen =  sectionOpen === 1 ? 0:1"
         title="Mentions légales"
-        text="1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum"
+        text="1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum"
         :number="1"/>
         <SettingsLegalCard @pointerdown="sectionOpen =  sectionOpen === 2 ? 0:2"
         title="Politique de confidentialité"

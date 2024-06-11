@@ -116,16 +116,12 @@ onMounted( async () =>{
     });
 });
 
-const cardClicked = ref(false);
-const memorieCardNumber = ref(0);
-// provide('cardClicked', cardClicked);
-provide('memorieCardNumber', memorieCardNumber);
 </script>
 
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
         <section
-        class="flex flex-col gap-4 my-4"
+        class="flex flex-col gap-4 pb-4"
         v-if="isActive === false"
         >
         <div class="flex gap-4 w-full justify-center p-4">
@@ -138,12 +134,12 @@ provide('memorieCardNumber', memorieCardNumber);
         </section>
         <section
         v-if="isActive === true"
-        class="pt-1"
+        class="py-1"
         >
         <div v-if="memorieMode">
             <MemoriesCard
             v-for="memorie in memoriesList" v-bind="memorie" :key="memorie.id"/>
-            <ButtonAdd @click=" memorieMode = !memorieMode" />
+            <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
         <div
         v-scroll-lock="true"
@@ -171,7 +167,7 @@ provide('memorieCardNumber', memorieCardNumber);
                 </div>
                 <div class="flex flex-col gap-4">
                     <button class="w-80 py-2 bg-mainBlue rounded-full text-white" @click="doAddMemorie">Publier</button>
-                    <button @click="memorieMode = !memorieMode, errorMessage = ''">Annuler</button>
+                    <button @click="memorieMode = !memorieMode">Annuler</button>
                 </div>
             </div>
         </div>
