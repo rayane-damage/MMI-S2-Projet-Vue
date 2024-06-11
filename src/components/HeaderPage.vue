@@ -14,13 +14,13 @@ const props = defineProps<{
     inactive: string
     currentMood: string
 }>();
-
 </script>
-
 <script lang="ts">
 // //Utilisation d'un script normal pour pouvoir exporter des variables
 export const isActive = ref(true);
 </script>
+
+
 <template>
         <header class="mb-header">
         <div class="bg-mainBlue fixed w-full top-0 z-50">
@@ -31,8 +31,8 @@ export const isActive = ref(true);
                             <img src="/img/pfp default.png" alt="Profile picture" />
                             <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
                                 <IconMoodGood v-if="props.currentMood === 'Bien'"/>
-                                <IconMoodMid v-if="props.currentMood === 'Moyen'" />
-                                <IconMoodBad v-if="props.currentMood === 'Mal'" />
+                                <IconMoodMid v-if="props.currentMood === 'Moyen'"/>
+                                <IconMoodBad v-if="props.currentMood === 'Mal'"/>
                             </span>
                         </RouterLink>
                     </li>

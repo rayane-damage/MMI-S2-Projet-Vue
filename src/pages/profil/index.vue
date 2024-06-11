@@ -1,8 +1,7 @@
 <script setup lang="ts">
     import HeaderPage from '@/components/HeaderPage.vue';
-    import IconMoodBad from '@/components/icons/IconMoodBad.vue';
-    import IconMoodMid from '@/components/icons/IconMoodMid.vue';
-    import IconMoodGood from '@/components/icons/IconMoodGood.vue';
+    import ProfileIcon from '@/components/ProfileIcon.vue';
+    import ButtonAdd from '@/components/ButtonAdd.vue';
     import { pb } from '@/backend';
     //Varibale pour savoir si on est sur la page des moods ou des memories
     import { isActive } from '@/components/HeaderPage.vue';
@@ -26,7 +25,7 @@ if (isActive.value == false) {
         <div class="flex flex-col justify-between gap-6 mx-8">
             <div class="mt-16 flex flex-col items-center">
                 <div class="h-44">
-                    <img src="/img/pfp default.png" alt="Profile picture" class="h-full aspect-square" />
+                    <ProfileIcon :currentMood="moodList[0].mood"/>
                 </div>
                 <div class="*:text-center">
                     <p class="text-2xl font-regular">Name</p>
@@ -36,12 +35,12 @@ if (isActive.value == false) {
 
             <p class="text-grayDark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua.</p>
             <div class="flex flex-col gap-2">
-                <h4>Amis</h4>
+                <h4 class="text-2xl">Amis</h4>
                 <div class="flex justify-between">
                     <div>
                     <!-- liste contacts -->
                     </div>
-                    <!-- bouton + -->
+                    <ButtonAdd/>
                 </div>
             </div>
         </div>
