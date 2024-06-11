@@ -5,7 +5,7 @@ export default {
     extend: {
       spacing: {
         'header' : '88px',
-        'footer' : '80px',
+        'footer' : '44px',
       },
       fontFamily: {
         'Hegante': ['Hegante', 'sans-serif'],

@@ -121,7 +121,7 @@ onMounted( async () =>{
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
         <section
-        class="flex flex-col gap-4 my-4"
+        class="flex flex-col gap-4 pb-4"
         v-if="isActive === false"
         >
         <div class="flex gap-4 w-full justify-center p-4">
@@ -134,7 +134,7 @@ onMounted( async () =>{
         </section>
         <section
         v-if="isActive === true"
-        class="pt-1"
+        class="py-1"
         >
         <div v-if="memorieMode">
             <MemoriesCard

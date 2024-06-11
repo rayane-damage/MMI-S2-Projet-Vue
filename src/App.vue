@@ -17,7 +17,8 @@ const hide = computed(() => !hideOnRoutes.some(path => route.path.startsWith(pat
 
 <template>
       <FooterPage v-if="hide" />
-      <main class="mb-footer bg-lightBeige">
+      <main
+      class="mb-footer">
         <RouterView v-slot="{ Component }">
           <Suspense>
             <component :is="Component" />
