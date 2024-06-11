@@ -122,7 +122,7 @@ console.log("INDEX, userid", UserId.value)
                     </div> -->
                 </h1>
             </div>
-            <div class="w-full flex flex-col gap-2 mb-10 mt-20">
+            <div class="w-full flex flex-col gap-2 mb-10 mt-16">
                 <MessageCard v-for="message in allMessagesByUsers" :key="message.id" v-bind="message" />
             </div>
         <MessageInput class="fixed bottom-[50px]"/>

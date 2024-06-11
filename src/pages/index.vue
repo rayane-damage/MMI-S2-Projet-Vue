@@ -213,7 +213,7 @@ onMounted( async () =>{
                         <span class="absolute text-mainOrange font-bold z-20">Ajoutez une image !</span>
                 </div>
 
-                <input v-model="description" class="w-full h-full min-h-20 flex rounded-3xl" type="text" placeholder="Ajoutez une description !">
+                <input v-model="description" class="w-full h-full min-h-20 flex rounded-3xl pl-4" type="text" placeholder="Ajoutez une description !">
             </div>
             <div class="flex flex-col gap-4 relative">
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
