@@ -16,6 +16,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "@vueuse/core": "^10.10.0",
+    "image-upload-vue": "^0.2.5",
     "pocketbase": "^0.21.2",
     "punycode": "^2.3.1",
     "save": "^2.9.0",
