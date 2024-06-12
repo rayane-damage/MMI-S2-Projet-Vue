@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(
     defineProps<{
-        variant?: 'default' | 'white' | 'transparent'
+        variant?: 'default' | 'white' | 'transparent' | 'blue'
         text?: string
     }>(),
     {
@@ -12,7 +12,8 @@ const props = withDefaults(
 const variantClass = {
     default: 'text-dark bg-mainOrange',
     white: 'text-grayDark bg-white',
-    transparent : 'text-grayDark bg-none'
+    transparent : 'text-grayDark bg-none',
+    blue: 'text-white bg-mainBlue',
 }
 
 </script>

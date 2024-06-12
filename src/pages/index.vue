@@ -14,6 +14,8 @@ import type { UsersResponse } from '@/pocketbase-types'
 import { useRouter } from 'vue-router';
 import { onMounted, onUnmounted, provide, ref, watch } from 'vue';
 import { pb } from '@/backend';
+import IconImg from '@/components/icons/IconImg.vue'
+import Button from '@/components/Button.vue'
 
 
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
@@ -292,44 +294,41 @@ onMounted( async () =>{
             v-for="memorie in memoriesListByUserAndFriends" v-bind="memorie" :key="memorie.id"/>
             <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
-        <div
-        v-scroll-lock="true"
-        v-if="!memorieMode" class="flex flex-col h-screen gap-20 items-center">
-            <div class="w-80 h-60 flex flex-col items-center gap-4 mt-10">
-                <div class="flex justify-center items-center pt-4 relative">
-                        <input type="file" @change="changeFileName"
-                        class="bg-white rounded-3xl w-full place-content-center px-10 py-20
-                        before:w-full before:block before:absolute before:h-full before:bg-transparent before:rounded-3xl before:place-content-center before:top-0 before:left-0 before:z-30
-                        after:w-full after:block after:absolute after:h-full after:bg-white after:rounded-3xl after:place-content-center after:top-0 after:left-0 after:z-10
-
-                        ">
-                        <span class="absolute text-mainOrange font-bold z-20">Ajoutez une image !</span>
+        <div v-if="!memorieMode" class="flex flex-col items-center m-8 gap-8" 
+                                v-scroll-lock="true" >
+                <div class="flex justify-center items-center relative bg-white rounded-3xl w-full aspect-square">
+                    <input id="file"
+                            type="file"
+                            accept=".jpg, .png"
+                            @change="changeFileName"
+                            class="w-full aspect-square opacity-0 z-30">  
+                    <div class="absolute flex flex-col gap-4 justify-center items-center w-full">
+                        <IconImg class="w-16 fill-mainOrange" />
+                        <label for="file" class="text-center text-mainOrange font-bold z-20">Ajoutez une image </label>                    
+                    </div>
                 </div>
-
-                <input v-model="description" class="w-full h-full min-h-20 flex rounded-3xl pl-4" type="text" placeholder="Ajoutez une description !">
-            </div>
-            <div class="flex flex-col gap-4 relative">
+                <input v-model="description" 
+                        class="w-full h-full min-h-20 flex rounded-3xl px-4"  
+                        type="text" 
+                        placeholder="Ajoutez une description !">
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
                 <div class="flex *:py-2  *:w-40">
-                    <button
-                    @click="memorieStatus = 'private'"
-                    class="border-2 border-mainOrange rounded-l-full"
-                    :class="memorieStatus === 'private' ? 'bg-mainOrange' : 'bg-transparent'"
-                    >Privé
+                    <button @click="memorieStatus = 'private'"
+                            class="border-2 border-mainOrange rounded-l-full"
+                            :class="memorieStatus === 'private' ? 'bg-mainOrange' : 'bg-transparent'">
+                        Privé
                     </button>
+                    <button @click="memorieStatus = 'public'"
+                            class="border-2 border-mainOrange  rounded-r-full"
+                            :class="memorieStatus === 'public' ? 'bg-mainOrange' : 'bg-transparent'">
+                        Public
+                    </button>
+                </div>
+                <div class="flex flex-col w-full">
+                    <Button text="Publier" variant="blue" @click="doAddMemorie"/>
+                    <Button text="Annuler" variant="transparent" @click="memorieMode = !memorieMode"/>
+                </div>
 
-                    <button
-                    @click="memorieStatus = 'public'"
-                    class="border-2 border-mainOrange  rounded-r-full"
-                    :class="memorieStatus === 'public' ? 'bg-mainOrange' : 'bg-transparent'"
-                    >Public
-                    </button>
-                </div>
-                <div class="flex flex-col gap-4">
-                    <button class="w-80 py-2 bg-mainBlue rounded-full text-white" @click="doAddMemorie">Publier</button>
-                    <button @click="memorieMode = !memorieMode">Annuler</button>
-                </div>
-            </div>
         </div>
         </section>
 </template>
