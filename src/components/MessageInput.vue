@@ -32,11 +32,11 @@ const doSendMessage = async (message:string) => {
 </script>
 
 <template>
-    <section class="w-full flex justify-center items-center py-2 px-2 gap-1">
-        <div class="w-full">
-            <input v-model="text" type="text" class="p-2 rounded-full py-4 w-full" placeholder="Message" />
+    <section class="w-full flex justify-center items-center p-2 gap-1">
+        <div class="w-full h-11">
+            <input v-model="text" type="text" class="rounded-full px-2 w-full h-full" placeholder="Message" />
         </div>
-        <div class="bg-white rounded-full p-1 h-full flex justify-center items-center">
+        <div class="bg-white h-11 w-11 rounded-full">
             <button @click="doSendMessage(text)">
                 <IconSend />
             </button>
