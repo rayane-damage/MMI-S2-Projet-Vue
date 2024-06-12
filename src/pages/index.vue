@@ -291,22 +291,21 @@ onMounted( async () =>{
             v-for="memorie in memoriesListByUserAndFriends" v-bind="memorie" :key="memorie.id"/>
             <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
-        <div v-if="!memorieMode" class="flex flex-col items-center m-8 gap-8" 
-                                v-scroll-lock="true" >
+        <div v-if="!memorieMode" class="flex flex-col items-center m-8 gap-8">
                 <div class="flex justify-center items-center relative bg-white rounded-3xl w-full aspect-square">
                     <input id="file"
                             type="file"
                             accept=".jpg, .png"
                             @change="changeFileName"
-                            class="w-full aspect-square opacity-0 z-30">  
+                            class="w-full aspect-square opacity-0 z-30">
                     <div class="absolute flex flex-col gap-4 justify-center items-center w-full">
                         <IconImg class="w-16 fill-mainOrange" />
                         <label for="file" class="text-center text-mainOrange font-bold z-20">Ajoutez une image </label>                    
                     </div>
                 </div>
-                <input v-model="description" 
-                        class="w-full h-full min-h-20 flex rounded-3xl px-4"  
-                        type="text" 
+                <input v-model="description"
+                        class="w-full h-full min-h-20 flex rounded-3xl px-4"
+                        type="text"
                         placeholder="Ajoutez une description !">
                 <p class="absolute text-mainRed -top-10">{{ errorMessage }}</p>
                 <div class="flex *:py-2  *:w-40">
