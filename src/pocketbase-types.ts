@@ -40,6 +40,7 @@ export type MemoriesRecord = {
 	img?: string
 	description?: string
 	user?: RecordIdString
+	stats?: Selection
 }
 
 export type MessagesRecord = {
@@ -57,6 +58,7 @@ export type UsersRecord = {
 	avatar?: string
 	friends?: RecordIdString[]
 	name?: string
+	bio?: string
 }
 
 // Response types include system fields and match responses from the PocketBase API

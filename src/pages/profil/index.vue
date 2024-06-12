@@ -4,6 +4,7 @@ import ProfileIcon from '@/components/ProfileIcon.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconPen from '@/components/icons/IconPen.vue';
 import Button from '@/components/Button.vue';
+
 import { pb } from '@/backend';
 
 //Varibale pour savoir si on est sur la page des moods ou des memories
@@ -20,10 +21,12 @@ if (isActive.value == false) {
     isActive.value = true;
 }
 
+const currentUser = pb.authStore.model;
+console.log("currentuser", currentUser);
 </script>
 
 <template>
-    <HeaderPage active="Profil" inactive="Éditer" :currentMood="moodList[0].mood"/> 
+    <HeaderPage active="Profil" inactive="Éditer" :currentMood="moodList[0].mood"/>
     <section v-if="isActive === true" class="h-screen" v-scroll-lock="true">
         <div class="flex flex-col justify-between gap-6 mx-8">
             <div class="mt-16 flex flex-col items-center">
@@ -31,12 +34,13 @@ if (isActive.value == false) {
                     <ProfileIcon :currentMood="moodList[0].mood"/>
                 </div>
                 <div class="*:text-center">
-                    <p class="text-2xl font-regular">Name</p>
-                    <p class="text-grayDark tracking-wider">Full_Name</p>
+                    <p class="text-2xl font-regular"> {{ currentUser?.name }}</p>
+                    <p class="text-grayDark tracking-wider">{{ currentUser?.username }}</p>
                 </div>
             </div>
 
-            <p class="text-grayDark">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p class="text-grayDark">
+                {{ currentUser?.bio }}</p>
             <div class="flex flex-col gap-2">
                 <h4 class="text-2xl">Amis</h4>
                 <div class="flex justify-between">
@@ -53,7 +57,7 @@ if (isActive.value == false) {
             <div class="flex flex-col gap-6">
                 <div class="mt-16 flex flex-col items-center">
                     <div class="h-44 grid">
-                        <div class="absolute flex justify-center items-center justify-self-end 
+                        <div class="absolute flex justify-center items-center justify-self-end
                                 bg-white rounded-full w-12 aspect-square">
                             <IconPen class="fill-mainOrange w-8 aspect-square" />
                         </div>
