@@ -57,7 +57,7 @@ export const sectionOpen = ref(0)
 
 <template>
     <HeaderPage active="Compte" inactive="Légal" :currentMood="moodList[0].mood"/>
-    <section v-if="isActive === true" class="bg-mainBlue h-screen flex flex-col gap-6" v-scroll-lock="true">
+    <section v-if="isActive === true" class="bg-mainBlue h-screen flex flex-col gap-6">
         <div class="flex flex-col gap-2 text-white items-start pt-6 *:w-full ">
             <div class="flex justify-between items-center w-full border-b border-lightOrange py-2 px-10">
                 <h4 class="font-sniglet text-base tracking-wide">Informations du compte</h4>
@@ -110,8 +110,7 @@ export const sectionOpen = ref(0)
         </div>
     </section>
     <section
-    v-if="isActive === false" class="bg-mainBlue flex h-screen flex-col pt-2" 
-                            v-scroll-lock="!sectionOpen">
+    v-if="isActive === false" class="bg-mainBlue flex h-screen flex-col pt-2">
         <SettingsLegalCard @pointerdown="sectionOpen =  sectionOpen === 1 ? 0:1"
                             title="Mentions légales"
                             text="lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum"
