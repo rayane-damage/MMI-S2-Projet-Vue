@@ -69,7 +69,9 @@ const doUpdateProfile = () => {
         }
         console.log("1")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (newName.value === '' && newBio.value !== '') {
         data = {
@@ -78,7 +80,9 @@ const doUpdateProfile = () => {
         }
         console.log("2")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (newName.value !== '' && newBio.value === '') {
         data = {
@@ -87,7 +91,9 @@ const doUpdateProfile = () => {
         }
         console.log("3")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (file.value && newName.value !== '' && newBio.value !== '') {
         data = {
@@ -97,7 +103,9 @@ const doUpdateProfile = () => {
         }
         console.log("4")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     } else {
         if (file.value && newName.value === '' && newBio.value === '') {
         data = {
@@ -105,7 +113,9 @@ const doUpdateProfile = () => {
         }
         console.log("5")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
         }
     }
     
