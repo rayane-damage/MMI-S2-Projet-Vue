@@ -311,7 +311,7 @@ onMounted( async () =>{
                         class="w-full h-full min-h-20 flex rounded-3xl px-4"  
                         type="text" 
                         placeholder="Ajoutez une description !">
-                <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>
+                <p class="absolute text-mainRed -top-10">{{ errorMessage }}</p>
                 <div class="flex *:py-2  *:w-40">
                     <button @click="memorieStatus = 'private'"
                             class="border-2 border-mainOrange rounded-l-full"
@@ -328,7 +328,6 @@ onMounted( async () =>{
                     <Button text="Publier" variant="blue" @click="doAddMemorie"/>
                     <Button text="Annuler" variant="transparent" @click="memorieMode = !memorieMode"/>
                 </div>
-
         </div>
         </section>
 </template>
