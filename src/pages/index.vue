@@ -300,7 +300,7 @@ onMounted( async () =>{
                             class="w-full aspect-square opacity-0 z-30">
                     <div class="absolute flex flex-col gap-4 justify-center items-center w-full">
                         <IconImg class="w-16 fill-mainOrange" />
-                        <label for="file" class="text-center text-mainOrange font-bold z-20">Ajoutez une image </label>                    
+                        <label for="file" class="text-center text-mainOrange font-bold z-20">Ajoutez une image </label>
                     </div>
                 </div>
                 <input v-model="description"

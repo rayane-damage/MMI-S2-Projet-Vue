@@ -11,6 +11,7 @@ import InputConnexion from '@/components/InputConnexion.vue';
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
 import { useRouter } from 'vue-router';
+import { v4 as uuidv4 } from 'uuid';
 
 import { getUserMood } from '@/backend';
 
@@ -64,18 +65,23 @@ const doCreateAccount = async () => {
         return;
     }
     if ( password.value === passwordConfirm.value) {
-    const data = {
-        "username":  `user_${self.crypto.randomUUID().split("-")[0]}`,
-        "email": mail.value,
-        "emailVisibility": true,
-        "password": password.value,
-        "passwordConfirm": passwordConfirm.value,
-        "name": username.value,
-    };
-    const record = await pb.collection('users').create(data);
-    pb.authStore.clear();
-    loginError.value = "";
-    loginMode.value = 'connexion';
+        let formData = new FormData();
+
+        const response = await fetch('https://to-gather.mathisliegeon.fr/api/files/_pb_users_auth_/f2ydhe2w504k5r1/user_template_default_avatar_c4txh1dMeL.jpg?token=');
+        const blob = await response.blob();
+        formData.append('avatar', blob, 'image.jpg');
+        formData.append('username', `user_${uuidv4().split("-")[0]}`);
+        formData.append('email', mail.value);
+        formData.append('emailVisibility', 'true');
+        formData.append('password', password.value);
+        formData.append('passwordConfirm', passwordConfirm.value);
+        formData.append('name', username.value);
+
+        const record = await pb.collection('users').create(formData);
+
+        pb.authStore.clear();
+        loginError.value = "";
+        loginMode.value = 'connexion';
     } else {
         loginError.value = "Les mots de passes ne correspondent pas";
     }
