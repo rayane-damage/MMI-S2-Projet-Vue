@@ -15,6 +15,7 @@ export default {
       colors: {
         'mainBlue' : "#1F8389",
         'mainOrange' : "#FFAB6F",
+        'lightOrange' : "#FFD9AD",
         'lightBeige' : "#FFF1E7",
         'grayDark' : "#625B66",
         'dark' : '#342E37',

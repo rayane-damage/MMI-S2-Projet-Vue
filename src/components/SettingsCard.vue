@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <button>
+    <button class="text-sm">
         {{ title }}
     </button>
 </template>
