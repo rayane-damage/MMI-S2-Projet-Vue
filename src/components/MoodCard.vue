@@ -21,25 +21,30 @@ const moodClass: { [key: string]: string } = {
     Mal: 'text-mainRed',
 };
 
+
 const moodList = inject('moodList') as Ref<any[]>;
 const currentMood = inject('currentMood') as Ref<string>;
-
+console.log('moodList', moodList.value);
 const deleteMood = async (mood: string) => {
-    await pb.collection('mood').delete(props.id);
+    if (moodList.value.length > 1) {
+        await pb.collection('mood').delete(props.id);
 
-    const updatedMoodList = await pb.collection('mood').getFullList({
-        filter : `user = '${pb.authStore.model?.id}'`,
-        sort: '-created'
-    });
-    // Permet d'actualiser la liste des moods
-    moodList.value = updatedMoodList;
-    // Permet de changer le Header et mettre un Mood par défaut si il n'y a pas de mood (arrive quand on supprime le dernier mood)
-    if (moodList.value.length > 0) {
-    console.log('moodList.value[0].mood');
-    console.log(moodList.value[0].mood);
-    currentMood.value = moodList.value[0].mood;
+        const updatedMoodList = await pb.collection('mood').getFullList({
+            filter : `user = '${pb.authStore.model?.id}'`,
+            sort: '-created'
+        });
+        // Permet d'actualiser la liste des moods
+        moodList.value = updatedMoodList;
+        // Permet de changer le Header et mettre un Mood par défaut si il n'y a pas de mood (arrive quand on supprime le dernier mood)
+        if (moodList.value.length > 0) {
+        console.log('moodList.value[0].mood');
+        console.log(moodList.value[0].mood);
+        currentMood.value = moodList.value[0].mood;
+        } else {
+            currentMood.value = 'Bien';
+        }
     } else {
-        currentMood.value = 'Bien';
+        alert('Vous ne pouvez pas supprimer votre dernier mood');
     }
 }
 

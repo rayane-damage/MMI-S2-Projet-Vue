@@ -99,23 +99,7 @@ const allUsers: UsersResponse[] = await pb.collection('users').getFullList({
 console.log("allUsers",allUsers)
 console.log("allUsersID",allUsers[0].id)
 console.log("currentUserFriends", currentUserFriends.value)
-// for (let i = 0; i < allUsers.length; i++) {
-//     for (let j = 0; j < currentUserFriends.value.length; j++) {
-//         if (allUsers[i].id !== currentUserFriends.value[j] && allUsers[i].id) {
-//             if(allUsers[i].id in allUsersNotFriend.value) {
-//                 console.log("allUsersNotFriend",i, allUsers[i])
-//             } else {
-//                 console.log("allUsersNotFriend",i, allUsers[i])
-//                 allUsersNotFriend.value.push(allUsers[i]);
-//             }
-//         }
-//     }
-//     // if (allUsers[i].id === currentUserFriends.value[0]) {
-//     //     console.log("allUsersNotFriend",i, allUsers[i])
-//     //     allUsersNotFriend.value.push(allUsers[i]);
-//     // }
-//     // console.log("iteration",i, allUsersNotFriend.value)
-// }
+
 
 let allFriendsRecord = toRaw(allFriends.value)
 const currentuserfriendsRaw = toRaw(currentUserFriends.value)
@@ -133,7 +117,6 @@ for (let i = 0; i < allFriendsRecord.length; i++) {
             allFriendsRecord[i].name !== (allUsers[j].name)
             && !allUsersNotFriendValue.includes(allUsers[j])
             && !currentuserfriendsRaw.includes(allUsers[j].id)
-            // && !currentuserfriendsRaw.includes(allFriendsRecord[i].id)
         ) {
             allUsersNotFriend.value.push(allUsers[j]);
         } else {
@@ -163,20 +146,12 @@ const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
     <section v-if="isActive === true" :class="msgMode ? '' : 'pt-4'">
         <div v-if="msgMode === false" class="flex flex-col gap-4 mx-6">
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
+            <p v-if="allFriends === undefined" class="w-full text-center font-Hegante text-2xl pt-10 text-grayDark">Ajoutez un ami !</p>
         </div>
         <div v-if="msgMode === true" class="flex flex-col gap-2" >
             <div>
                 <h1  class="fixed z-20 w-full bg-mainBlue p-4 flex gap-4 items-center">
                     <IconArrowLeft class="w-8 h-8" @click="msgMode = false"/>
-                    <!-- <div class="flex gap-2">
-                         <ImgPb :record="UserId" :filename="UserAvatar" alt="Photo de profil" class="w-10 h-10 object-cover rounded-full"/>
-                        <span>
-                            <p class="text-white">
-                                {{ UserName }}
-                            </p>
-
-                        </span>
-                    </div> -->
                 </h1>
             </div>
             <div class="w-full flex flex-col gap-2 mb-10 mt-16">
@@ -188,6 +163,7 @@ const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
 
     <section v-if="isActive === false">
         <div v-if="!addfriendMode" class="divide-y divide-grayDark mx-6">
+            <p v-if="allFriends === undefined" class="w-full text-center font-Hegante text-2xl pt-10 text-grayDark">Ajoutez un ami !</p>
             <div v-for="friend in allFriends" :key="friend.id" >
                 <RouterLink :to="{
                                 name: '/profil/[id]',
