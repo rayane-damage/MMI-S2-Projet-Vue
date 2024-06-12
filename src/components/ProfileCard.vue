@@ -30,15 +30,15 @@ const props = defineProps<UsersResponse<any>>();
 
 <template>
     <section class="flex justify-between items-center mx-4 p-4">
-        <div class="flex gap-1">
+        <div class="flex gap-2">
             <!-- <IconProfileSmall/> -->
-             <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-14 w-14 object-cover" />
+             <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-16 w-16 object-cover border-4 border-white" />
             <!-- <span class="relative flex items-end *:absolute *:w-8 *:h-8 *:right-0">
                 <IconMoodGood v-if="currentMood === 'Bien'"/>
                 <IconMoodMid v-if="currentMood === 'Moyen'" />
                 <IconMoodBad v-if="currentMood === 'Mal'" />
             </span> -->
-            <p class="self-start">{{ name }}</p>
+            <p class="self-start font-sniglet tracking-wider text-xl">{{ name }}</p>
         </div>
         <div>
             <IconSmallSettings/>
