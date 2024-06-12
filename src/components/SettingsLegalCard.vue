@@ -19,7 +19,8 @@ const props = defineProps<{
         :class="{ 'rotate-[270deg]': sectionOpen === number }"
         />
         </button>
-        <p v-show="sectionOpen === number">
+        <p v-show="sectionOpen === number"
+            class="indent-8 pt-2 px-4">
         {{ text }}
         </p>
 
