@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { pb } from '@/backend';
 
 
-const friend = ref<UsersResponse | null >(null);
+const props = defineProps<UsersResponse>();
 
 const route = useRoute('/messages/[id]');
 
@@ -15,6 +15,6 @@ const route = useRoute('/messages/[id]');
 <template>
     <div class="w-full flex flex-col items-center" v-scroll-lock="false">
         <h1>Ajouter cet ami</h1>
-        {{ friend.name }}
+        {{ props.name }}
     </div>
 </template>

@@ -93,13 +93,12 @@ onMounted( async () =>{
 // ----------------------------------------- Amis -----------------------------------------
 
 //Tous les utilisateurs sauf celui connecté et ses amis et le template
-const allUsersNotFriend = ref() as Ref<any[]>;
+const allUsersNotFriend = ref() as Ref<UsersResponse[]>;
 for (let i = 0; i < currentUserFriends.value.length; i++) {
-    const allUsers = await pb.collection('users').getFullList({
+    const allUsers: UsersResponse[] = await pb.collection('users').getFullList({
         filter: `id != '${pb.authStore.model?.id}' && id != '${currentUserFriends.value[i]}' && id != 'f2ydhe2w504k5r1'`,
     });
     allUsersNotFriend.value = allUsers;
-    console.log("allUsersNotFriend",allUsersNotFriend.value)
 }
 //Fonction pas encore implementée
 const addfriendMode = ref(false)
@@ -107,7 +106,9 @@ const doAddFriend = async () => {
     return true
 }
 
-// console.log("CURRENTFRIENDS",currentUserFriends.value)
+const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
+console.log("REALallUsersNotFriend",realAllUsersNotFriend)
+console.log("value",realAllUsersNotFriend[0].name)
 </script>
 
 
@@ -158,7 +159,7 @@ const doAddFriend = async () => {
         <!-- ---------------------- AJOUTER DES AMIS ---------------------- -->
         <div v-if="addfriendMode">
             <p class="p-4 bg-red-200" @click="addfriendMode = false">Annuler</p>
-            <div v-for="oneUser in allUsersNotFriend" :key="oneUser.id">
+            <div v-for="oneUser in realAllUsersNotFriend" :key="oneUser.id">
                 <RouterLink :to="{
                                 name: '/messages/[id]',
                                 params: {
