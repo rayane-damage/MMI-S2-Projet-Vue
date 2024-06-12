@@ -173,12 +173,11 @@ const doUpdateProfile = () => {
                     </div>
                     <div class="flex relative gap-2 w-full justify-center">
                         <p v-if="!newNameMode" class="text-2xl font-regular text-center">{{ currentUser[0].name  }}</p>
-                        <input
-                        v-if="newNameMode"
-                            v-model="newName"
-                            type="text"
-                            placeholder="Nouveau nom"
-                            class="px-4 py-2 rounded-xl"/>
+                        <input v-if="newNameMode"
+                                v-model="newName"
+                                type="text"
+                                placeholder="Nouveau nom"
+                                class="text-grayDark px-4 py-2 rounded-xl outline-none"/>
                         <IconPen @click="newNameMode = !newNameMode" class="fill-grayDark w-4 aspect-square"/>
                     </div>
                 </div>
@@ -189,7 +188,7 @@ const doUpdateProfile = () => {
                 <input v-model="newBio"
                         @change="newBioMode = true"
                         type="text"
-                        class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20 w-full"
+                        class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20 w-full outline-none"
                         :placeholder="currentUser[0].bio">
                  </div>
             </div>
