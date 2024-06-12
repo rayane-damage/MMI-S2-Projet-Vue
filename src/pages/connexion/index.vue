@@ -104,7 +104,7 @@ const doLoginOAuth = async () => {
 <template>
     <div class="flex justify-center items-center
                 bg-mainBlue w-screen h-16">
-        <IconLogo />            
+        <IconLogo />
     </div>
 
     <div v-scroll-lock="true" class="flex flex-col h-screen justify-center pb-16">

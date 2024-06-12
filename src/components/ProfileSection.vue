@@ -24,10 +24,12 @@ console.log("profilesection", props);
 </script>
 
 <template>
-    <div class="w-full flex flex-col items-center justify-center pt-6 gap-6">
-        <IconArrowLeft
-        @click="route.go(-1)"
-        class="self-start ml-4 stroke-grayDark"/>
+    <div class="w-full flex flex-col items-center justify-center gap-6">
+        <div class="w-full bg-mainBlue h-16 flex items-center">
+            <IconArrowLeft
+            @click="route.go(-1)"
+            class="ml-4"/>
+        </div>
         <div class="w-min">
             <ProfileIcon :record="props" />
         </div>
@@ -36,7 +38,7 @@ console.log("profilesection", props);
             <p class="text-grayDark tracking-wider">{{ username }}</p>
         </div>
         <div class="text-grayDark min-h-20 italic w-full">
-                <p v-if="bio">
+                <p v-if="bio" class="mx-10">
                     {{ bio }}
                 </p>
                 <p v-else class="text-center">
