@@ -103,7 +103,6 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
 
 
     //Recupere les memories de l'utilisateur et de ses amis
-    console.log("allfriends",allFriends.value)
     if (allFriends.value !== undefined) {
 
 
@@ -118,14 +117,12 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
 
     //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
     memoriesListByUserAndFriends.value = memoriesList.value[0]
-    console.log("memoriesListByUserAndFriends",memoriesListByUserAndFriends)
     } else {
         memoriesList.value = await pb.collection('memories').getFullList({
             filter : `user = '${pb.authStore.model?.id}'`,
             expand: 'user',
             sort: '-created'
         });
-        console.log("memoriesList",memoriesList.value)
         memoriesListByUserAndFriends.value = memoriesList.value
     }
 // }
@@ -271,7 +268,6 @@ onMounted( async () =>{
     });
 });
 
-console.log("memoriesListByUserAndFriends",memoriesListByUserAndFriends)
 
 </script>
 
