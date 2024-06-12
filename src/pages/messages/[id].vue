@@ -18,31 +18,52 @@ let currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
     expand: 'friends'
 });
-const currentUserFriendsList: UsersResponse[] = (currentUser[0].expand as any);
+const currentUserFriendsList = (currentUser[0].expand as any);
+let currentUserFriendsListIds: string[] = []
+if (currentUserFriendsList === undefined) {
+    console.log("currentUserFriendsList is undefined")
+} else {
+    currentUserFriendsListIds = currentUserFriendsList.friends.map((user: any) => user.id);
+}
+const currentUserFriendsListIdsBis: string[] = currentUserFriendsListIds.map((user: any) => user.id);
 
 // Permet de recuperer tous les amis de l'utilisateur cliqué puis de les mettre dans un tableau
 let secondUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${route.params.id}'`,
     expand: 'friends'
 });
-const secondUserFriendsList: UsersResponse[] = (secondUser[0].expand as any);
+
+let secondUserFriendsList = (secondUser[0].expand as any);
+let secondUserFriendsListBis: string[] = []
+if (secondUserFriendsList === undefined) {
+    console.log("secondUserFriendsList is undefined")
+} else {
+   secondUserFriendsListBis = secondUserFriendsList.friends
+}
+const secondUserFriendsListIds: string[] = secondUserFriendsListBis.map((user: any) => user.id);
 
 console.log("currentUserFriendsList", currentUserFriendsList);
+console.log("secondUserFriendsList", secondUserFriendsList);
+console.log("currentUserFriendsListIds", currentUserFriendsListIds);
+console.log("secondUserFriendsListIds", secondUserFriendsListIds);
 
 
 const doAddFriend = async () => {
     // Ajout de l'utilisateur cliqué dans la liste d'amis de l'utilisateur connecté
-    currentUserFriendsList.push(route.params.id);
+    currentUserFriendsListIds.push(route.params.id);
     const dataCurrentUser = {
-        'friends': currentUserFriendsList
+        'friends': currentUserFriendsListIds
     }
+    console.log("dataCurrentUser", dataCurrentUser)
     pb.collection('users').update(pb.authStore.model?.id, dataCurrentUser);
 
     // Ajout de l'utilisateur connecté dans la liste d'amis de l'utilisateur cliqué
-    secondUserFriendsList.push(pb.authStore.model?.id);
+    secondUserFriendsListIds.push(pb.authStore.model?.id);
     const dataSecondUser = {
-        'friends': secondUserFriendsList
+        'friends': secondUserFriendsListIds
     }
+    console.log("dataSecondUser", dataSecondUser)
+    console.log("route.params.id", route.params.id)
     pb.collection('users').update(route.params.id, dataSecondUser);
     console.log("doAddFriend - Status = Successful")
 
