@@ -95,21 +95,10 @@ const isUser = ref(false);
 console.log("pb.authStore.model?.id")
 console.log(getUserMood(pb.authStore.model?.id) )
 
-const doLoginWithGoogle = async () => {
-    try {
-        pb.authStore.clear();
-       const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
-       currentUser.value = pb.authStore.model;
-        loginError.value = "";
-    if (await getUserMood(pb.authStore.model?.id) === false) {
-        loginMode.value='moodChoice'
-    } else {
-        route.push('/');
-    }
-    } catch (error) {
-        console.error(error);
-    }
-}
+const doLoginOAuth = async () => {
+    const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+    currentUser.value = pb.authStore.model;
+};
 </script>
 
 <template>
@@ -123,7 +112,7 @@ const doLoginWithGoogle = async () => {
             <h1 class="text-4xl font-Hegante text-center mx-4">Bienvenue sur to-Gather </h1>
             <Button @click="loginMode='pseudo'" text="Créer un compte"/>
             <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
-            <Button @click="doLoginWithGoogle" text="Se connecter avec Google"/>
+            <Button @click="doLoginOAuth" text="Se connecter avec Google"/>
         </section>
 
 
