@@ -103,7 +103,8 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
 
 
     //Recupere les memories de l'utilisateur et de ses amis
-    if (allFriends.value) {
+    console.log("allfriends",allFriends.value)
+    if (allFriends.value !== undefined) {
 
 
     for (let i = 0; i < allFriends.value.length; i++) {
@@ -121,8 +122,11 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
     } else {
         memoriesList.value = await pb.collection('memories').getFullList({
             filter : `user = '${pb.authStore.model?.id}'`,
+            expand: 'user',
             sort: '-created'
         });
+        console.log("memoriesList",memoriesList.value)
+        memoriesListByUserAndFriends.value = memoriesList.value
     }
 // }
 
@@ -266,6 +270,9 @@ onMounted( async () =>{
         }
     });
 });
+
+console.log("memoriesListByUserAndFriends",memoriesListByUserAndFriends)
+
 </script>
 
 
