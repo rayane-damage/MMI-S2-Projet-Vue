@@ -31,7 +31,7 @@ console.log("lastMemories",currentUser[0].id, lastMemories);
 
 
 <template>
-    <div class="w-full flex flex-col items-center">
+    <div class="w-full flex flex-col items-center" v-scroll-lock="false">
         <ProfileSection v-bind="currentUser[0]"/>
         <h1 class="font-bold text-xl">Ses dernieres memories</h1>
         <RouterLink to="/">
