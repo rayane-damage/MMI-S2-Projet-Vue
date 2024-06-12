@@ -32,7 +32,8 @@ onClickOutside(memorieCardSettings, () => {
                     <ImgPb :record="(props.expand as any).user" :filename="(props.expand as any).user.avatar" class="h-12 w-12 object-cover rounded-full" alt="photo de profil" />
                     <span>
                         <p class="font-bold">{{ (props.expand as any).user.name }}</p>
-                        <span class="flex">
+                        <p>{{ props.description }}</p>
+                        <span class="flex text-xs">
                             <p>{{ props.created[0] }}</p>
                             <p v-for="xValue in 10" :key="xValue" v-bind="xValue">{{props.created[xValue] }}</p>
                         </span>
