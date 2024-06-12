@@ -39,7 +39,7 @@ onClickOutside(memorieCardSettings, () => {
                         </span>
                     </span>
                 </div>
-                <div 
+                <div
                 v-if="(props.expand as any).user.id === pb.authStore.model?.id"
                 class="relative">
                     <IconSmallSettings @click="cardClicked = !cardClicked" class="mx-4"/>
