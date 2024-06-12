@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import IconLogo from '@/components/icons/IconLogo.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
@@ -93,6 +94,14 @@ const isUser = ref(false);
 // }
 console.log("pb.authStore.model?.id")
 console.log(getUserMood(pb.authStore.model?.id) )
+
+const doLoginWithGoogle = async () => {
+    try {
+       const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+    } catch (error) {
+        console.error(error);
+    }
+}
 </script>
 
 <template>
@@ -106,6 +115,7 @@ console.log(getUserMood(pb.authStore.model?.id) )
             <h1 class="text-4xl font-Hegante text-center mx-4">Bienvenue sur to-Gather </h1>
             <Button @click="loginMode='pseudo'" text="Créer un compte"/>
             <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
+            <Button @click="doLoginWithGoogle" text="Se connecter avec Google"/>
         </section>
 
 
