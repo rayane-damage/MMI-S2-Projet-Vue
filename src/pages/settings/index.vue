@@ -135,7 +135,7 @@ export const sectionOpen = ref(0)
                 type="text"
                 name="objet"
                 id="objet"
-                placeholder="''"
+                placeholder=""
                 class="text-white"
                 />
 
@@ -145,7 +145,7 @@ export const sectionOpen = ref(0)
                 type="text"
                 name="message"
                 id="message"
-                placeholder="''"
+                placeholder=""
                 class="*:min-h-[150px] *:rounded-3xl text-white"
                 />
 
