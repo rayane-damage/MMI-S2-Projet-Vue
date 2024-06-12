@@ -130,7 +130,7 @@ console.log("INDEX, userid", UserId.value)
     </section>
 
     <section v-if="isActive === false" class="pt-4">
-        <div v-if="!addfriendMode">
+        <div v-if="!addfriendMode" class="divide-y divide-grayDark">
             <ProfileCard
             v-for="friend in allFriends" :key="friend.id" v-bind="friend"
             />

@@ -55,7 +55,7 @@ console.log(friendList.friends)
                     {{ currentUser[0].bio }}
                 </p>
                 <p v-else class="text-center">
-                    Cette utilisateur n'a pas de description
+                    Cet utilisateur n'a pas de description
                 </p>
             </div>
             <div class="flex flex-col gap-2">
