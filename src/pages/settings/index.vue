@@ -88,7 +88,7 @@ export const sectionOpen = ref(0)
                     <SettingsCard ref="confirmCard" title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
                     <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
                         <p class="font-sniglet text-xl text-center text-grayDark">Voulez-vous vraiment vous désactiver votre compte ?</p>
-                        <p class="font-sniglet text-xl text-center text-grayDark">(Cette action est irréversible)</p>
+                        <p class="font-sniglet text-base text-center text-grayDark">(Cette action est irréversible)</p>
                         <span class="flex gap-6">
                             <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante cursor-pointer" @click="doDeletAcount">oui</p>
                             <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante cursor-pointer" @click="doDeleteConfirm = false">non</p>
