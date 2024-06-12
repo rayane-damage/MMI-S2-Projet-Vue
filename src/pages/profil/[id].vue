@@ -7,8 +7,6 @@ import { pb } from '@/backend';
 import MemoriesCard from '@/components/MemoriesCard.vue';
 import ProfileSection from '@/components/ProfileSection.vue';
 
-const friend = ref<UsersResponse | null >(null);
-
 const route = useRoute('/profil/[id]');
 // fiend.value = await pb.collection('Oeuvres').getOne(route.params.id);
 

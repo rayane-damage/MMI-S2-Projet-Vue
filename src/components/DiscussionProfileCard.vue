@@ -39,7 +39,6 @@ export const usernameBis = ref() as Ref<string>;
             <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-16 w-16 object-cover border-4 border-white" />
             <span>
                 <p class="self-start font-sniglet tracking-wider text-xl">{{ name }}</p>
-                <p>{{ lastMessage }}</p>
             </span>
         </div>
 
