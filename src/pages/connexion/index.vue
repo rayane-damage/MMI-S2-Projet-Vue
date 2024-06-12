@@ -98,6 +98,13 @@ console.log(getUserMood(pb.authStore.model?.id) )
 const doLoginWithGoogle = async () => {
     try {
        const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+       currentUser.value = pb.authStore.model;
+        loginError.value = "";
+    if (await getUserMood(pb.authStore.model?.id) === false) {
+        loginMode.value='moodChoice'
+    } else {
+        route.push('/');
+    }
     } catch (error) {
         console.error(error);
     }
