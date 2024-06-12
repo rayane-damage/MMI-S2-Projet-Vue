@@ -135,6 +135,15 @@ onMounted( async () =>{
         }
     })
 });
+
+const currentUserBio = ref('');
+
+if (currentUser[0].bio) {
+    currentUserBio.value = currentUser[0].bio;
+    console.log("currentUserBio", currentUserBio)
+} else {
+    currentUserBio.value = "Ajoutez une description";
+}
 </script>
 
 <template>
@@ -216,7 +225,7 @@ onMounted( async () =>{
                         @change="newBioMode = true"
                         type="text"
                         class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20 w-full outline-none"
-                        :placeholder="currentUser[0].bio">
+                        :placeholder="currentUserBio">
                  </div>
             </div>
             <div class="my-2">
