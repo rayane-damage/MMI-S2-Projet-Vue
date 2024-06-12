@@ -63,24 +63,27 @@ onClickOutside(moodCardSettings, () => {
             </div>
             <div>
                 <span class="flex">
-                            <p>{{ props.created[0] }}</p>
-                            <p v-for="xValue in 10" :key="xValue" v-bind="xValue" class="text-grayDark">{{props.created[xValue] }}</p>
-                        </span>
-                <p
-                    class="font-Hegante text-xl"
-                    :class="moodClass[mood || '']"
-                >{{ mood }}</p>
+                        <p>{{ props.created[0] }}</p>
+                        <p v-for="xValue in 10" 
+                            :key="xValue" 
+                            v-bind="xValue" 
+                            class="text-grayDark">
+                            {{props.created[xValue] }}
+                        </p>
+                </span>
+                <p class="font-Hegante text-xl"
+                    :class="moodClass[mood || '']">
+                    {{ mood }}
+                </p>
             </div>
         </div>
         <div class="p-4" @click="cardSettingClicked = !cardSettingClicked">
             <IconSmallSettings />
         </div>
-        <div
-        v-show="cardSettingClicked"
-        ref="moodCardSettings"
-        class="absolute bg-mainRed text-white right-0 h-1/2 p-4 flex items-center justify-center rounded-xl"
-        @click="deleteMood(mood)"
-        >
+        <div v-show="cardSettingClicked"
+            ref="moodCardSettings"
+            class="absolute bg-mainRed text-white text-lg font-sniglet tracking-wide top-5 right-12 px-4 py-2 flex items-center justify-center rounded-xl"
+            @click="deleteMood(mood)">
             Supprimer
         </div>
     </section>
