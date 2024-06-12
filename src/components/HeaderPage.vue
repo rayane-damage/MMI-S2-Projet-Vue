@@ -37,7 +37,8 @@ export const isActive = ref(true);
                                     :filename="currentUser.avatar" 
                                     alt="Photo de profil"
                                     class="w-10 h-10 first-letter:object-cover rounded-full border-2 border-white"/>
-                            <span class="relative flex items-end *:absolute *:w-4 *:h-4 *:right-0">
+                            <span class="relative flex items-end 
+                                        *:absolute *:w-4 *:h-4 *:right-0">
                                 <IconMoodGood v-if="props.currentMood === 'Bien'"/>
                                 <IconMoodMid v-if="props.currentMood === 'Moyen'"/>
                                 <IconMoodBad v-if="props.currentMood === 'Mal'"/>

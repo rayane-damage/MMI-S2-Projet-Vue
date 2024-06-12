@@ -273,17 +273,16 @@ onMounted( async () =>{
 
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
-        <section
-        class="flex flex-col gap-4 pb-4"
-        v-if="isActive === false"
-        >
-        <div class="flex gap-4 w-full justify-center p-4">
-            <IconMoodGood @click="addMood('Bien')"/>
-            <IconMoodMid @click="addMood('Moyen')" />
-            <IconMoodBad @click="addMood('Mal')"/>
-        </div>
+        <section v-if="isActive === false" class="flex flex-col gap-4 pb-4">
+            <div class="flex flex-col mx-12 gap-4 mt-6">
+                <h3 class="font-Hegante text-2xl text-grayDark text-center">Bonjour, comment allez-vous ?</h3>
+                <div class="flex gap-5 w-full justify-center">
+                    <IconMoodGood @click="addMood('Bien')"/>
+                    <IconMoodMid @click="addMood('Moyen')" />
+                    <IconMoodBad @click="addMood('Mal')"/>
+                </div>
+            </div>
             <MoodCard v-for="mood in moodList" v-bind="mood" :key="mood.id" />
-
         </section>
         <section
         v-if="isActive === true"
