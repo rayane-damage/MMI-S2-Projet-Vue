@@ -148,7 +148,7 @@ if (currentUser[0].bio) {
 
 <template>
     <HeaderPage active="Profil" inactive="Éditer" :currentMood="moodList[0].mood"/>
-    <section v-if="isActive === true" class="h-screen" v-scroll-lock="true">
+    <section v-if="isActive === true" class="h-screen" v-scroll-lock="false">
         <div
         v-if="profileMode === false"
         class="flex flex-col justify-between gap-6 mx-8">
@@ -195,7 +195,7 @@ if (currentUser[0].bio) {
     </section>
 
 
-    <section v-if="isActive === false" v-scroll-lock="true">
+    <section v-if="isActive === false" v-scroll-lock="false">
         <div class="flex flex-col justify-between mx-6 h-screen pb-36">
             <div class="flex flex-col gap-6">
                 <div class="mt-16 flex flex-col gap-2 items-center">
