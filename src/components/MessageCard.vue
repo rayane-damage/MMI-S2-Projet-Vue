@@ -76,8 +76,8 @@ export const UserId = ref() as Ref<UsersResponse>;
             </p> -->
 
             <div
-            :class="[props.from == pb.authStore.model?.id ? 'bg-blue-400' : 'bg-blue-200']"
-            class="px-6 py-2 rounded-full ">
+            :class="[props.from == pb.authStore.model?.id ? 'bg-mainBlue text-white' : 'bg-white']"
+            class="px-6 py-2 rounded-3xl ">
             <p> {{ props.message }}</p>
             </div>
         </div>
