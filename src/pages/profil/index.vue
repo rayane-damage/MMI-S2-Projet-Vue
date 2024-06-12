@@ -35,7 +35,6 @@ let currentUser: UsersResponse[] = await pb.collection('users').getFullList({
 console.log("currentuser", currentUser);
 
 const friendList: UsersResponse = (currentUser[0].expand as any);
-console.log(friendList.friends)
 
 
 //------------------------------ Modification du profil ------------------------------
@@ -69,7 +68,9 @@ const doUpdateProfile = () => {
         }
         console.log("1")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (newName.value === '' && newBio.value !== '') {
         data = {
@@ -78,7 +79,9 @@ const doUpdateProfile = () => {
         }
         console.log("2")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (newName.value !== '' && newBio.value === '') {
         data = {
@@ -87,7 +90,9 @@ const doUpdateProfile = () => {
         }
         console.log("3")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     }
     if (file.value && newName.value !== '' && newBio.value !== '') {
         data = {
@@ -97,7 +102,9 @@ const doUpdateProfile = () => {
         }
         console.log("4")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
     } else {
         if (file.value && newName.value === '' && newBio.value === '') {
         data = {
@@ -105,7 +112,9 @@ const doUpdateProfile = () => {
         }
         console.log("5")
         pb.collection('users').update(pb.authStore.model?.id, data);
-        route.go(0);
+        setTimeout(() => {
+            route.go(0);
+        }, 1000);
         }
     }
     
@@ -154,7 +163,7 @@ onMounted( async () =>{
             </div>
             <div class="flex flex-col gap-2">
                 <h4 class="text-2xl">Amis</h4>
-                <div class="flex gap-2 overflow-x-auto">
+                <div class="flex gap-2 overflow-x-auto" v-if="friendList" >
                     <div v-for="oneFriend  in friendList.friends"
                         @click="profileMode = true"
                         :key="oneFriend.id"
