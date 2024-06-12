@@ -56,7 +56,7 @@ export const sectionOpen = ref(0)
 </script>
 
 <template>
-    <HeaderPage active="Compte" inactive="Legal" :currentMood="moodList[0].mood"/>
+    <HeaderPage active="Compte" inactive="Légal" :currentMood="moodList[0].mood"/>
     <section v-if="isActive === true" class="bg-mainBlue h-screen" v-scroll-lock="true">
         <div class="flex flex-col gap-2 text-white items-start pt-6 *:w-full ">
             <div class="flex justify-between items-center w-full border-b-2 border-mainOrange py-2 px-10">
