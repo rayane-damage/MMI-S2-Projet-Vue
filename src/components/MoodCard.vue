@@ -64,7 +64,7 @@ onClickOutside(moodCardSettings, () => {
             <div>
                 <span class="flex">
                             <p>{{ props.created[0] }}</p>
-                            <p v-for="xValue in 10" :key="xValue" v-bind="xValue">{{props.created[xValue] }}</p>
+                            <p v-for="xValue in 10" :key="xValue" v-bind="xValue" class="text-grayDark">{{props.created[xValue] }}</p>
                         </span>
                 <p
                     class="font-Hegante text-xl"
