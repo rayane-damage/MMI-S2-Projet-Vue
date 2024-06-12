@@ -26,7 +26,7 @@ console.log("profilesection", props);
 <template>
     <div class="w-full flex flex-col items-center justify-center pt-6 gap-6">
         <IconArrowLeft
-        @click="route.push('/profil')"
+        @click="route.go(-1)"
         class="self-start ml-4 stroke-grayDark"/>
         <div class="w-min">
             <ProfileIcon :record="props" />
