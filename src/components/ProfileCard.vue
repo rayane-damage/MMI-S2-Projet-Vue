@@ -29,7 +29,7 @@ const props = defineProps<UsersResponse<any>>();
 
 
 <template>
-    <section class="flex justify-between items-center mx-4 p-4">
+    <section class="flex justify-between items-center p-2">
         <div class="flex gap-2">
             <!-- <IconProfileSmall/> -->
              <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-16 w-16 object-cover border-4 border-white" />

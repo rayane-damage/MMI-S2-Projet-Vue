@@ -34,8 +34,8 @@ export const usernameBis = ref() as Ref<string>;
 </script>
 
 <template>
-    <section class="flex justify-between items-center mx-4 p-4 bg-white rounded-[36px]" @click="msgMode = true, doLoadUser()">
-        <div class="flex gap-1">
+    <section class="flex justify-between items-center p-2 bg-white rounded-[36px]" @click="msgMode = true, doLoadUser()">
+        <div class="flex gap-2">
             <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-16 w-16 object-cover border-4 border-white" />
             <span>
                 <p class="self-start font-sniglet tracking-wider text-xl">{{ name }}</p>

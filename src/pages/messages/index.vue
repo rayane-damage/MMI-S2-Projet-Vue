@@ -104,7 +104,7 @@ console.log("INDEX, userid", UserId.value)
 <template>
     <HeaderPage active="Discussions" inactive="Amis" :currentMood="moodList[0].mood" />
     <section v-if="isActive === true" :class="msgMode ? '' : 'pt-4'">
-        <div v-if="msgMode === false" class="flex flex-col gap-4">
+        <div v-if="msgMode === false" class="flex flex-col gap-4 mx-6">
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
         </div>
         <div v-if="msgMode === true" class="flex flex-col gap-2" >
@@ -130,19 +130,15 @@ console.log("INDEX, userid", UserId.value)
     </section>
 
     <section v-if="isActive === false" class="pt-4">
-        <div v-if="!addfriendMode" class="divide-y divide-grayDark">
+        <div v-if="!addfriendMode" class="divide-y divide-grayDark mx-6">
             <div v-for="friend in allFriends" :key="friend.id" >
-                <RouterLink
-                             :to="{
+                <RouterLink :to="{
                                 name: '/profil/[id]',
                                 params: {
                                 id: friend.id
                                 }
-                            }"
-                             >
-                    <ProfileCard
-                    v-bind="friend"
-                    />
+                            }">
+                    <ProfileCard v-bind="friend"/>
                 </RouterLink>
             </div>
         </div>

@@ -55,12 +55,12 @@ export const isActive = ref(true);
             <nav>
                 <ul class="grid grid-cols-2 place-items-center justify-center 
                             *:flex *:w-full *:justify-center">
-                    <li class="text-center text-white font-sniglet text-base tracking-wide h-8 flex flex-col justify-center"
+                    <li class="text-center text-white font-sniglet text-sm tracking-wide h-8 flex flex-col justify-center"
                         @click="isActive = true"
                         :class="{ 'shadow-inner-orange' : isActive}">
                             {{ active }}
                     </li>
-                    <li class="text-center text-white font-sniglet text-base tracking-wide h-8 flex flex-col justify-center"
+                    <li class="text-center text-white font-sniglet text-sm tracking-wide h-8 flex flex-col justify-center"
                         @click="isActive = false"
                         :class="{ 'shadow-inner-orange' : !isActive}">
                             {{ inactive }}
