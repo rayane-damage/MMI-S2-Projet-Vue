@@ -181,6 +181,7 @@ const doLoginOAuth = async () => {
                                         text="Se connecter" 
                                         :disabled="!mail || !password" 
                                         class="mt-4"/>
+                    <p v-if="loginMode === 'connexion' || loginMode === 'info'" class="self-center text-center text-xs text-grayDark">En continuant, vous aceptez les Conditions d’utilisation de To-Gather et reconnaissez avoir lu notre Politique de confidentialité.</p>
                 </div>
         </section>
 
@@ -199,5 +200,6 @@ const doLoginOAuth = async () => {
                 </li>
             </ul>
         </section>
+        <p class="absolute bottom-0 text-xs text-grayDark w-full text-center my-4">© 2024 - To-Gather. Tous droits reservés.</p>
     </div>
 </template>
