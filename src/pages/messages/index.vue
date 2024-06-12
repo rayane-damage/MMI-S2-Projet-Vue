@@ -6,13 +6,12 @@ import MessageInput from '@/components/MessageInput.vue';
 import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
-
-import { UserId } from '@/components/MessageCard.vue';
+import IconLogout from '@/components/icons/IconLogout.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
-import { ref, provide, onMounted, watch } from 'vue';
+import { ref, provide, onMounted, toRaw } from 'vue';
 import type { Ref } from 'vue';
 
 // Liste des moods par utilisateur
@@ -93,13 +92,59 @@ onMounted( async () =>{
 // ----------------------------------------- Amis -----------------------------------------
 
 //Tous les utilisateurs sauf celui connecté et ses amis et le template
-const allUsersNotFriend = ref() as Ref<UsersResponse[]>;
-for (let i = 0; i < currentUserFriends.value.length; i++) {
-    const allUsers: UsersResponse[] = await pb.collection('users').getFullList({
-        filter: `id != '${pb.authStore.model?.id}' && id != '${currentUserFriends.value[i]}' && id != 'f2ydhe2w504k5r1'`,
-    });
-    allUsersNotFriend.value = allUsers;
+const allUsersNotFriend = ref([]) as Ref<any[]>;//&& id != '${currentUserFriends.value[0]}'
+const allUsers: UsersResponse[] = await pb.collection('users').getFullList({
+    filter: `id != '${pb.authStore.model?.id}'  && id != 'f2ydhe2w504k5r1'`,
+});
+console.log("allUsers",allUsers)
+console.log("allUsersID",allUsers[0].id)
+console.log("currentUserFriends", currentUserFriends.value)
+// for (let i = 0; i < allUsers.length; i++) {
+//     for (let j = 0; j < currentUserFriends.value.length; j++) {
+//         if (allUsers[i].id !== currentUserFriends.value[j] && allUsers[i].id) {
+//             if(allUsers[i].id in allUsersNotFriend.value) {
+//                 console.log("allUsersNotFriend",i, allUsers[i])
+//             } else {
+//                 console.log("allUsersNotFriend",i, allUsers[i])
+//                 allUsersNotFriend.value.push(allUsers[i]);
+//             }
+//         }
+//     }
+//     // if (allUsers[i].id === currentUserFriends.value[0]) {
+//     //     console.log("allUsersNotFriend",i, allUsers[i])
+//     //     allUsersNotFriend.value.push(allUsers[i]);
+//     // }
+//     // console.log("iteration",i, allUsersNotFriend.value)
+// }
+
+let allFriendsRecord = toRaw(allFriends.value)
+const currentuserfriendsRaw = toRaw(currentUserFriends.value)
+// allUsersNotFriend.value = allUsers.filter(user => !allFriendsRecord.includes(user));
+// console.log("allUsers",allUsers.length)
+// console.log("allFriendsRecord",allFriendsRecord.length)
+const allUsersNotFriendValue = allUsersNotFriend.value;
+if (allFriendsRecord === undefined) {
+    allFriendsRecord = toRaw(allUsers)
 }
+for (let i = 0; i < allFriendsRecord.length; i++) {
+    for (let j = 0; j < allUsers.length; j++) {
+        // console.log("allUsersNotFriend",i, j, allFriendsRecord[i].name, allUsers[j].name, "currentuserfriend", currentuserfriendsRaw)
+        if (
+            allFriendsRecord[i].name !== (allUsers[j].name)
+            && !allUsersNotFriendValue.includes(allUsers[j])
+            && !currentuserfriendsRaw.includes(allUsers[j].id)
+            // && !currentuserfriendsRaw.includes(allFriendsRecord[i].id)
+        ) {
+            allUsersNotFriend.value.push(allUsers[j]);
+        } else {
+            console.log("PAS DE PUSH")
+        }
+}
+}
+
+// console.log("allFriendsrecord",allFriendsRecord)
+
+// console.log("allUsersNotFriend",allUsersNotFriend.value)
 //Fonction pas encore implementée
 const addfriendMode = ref(false)
 const doAddFriend = async () => {
@@ -107,8 +152,9 @@ const doAddFriend = async () => {
 }
 
 const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
-console.log("REALallUsersNotFriend",realAllUsersNotFriend)
-console.log("value",realAllUsersNotFriend[0].name)
+// console.log("currentUserFriends",currentUserFriends)
+// console.log("REALallUsersNotFriend",realAllUsersNotFriend)
+// console.log("value",realAllUsersNotFriend[0].name)
 </script>
 
 
@@ -154,19 +200,25 @@ console.log("value",realAllUsersNotFriend[0].name)
             </div>
         </div>
 
-        <ButtonAdd @click="addfriendMode = true"/>
+        <ButtonAdd @click="addfriendMode = true" v-if="!addfriendMode"/>
 
         <!-- ---------------------- AJOUTER DES AMIS ---------------------- -->
-        <div v-if="addfriendMode">
-            <p class="p-4 bg-red-200" @click="addfriendMode = false">Annuler</p>
-            <div v-for="oneUser in realAllUsersNotFriend" :key="oneUser.id">
+        <div v-if="addfriendMode" class=" h-screen bg-mainBlue flex flex-col gap-2">
+            <IconArrowLeft @click="addfriendMode = false" class="mx-6"/>
+            <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10 text-white">
+                    <h4 class="font-sniglet text-base tracking-wide">Ajouter un ami</h4>
+                    <IconLogout class="h-4"/>
+                </div>
+            <div v-for="oneUser in realAllUsersNotFriend" :key="oneUser.id" class="text-white px-6">
                 <RouterLink :to="{
                                 name: '/messages/[id]',
                                 params: {
                                 id: oneUser.id
                                 }
                             }">
-                    <ProfileCard v-bind="oneUser"/>
+                    <ProfileCard v-bind="oneUser" class="*:stroke-mainBlue relative
+                    before:bg-mainBlue before:h-full before:w-14 before:absolute before:right-0
+                    "/>
                 </RouterLink>
             </div>
         </div>
