@@ -130,9 +130,9 @@ export const sectionOpen = ref(0)
         </div>
 
         <!-- CONTACT -->
-        <div v-show="compteMode === 'contact'" class="mt-4 flex flex-col gap-2">
+        <div v-show="compteMode === 'contact'" class="mt-6 flex flex-col gap-2">
             <IconArrowLeft @click="compteMode = 'none'" class="mx-4"/>
-            <div class="flex justify-between items-center w-full border-b border-lightOrange py-2 px-10">
+            <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10">
                     <h4 class="font-sniglet text-base tracking-wide text-white">Nous contacter</h4>
             </div>
             <form action="form" class="flex flex-col gap-4 mx-8">
