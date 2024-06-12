@@ -72,20 +72,21 @@ export const sectionOpen = ref(0)
                 <div class="flex flex-col items-center w-full">
                     <SettingsCard ref="confirmCard" title="Se déconnecter" @click="doLogoutConfirm= true, doDeleteConfirm = false" class="self-start"/>
                     <div v-if="doLogoutConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black top-1/2">
-                        <p>Voulez-vous vraiment vous déconnecter ?</p>
-                        <span class="flex gap-6">
-                            <p class="border-2 border-mainGreen p-2 rounded-xl" @click="doLogout">oui</p>
-                            <p class="border-2 border-mainRed p-2 rounded-xl" @click="doLogoutConfirm = false">non</p>
+                        <p class="font-sniglet text-xl text-center text-grayDark">Voulez-vous vraiment vous déconnecter ?</p>
+                        <span class="flex justify-between w-full px-8">
+                            <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante" @click="doLogout">oui</p>
+                            <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante" @click="doLogoutConfirm = false">non</p>
                         </span>
                     </div>
                 </div>
                 <div class="flex flex-col items-center w-full">
                     <SettingsCard ref="confirmCard" title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false" class="self-start"/>
                     <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4 rounded-2xl text-black w-[90%] top-1/2">
-                        <p class="text-center">Voulez-vous vraiment vous désactiver votre compte ? Cette action est irréversible</p>
+                        <p class="font-sniglet text-xl text-center text-grayDark">Voulez-vous vraiment vous désactiver votre compte ?</p>
+                        <p class="font-sniglet text-xl text-center text-grayDark">(Cette action est irréversible)</p>
                         <span class="flex gap-6">
-                            <p class="border-2 border-mainGreen p-2 rounded-xl" @click="doDeletAcount">oui</p>
-                            <p class="border-2 border-mainRed p-2 rounded-xl" @click="doDeleteConfirm = false">non</p>
+                            <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante" @click="doDeletAcount">oui</p>
+                            <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante" @click="doDeleteConfirm = false">non</p>
                         </span>
                     </div>
                 </div>
