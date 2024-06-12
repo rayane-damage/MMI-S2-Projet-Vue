@@ -49,7 +49,28 @@ if (moodList.value.length > 0) {
 provide ('currentMood', currentMood);
 
 //Permet d'ajouter un mood dans la base de donnée
+// async function addMood(mood:string) {
+//     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
+//     currentMood.value = mood;
+//     const updatedMoodList = await pb.collection('mood').getFullList({
+//         filter : `user = '${pb.authStore.model?.id}'`,
+//         sort: '-created'
+//     });
+//     moodList.value = updatedMoodList;
+//     console.log('Mood added')
+// }
+
 async function addMood(mood:string) {
+    const lastExecuted = localStorage.getItem('lastExecuted');
+
+    if (lastExecuted) {
+      const currentDate = new Date().toDateString();
+      if (lastExecuted === currentDate) {
+        alert('Vous avez déjà ajouté votre humeur aujourd\'hui');
+        return;
+      }
+    }
+
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
     currentMood.value = mood;
     const updatedMoodList = await pb.collection('mood').getFullList({
@@ -58,8 +79,10 @@ async function addMood(mood:string) {
     });
     moodList.value = updatedMoodList;
     console.log('Mood added')
-}
 
+    // Enregistrez la date de la dernière exécution dans le stockage local
+    localStorage.setItem('lastExecuted', new Date().toDateString());
+}
 //permet d'acceder a l'onglet de gauche a chaque fois que l'on revient sur la page
 if (isActive.value == false) {
     isActive.value = true;
