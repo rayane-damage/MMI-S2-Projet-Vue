@@ -9,9 +9,10 @@ import IconMoodMid from '@/components/icons/IconMoodMid.vue'
 import IconMoodGood from '@/components/icons/IconMoodGood.vue'
 //Varibale pour savoir si on est sur la page des moods ou des memories
 import { isActive } from '@/components/HeaderPage.vue'
+import type { UsersResponse } from '@/pocketbase-types'
 
 import { useRouter } from 'vue-router';
-import { onMounted, provide, ref, watch } from 'vue';
+import { onMounted, onUnmounted, provide, ref, watch } from 'vue';
 import { pb } from '@/backend';
 
 
@@ -31,7 +32,7 @@ moodList.value = await pb.collection('mood').getFullList({
     sort: '-created'
 });
 
-
+// Permet d'utiliser la variable moodList dans les composants enfants
 provide('moodList', moodList);
 
 let currentMood = ref();
@@ -45,6 +46,7 @@ if (moodList.value.length > 0) {
     }
 provide ('currentMood', currentMood);
 
+//Permet d'ajouter un mood dans la base de donnée
 async function addMood(mood:string) {
     await pb.collection('mood').create({ mood: mood, user: pb.authStore.model?.id});
     currentMood.value = mood;
@@ -62,14 +64,55 @@ if (isActive.value == false) {
 }
 
 //--------------------------------------- Memories ---------------------------------------
+//Permet de récupérer les memories de l'utilisateur et de ses amis
+//Recupere les amis de l'utilisateur
+const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
+        filter: `id = '${pb.authStore.model?.id}'`,
+        expand: 'friends'
+    });
+
 const memoriesList = ref<any[]>([]);
-memoriesList.value = await pb.collection('memories').getFullList({
-    filter : `user = '${pb.authStore.model?.id}'`,
-    expand : 'user',
-    sort: '-created'
-});
+const memoriesListBis = ref<any[]>([]);
+const memoriesListByUserAndFriends = ref(<any>[]);
+// async function createMemoriesList() {
+
+    const currentUserFriends = ref()
+    currentUserFriends.value = currentUser[0].friends
+    //Met dans un tableau tous les amis de l'utilisateur
+    const allFriends = ref();
+    for (let i = 0; i < currentUserFriends.value.length; i++) {
+        if (allFriends.value === undefined) {
+            allFriends.value =  await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`,
+        });
+        } else {
+        const newuser = ref()
+        newuser.value = await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`
+        });
+        console.log("newuser",newuser.value)
+        allFriends.value.push( newuser.value[0])};
+    }
 
 
+
+    //Recupere les memories de l'utilisateur et de ses amis
+    for (let i = 0; i < allFriends.value.length; i++) {
+        memoriesListBis.value = await pb.collection('memories').getFullList({
+            filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
+            expand : 'user',
+            sort: '-created'
+        });
+        memoriesList.value.push(memoriesListBis.value);
+    }
+
+    //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
+    memoriesListByUserAndFriends.value = memoriesList.value[0]
+    console.log("memoriesListByUserAndFriends",memoriesListByUserAndFriends)
+
+// }
+
+//Permet de changer de mode entre l'affichagedes memories et l'ajout de memories
 const memorieMode = ref(true);
 watch(isActive, (newValue) => {
     if (newValue === false) {
@@ -83,16 +126,16 @@ const memorieStatus = ref('private');
 const description = ref();
 const errorMessage = ref('');
 const file = ref();
+
+//Permet d'uploader une image
 function changeFileName(e:any) {
     console.log("FILENAME",e.target.files[0])
-    // if (e.target.files[0] != null) {
-        file.value = e.target.files[0];
+    file.value = e.target.files[0];
     console.log("FILENAMEVALUE",file.value)
 
-    // } else {
-    //     file.value = '';
-    // }
+
 }
+//Permet d'ajouter une memorie dans la base de donnée
 const doAddMemorie = () => {
     if (description.value && file.value != null && memorieStatus.value) {
         const formData = new FormData();
@@ -110,66 +153,109 @@ const doAddMemorie = () => {
             alert('Erreur lors de la publication, essayez de changer d image')
             console.log(error)
         }
-        // pb.collection('example').create(
-        //     formData
-        // );
         memorieMode.value = !memorieMode.value
     } else {
         errorMessage.value = 'Champs manquants';
 }};
 
 
-
+//Permet de mettre a jour la liste des memories a chaque fois qu'un memory est ajouté ou supprimé
 onMounted( async () =>{
     pb.collection('memories').subscribe('*', async ({action, record }) => {
         if (action === 'create') {
-            memoriesList.value = await pb.collection('memories').getFullList({
-                filter : `user = '${pb.authStore.model?.id}'`,
-                expand : 'user',
-                sort: '-created'
+            // memoriesList.value = await pb.collection('memories').getFullList({
+            //     filter : `user = '${pb.authStore.model?.id}'`,
+            //     expand : 'user',
+            //     sort: '-created'
+            // });
+            console.log("CREATEEEEEEEEEEEEEEE")
+            memoriesList.value = []
+            const currentUser2: UsersResponse[] = await pb.collection('users').getFullList({
+                filter: `id = '${pb.authStore.model?.id}'`,
+                expand: 'friends'
             });
+            currentUserFriends.value = currentUser2[0].friends
+            for (let i = 0; i < currentUserFriends.value.length; i++) {
+        if (allFriends.value === undefined) {
+            allFriends.value =  await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`,
+        });
+        } else {
+        const newuser = ref()
+        newuser.value = await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`
+        });
+        console.log("newuser",newuser.value)
+        allFriends.value.push( newuser.value[0])};
+    }
+
+
+    console.log("before", memoriesList.value[0])
+    //Recupere les memories de l'utilisateur et de ses amis
+    for (let i = 0; i < allFriends.value.length; i++) {
+        memoriesListBis.value = await pb.collection('memories').getFullList({
+            filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
+            expand : 'user',
+            sort: '-created'
+        });
+        console.log("memoriesListBis",memoriesListBis.value)
+        memoriesList.value.push(memoriesListBis.value);
+    }
+    console.log("after", memoriesList.value)
+
+    //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
+    memoriesListByUserAndFriends.value = memoriesList.value[2]
         }
         if (action === 'delete') {
-            memoriesList.value = await pb.collection('memories').getFullList({
-                filter : `user = '${pb.authStore.model?.id}'`,
-                expand : 'user',
-                sort: '-created'
+            // memoriesList.value = await pb.collection('memories').getFullList({
+            //     filter : `user = '${pb.authStore.model?.id}'`,
+            //     expand : 'user',
+            //     sort: '-created'
+            // });
+            console.log("DELETEEEEEEEEEEEEEEEEEEEEEEE")
+            memoriesList.value = []
+            const currentUser3: UsersResponse[] = await pb.collection('users').getFullList({
+                filter: `id = '${pb.authStore.model?.id}'`,
+                expand: 'friends'
             });
+            currentUserFriends.value = currentUser3[0].friends
+            for (let i = 0; i < currentUserFriends.value.length; i++) {
+        if (allFriends.value === undefined) {
+            allFriends.value =  await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`,
+        });
+        } else {
+        const newuser = ref()
+        newuser.value = await pb.collection('users').getFullList({
+            filter: `id = '${currentUserFriends.value[i]}'`
+        });
+        console.log("newuser",newuser.value)
+        allFriends.value.push( newuser.value[0])};
+    }
+
+
+
+    //Recupere les memories de l'utilisateur et de ses amis
+    console.log("before", memoriesList.value[0])
+    for (let i = 0; i < allFriends.value.length; i++) {
+        memoriesListBis.value = await pb.collection('memories').getFullList({
+            filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
+            expand : 'user',
+            sort: '-created'
+        });
+        console.log("memoriesListBis",memoriesListBis.value)
+
+        memoriesList.value.push(memoriesListBis.value);
+    }
+    console.log("after", memoriesList.value)
+
+    //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
+    memoriesListByUserAndFriends.value = memoriesList.value[2]
         }
     });
 });
-
-
 </script>
 
-<!-- <script lang="ts">
-
-// export default {
-//     name: 'HelloWorld',
-//     data () {
-//         return {
-//             selectedFile: null,
-//         }
-//     },
-//     methods: {
-//         // onFileSelected(event:any) {
-//         //     this.selectedFile = event.target.files[0];
-//         // },
-//         // onStatusSelected() {
-
-//         //     const formData = new FormData();
-//         //     if (this.selectedFile) {
-//         //     formData.append('avatar', this.selectedFile);
-//         //     // const createRecord = pb.collection('users').update(pb.authStore.model?.id, formData);
-//         //     // return formData;
-//         //     } else {
-//         //         console.log('No file selected');
-//         //     }
-
-//         // }
-//     }
-// }
-</script> -->
 
 <template>
         <HeaderPage active="Memories" inactive="Moods" :currentMood="currentMood"/>
@@ -191,20 +277,24 @@ onMounted( async () =>{
         >
         <div v-if="memorieMode">
             <MemoriesCard
-            v-for="memorie in memoriesList" v-bind="memorie" :key="memorie.id"/>
+            v-for="memorie in memoriesListByUserAndFriends" v-bind="memorie" :key="memorie.id"/>
             <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
         <div
         v-scroll-lock="true"
         v-if="!memorieMode" class="flex flex-col h-screen gap-20 items-center">
-            <div class="w-80 h-52 flex flex-col items-center gap-4">
-                <div>
-                    <label for="file">Ajoutez une image
-                        <input type="file" @change="changeFileName">
-                    </label>
+            <div class="w-80 h-60 flex flex-col items-center gap-4 mt-10">
+                <div class="flex justify-center items-center pt-4 relative">
+                        <input type="file" @change="changeFileName"
+                        class="bg-white rounded-3xl w-full place-content-center px-10 py-20
+                        before:w-full before:block before:absolute before:h-full before:bg-transparent before:rounded-3xl before:place-content-center before:top-0 before:left-0 before:z-30
+                        after:w-full after:block after:absolute after:h-full after:bg-white after:rounded-3xl after:place-content-center after:top-0 after:left-0 after:z-10
+
+                        ">
+                        <span class="absolute text-mainOrange font-bold z-20">Ajoutez une image !</span>
                 </div>
 
-                <input v-model="description" class="w-full h-full flex" type="text" placeholder="Ajoutez une description !">
+                <input v-model="description" class="w-full h-full min-h-20 flex rounded-3xl pl-4" type="text" placeholder="Ajoutez une description !">
             </div>
             <div class="flex flex-col gap-4 relative">
                 <p class="absolute text-red-500 -top-10">{{ errorMessage }}</p>

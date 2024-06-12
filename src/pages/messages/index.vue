@@ -6,7 +6,8 @@ import MessageInput from '@/components/MessageInput.vue';
 import DiscussionProfileCard from '@/components/DiscussionProfileCard.vue';
 import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
-import { UserName } from '@/components/MessageCard.vue';
+
+import { UserId } from '@/components/MessageCard.vue';
 
 import { pb } from '@/backend';
 import { isActive } from '@/components/HeaderPage.vue'
@@ -14,31 +15,25 @@ import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { ref, provide, onMounted, watch } from 'vue';
 import type { Ref } from 'vue';
 
-
+// Liste des moods par utilisateur
 const moodList = await pb.collection('mood').getFullList({
         filter : `user = '${pb.authStore.model?.id}'`,
         sort: '-created'
     });
 
+//Permet de gerer le header
 if (isActive.value == false) {
     isActive.value = true;
 }
 
-console.log("user=", pb.authStore.model)
-console.log(pb.authStore.model?.friends)
-
-
+//Permet de recuperer tous les amis de l'utilisateur puis de les mettre dans un tableau
 const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
     expand: 'friends'
 });
 
-console.log("currentUser", currentUser)
-
 const currentUserFriends = ref()
 currentUserFriends.value = currentUser[0].friends
-
-console.log("currentUserFriends", currentUserFriends.value[0])
 
 const allFriends = ref();
 for (let i = 0; i < currentUserFriends.value.length; i++) {
@@ -55,15 +50,13 @@ for (let i = 0; i < currentUserFriends.value.length; i++) {
     allFriends.value.push( newuser.value[0])};
 }
 
-console.log("allFriends", allFriends)
-
-const msgMode = ref(false)
+// On exporte ces deux variables pour les utiliser dans les composants enfants
+const msgMode = ref()
 const userFrom = ref('')
 provide('userFrom', userFrom);
 provide('msgMode', msgMode);
 
-
-
+// Permet de recuperer tous les messages de l'utilisateur en fonction de l'utilisateur avec qui il discute
 const allMessagesByUsers = ref() as Ref<any[]>;
 const allMessages: MessagesResponse[] = await pb.collection('messages').getFullList({
     filter: `from = '${pb.authStore.model?.id}' && to = '${userFrom.value}' || to = '${pb.authStore.model?.id}' && from = '${userFrom.value}' `,
@@ -74,9 +67,11 @@ allMessagesByUsers.value = allMessages;
 
 provide('allMessagesByUsers', allMessagesByUsers);
 
+// Permet de recuperer les messages en temps reel
 let unsuscribe: () => void;
 
 onMounted( async () =>{
+    msgMode.value = false;
     pb.collection('messages').subscribe('*', async ({action, record }) => {
         if (action === 'create') {
             allMessagesByUsers.value = await pb.collection('messages').getFullList({
@@ -96,23 +91,19 @@ onMounted( async () =>{
 
 
 // ----------------------------------------- Amis -----------------------------------------
+//Fonction pas encore implementée
 const addfriendMode = ref(false)
 const doAddFriend = async () => {
     return true
 }
-watch(UserName, (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-        console.log('WATCH : newVal', newVal)
-        UserName.value = newVal
-    }
-})
+
+console.log("INDEX, userid", UserId.value)
 </script>
 
 
 <template>
     <HeaderPage active="Discussions" inactive="Amis" :currentMood="moodList[0].mood" />
-    <!-- :class="[msgMode ? 'overflow-hidden absolute top-0 w-full' : '']"  -->
-    <section v-if="isActive === true" >
+    <section v-if="isActive === true" :class="msgMode ? '' : 'pt-4'">
         <div v-if="msgMode === false" class="flex flex-col gap-4">
             <DiscussionProfileCard v-for="friend in allFriends" :key="friend.id" v-bind="friend" />
         </div>
@@ -120,27 +111,25 @@ watch(UserName, (newVal, oldVal) => {
             <div>
                 <h1  class="fixed z-20 w-full bg-mainBlue p-4 flex gap-4 items-center">
                     <IconArrowLeft class="w-8 h-8" @click="msgMode = false"/>
-                    <div class="flex gap-2">
-                        <span class="h-10 w-10 bg-mainOrange rounded-full"></span>
+                    <!-- <div class="flex gap-2">
+                         <ImgPb :record="UserId" :filename="UserAvatar" alt="Photo de profil" class="w-10 h-10 object-cover rounded-full"/>
                         <span>
                             <p class="text-white">
                                 {{ UserName }}
                             </p>
-                            <p class="text-mainOrange text-xs">
-                                <!-- {{ userToUsername }} -->
-                            </p>
+
                         </span>
-                    </div>
+                    </div> -->
                 </h1>
             </div>
-            <div class="w-full flex flex-col gap-1 mb-8 mt-20">
+            <div class="w-full flex flex-col gap-2 mb-10 mt-16">
                 <MessageCard v-for="message in allMessagesByUsers" :key="message.id" v-bind="message" />
             </div>
         <MessageInput class="fixed bottom-[50px]"/>
         </div>
     </section>
 
-    <section v-if="isActive === false">
+    <section v-if="isActive === false" class="pt-4">
         <div v-if="!addfriendMode">
             <ProfileCard
             v-for="friend in allFriends" :key="friend.id" v-bind="friend"

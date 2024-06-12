@@ -4,7 +4,6 @@ import IconLogout from '@/components/icons/IconLogout.vue';
 import IconInfo from '@/components/icons/IconInfo.vue';
 import SettingsLegalCard from '@/components/SettingsLegalCard.vue';
 import HeaderPage from '@/components/HeaderPage.vue';
-import IconMessage from '@/components/icons/IconMessage.vue';
 
 import { isActive } from '@/components/HeaderPage.vue'
 import { pb } from '@/backend';
@@ -13,6 +12,8 @@ import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 
 const confirmCard = ref(null);
+
+// Ferme les settings si on clique en dehors
 onClickOutside(confirmCard, () => {
     doLogoutConfirm.value = false;
     doDeleteConfirm.value = false;
@@ -20,17 +21,20 @@ onClickOutside(confirmCard, () => {
 
 const route = useRouter();
 
+// Fonction pour se déconnecter
 const doLogout = () => {
     pb.authStore.clear();
     route.push('/connexion');
 }
 
+// Fonction pour supprimer le compte
 const doDeletAcount = () => {
     pb.collection('users').delete(pb.authStore.model?.id);
     pb.authStore.clear();
     route.push('/connexion');
 }
 
+// Gère les confirmations
 const doLogoutConfirm = ref(false);
 const doDeleteConfirm = ref(false);
 
@@ -39,13 +43,14 @@ const moodList = await pb.collection('mood').getFullList({
         sort: '-created'
     });
 
-//permet d'acceder a l'onglet de gauche a chaque fois que l'on revient sur la page
+//Permet d'acceder a l'onglet de gauche a chaque fois que l'on revient sur la page
 if (isActive.value == false) {
     isActive.value = true;
 }
 </script>
 
 <script lang=ts>
+//On exporte la variable sectionOpen pour l'utiliser dans le composant parent
 export const sectionOpen = ref(0)
 
 </script>

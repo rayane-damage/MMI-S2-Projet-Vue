@@ -7,30 +7,32 @@ import IconMoodGood from './icons/IconMoodGood.vue';
 
 import type { UsersResponse, MoodResponse } from '@/pocketbase-types';
 import { pb, allUserMoods } from '@/backend';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import ImgPb from './ImgPb.vue';
 
 const props = defineProps<UsersResponse<any>>();
 
-// const userMoods: MoodResponse[] =await pb.collection('mood').getFullList({
-//         filter : `user = "${props.expand.friends[0].friends[0]}"`,
-//     });
+// const userMoods = ref([]);
+// onMounted( async () => {
+//     userMoods.value = await pb.collection('mood').getFullList({
+//         filter : `user = "${props.id}"`,});
+// });
 
 // console.log("userMoods");
 // console.log(userMoods);
-// const currentMood = ref(userMoods[0].mood);
+// const currentMood = ref(userMoods.value[0]?.mood);
 // console.log("currenMood");
-// console.log(props.expand.friends);
-
 // console.log(currentMood);
 
-console.log("props", props);
+// console.log("props", props);
 </script>
 
 
 <template>
     <section class="flex justify-between items-center mx-4 p-4">
         <div class="flex gap-1">
-            <IconProfileSmall/>
+            <!-- <IconProfileSmall/> -->
+             <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-14 w-14 object-cover" />
             <!-- <span class="relative flex items-end *:absolute *:w-8 *:h-8 *:right-0">
                 <IconMoodGood v-if="currentMood === 'Bien'"/>
                 <IconMoodMid v-if="currentMood === 'Moyen'" />

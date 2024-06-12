@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { MemoriesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
-import { ref} from 'vue';
+import { onMounted, ref} from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import type { Ref } from 'vue';
 import ImgPb from '@/components/ImgPb.vue';
 
 import IconSmallSettings from './icons/IconSmallSettings.vue';
 
 const props = defineProps<MemoriesResponse>();
 
-
+// Supprime la memorie
 const doDeleteMemorie = () => {
     pb.collection('memories').delete(props.id);
 };
@@ -17,6 +18,7 @@ const doDeleteMemorie = () => {
 const memorieCardSettings = ref(null);
 const cardClicked = ref(false);
 
+// Ferme les settings si on clique en dehors
 onClickOutside(memorieCardSettings, () => {
     cardClicked.value = false;
 });
@@ -28,12 +30,7 @@ onClickOutside(memorieCardSettings, () => {
         <div>
             <div class="flex justify-between items-center gap-2 p-2">
                 <div class="flex gap-2">
-                    <img
-                    src="/public/img/pfp default.png"
-                    alt="Profile Picture"
-                    class="h-16"
-                    >
-                    <!-- <ImgPb :record="props" :filename="props.img" class="h-16" alt="photo de profil" /> -->
+                    <ImgPb :record="(props.expand as any).user" :filename="(props.expand as any).user.avatar" class="h-12 w-12 object-cover rounded-full" alt="photo de profil" />
                     <span>
                         <p class="font-bold">{{ (props.expand as any).user.name }}</p>
                         <span class="flex">
@@ -42,7 +39,9 @@ onClickOutside(memorieCardSettings, () => {
                         </span>
                     </span>
                 </div>
-                <div class="relative">
+                <div 
+                v-if="(props.expand as any).user.id === pb.authStore.model?.id"
+                class="relative">
                     <IconSmallSettings @click="cardClicked = !cardClicked" class="mx-4"/>
                     <div
                     ref="memorieCardSettings"
@@ -53,11 +52,6 @@ onClickOutside(memorieCardSettings, () => {
                 </div>
             </div>
             <div class="max-h-96 w-auto overflow-hidden rounded-b-3xl">
-                <!-- <img
-                src="/public/img/background-image.png"
-                alt="Image de souvenirs"
-                class="w-full h-auto object-cover"
-                > -->
                 <ImgPb :record="props" :filename="props.img" class="w-full h-auto object-cover" alt="Photo de memories" />
             </div>
         </div>
