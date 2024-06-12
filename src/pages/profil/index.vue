@@ -131,7 +131,7 @@ const doUpdateProfile = () => {
                     {{ currentUser[0].bio }}
                 </p>
                 <p v-else class="text-center italic">
-                    Cet utilisateur n'a pas de description
+                    Vous n'avez pas de description
                 </p>
             </div>
             <div class="flex flex-col gap-2">
@@ -167,7 +167,7 @@ const doUpdateProfile = () => {
                     <div class="h-44 grid">
                         <div class="absolute justify-self-end grid grid-cols-1 grid-rows-1 *:col-span-1 *:row-span-1 items-center justify-center
                                 bg-white rounded-full w-12 aspect-square">
-                                    <input type="file" @change="changeFileName" class="z-20">
+                                    <input type="file" @change="changeFileName" class="z-20 opacity-0">
                                     <IconPen class="fill-mainOrange w-8 aspect-square absolute justify-self-center" />
                         </div>
                     <ProfileIcon :record="currentUser[0]"/>

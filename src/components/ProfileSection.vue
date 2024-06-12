@@ -40,7 +40,7 @@ console.log("profilesection", props);
                     {{ bio }}
                 </p>
                 <p v-else class="text-center">
-                    Cette utilisateur n'a pas de description
+                    Cet utilisateur n'a pas de description
                 </p>
         </div>
     </div>
