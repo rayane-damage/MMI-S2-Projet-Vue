@@ -40,11 +40,11 @@ export const usernameBis = ref() as Ref<string>;
 </script>
 
 <template>
-    <section class="flex justify-between items-center mx-4 p-4 bg-white rounded-full" @click="msgMode = true, doLoadUser()">
+    <section class="flex justify-between items-center mx-4 p-4 bg-white rounded-[36px]" @click="msgMode = true, doLoadUser()">
         <div class="flex gap-1">
-            <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-14 w-14 object-cover" />
+            <ImgPb :record="props" :filename="props.avatar" class="rounded-full h-16 w-16 object-cover border-4 border-white" />
             <span>
-                <p class="self-start">{{ name }}</p>
+                <p class="self-start font-sniglet tracking-wider text-xl">{{ name }}</p>
                 <p>{{ lastMessage }}</p>
             </span>
         </div>
