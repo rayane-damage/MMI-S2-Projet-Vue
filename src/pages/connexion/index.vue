@@ -7,6 +7,7 @@ import IconMoodMid from '@/components/icons/IconMoodMid.vue';
 import IconMoodGood from '@/components/icons/IconMoodGood.vue';
 import Button from '@/components/Button.vue';
 import InputConnexion from '@/components/InputConnexion.vue';
+import IconGoogle from '@/components/icons/IconGoogle.vue';
 
 import { onMounted, ref } from 'vue'
 import { pb } from '@/backend'
@@ -118,7 +119,10 @@ const doLoginOAuth = async () => {
             <h1 class="text-4xl font-Hegante text-center mx-4">Bienvenue sur to-Gather </h1>
             <Button @click="loginMode='pseudo'" text="Créer un compte"/>
             <Button @click="loginMode='connexion'" text="Se connecter" variant="white"/>
-            <Button @click="doLoginOAuth" text="Se connecter avec Google"/>
+            <button @click="doLoginOAuth" class="text-grayDark bg-white rounded-full p-2 w-full font-sniglet tracking-wider flex flex-row items-center justify-center gap-4" >
+                <IconGoogle class="w-10"/>
+                <p>Continuer avec Google</p>
+            </button>
         </section>
 
 
