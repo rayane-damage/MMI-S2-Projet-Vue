@@ -2,10 +2,10 @@
 import { useRoute } from 'vue-router/auto'
 import { useRouter } from 'vue-router'
 import type { UsersResponse } from '@/pocketbase-types'
-import { ref } from 'vue'
 import { pb } from '@/backend';
 
-import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
+import ProfileSection from '@/components/ProfileSection.vue';
+import Button from '@/components/Button.vue';
 
 const route = useRoute('/messages/[id]');
 const router = useRouter();
@@ -13,11 +13,15 @@ const router = useRouter();
 const user = await pb.collection('users').getOne(route.params.id);
 
 
+const userClicked: UsersResponse[] = await pb.collection('users').getFullList({
+    filter: `id = '${route.params.id}'`
+});
 // Permet de recuperer tous les amis de l'utilisateur puis de les mettre dans un tableau
 let currentUser: UsersResponse[] = await pb.collection('users').getFullList({
     filter: `id = '${pb.authStore.model?.id}'`,
     expand: 'friends'
 });
+
 const currentUserFriendsList = (currentUser[0].expand as any);
 let currentUserFriendsListIds: string[] = []
 if (currentUserFriendsList === undefined) {
@@ -75,7 +79,10 @@ const doAddFriend = async () => {
 
 <template>
     <div class="w-full flex flex-col items-center" v-scroll-lock="false">
-        <IconArrowLeft @click="router.back()" class="cursor-pointer stroke-black self-start m-6"/>
-        <h1 @click="doAddFriend" class="font-bold text-xl p-4 bg-red-200 absolute top-1/3">Ajouter cet ami : {{ user.name }}</h1>
+        <!-- <IconArrowLeft @click="router.back()" class="cursor-pointer stroke-black self-start m-6"/> -->
+        <ProfileSection v-bind="userClicked[0]"/>
+        <div class="w-full px-10">
+            <Button @click="doAddFriend" text="Ajouter en ami"/>
+        </div>
     </div>
 </template>
