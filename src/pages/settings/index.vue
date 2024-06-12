@@ -7,6 +7,7 @@ import HeaderPage from '@/components/HeaderPage.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
 import InputConnexion from '@/components/InputConnexion.vue';
 import Button from '@/components/Button.vue';
+import IconPen from '@/components/icons/IconPen.vue';
 
 import { isActive } from '@/components/HeaderPage.vue'
 import { pb } from '@/backend';
@@ -60,6 +61,31 @@ if (isActive.value == false) {
 //On exporte la variable sectionOpen pour l'utiliser dans le composant parent
 export const sectionOpen = ref(0)
 
+
+// ------------------- CHANGER LE MOT DE PASSE -------------------
+const password = ref('');
+const newPassword = ref('');
+const confirmPassword = ref('');
+
+const doChangePassword = async () => {
+    if (newPassword.value === confirmPassword.value) {
+        console.log("model id", pb.authStore.model?.id)
+        console.log("newPassword", newPassword.value)
+        console.log("confirmpassword", confirmPassword.value)
+        try {
+            await pb.collection('users').update(pb.authStore.model?.id, {
+                password: newPassword.value,
+                passwordConfirm: confirmPassword.value
+            });
+        } catch (error) {
+            console.log("ERREUR", error)
+        }
+    } else {
+        alert('Les mots de passe ne correspondent pas');
+    }
+}
+
+console.log("model", pb.authStore.model)
 </script>
 
 <template>
@@ -123,9 +149,44 @@ export const sectionOpen = ref(0)
         </div>
 
         <!-- CHANGER LE MOT DE PASSE -->
-        <div v-show="compteMode === 'passwordChange'" class="my-4">
+        <div v-show="compteMode === 'passwordChange'" class="mt-6 flex flex-col gap-2">
             <IconArrowLeft @click="compteMode = 'none'"/>
-            <h1>Changer mdp</h1>
+            <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10">
+                    <h4 class="font-sniglet text-base tracking-wide text-white">Changer le mot de passe</h4>
+                    <IconPen class="w-4 h-4 fill-white"/>
+            </div>
+            <form action="form" class="flex flex-col gap-4 mx-8">
+                <InputConnexion
+                    v-model="password"
+                    text="Mot de passe actuel"
+                    labelfor="oldpassword"
+                    type="password"
+                    name="oldpassword"
+                    id="oldpassword"
+                    placeholder=""
+                    class="text-white"/>
+
+                <InputConnexion
+                    v-model="newPassword"
+                    text="Nouveau mot de passe"
+                    labelfor="newpassword"
+                    type="password"
+                    name="newpassword"
+                    id="newpassword"
+                    placeholder=""
+                    class="text-white"/>
+
+                <InputConnexion
+                    v-model="confirmPassword"
+                    text="Confirmer le nouveau mot de passe"
+                    labelfor="confirmnewpassword"
+                    type="password"
+                    name="confirmnewpassword"
+                    id="confirmnewpassword"
+                    placeholder=""
+                    class="text-white"/>
+                <Button @click="doChangePassword" text="Confirmer"/>
+            </form>
 
         </div>
 
@@ -143,7 +204,7 @@ export const sectionOpen = ref(0)
                     name="objet"
                     id="objet"
                     placeholder=""
-                    class="text-white"/>
+                    class="*:text-white"/>
 
                 <InputConnexion
                     text="Message"

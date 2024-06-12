@@ -27,7 +27,7 @@ const props = withDefaults (
             :id="`${id}`"
             :placeholder="`${placeholder}`"
             @input="$event.target && $emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-            class="rounded-full p-2 w-full bg-white">
+            class="rounded-full p-2 w-full bg-white !text-black">
     </div>
 
 </template>
