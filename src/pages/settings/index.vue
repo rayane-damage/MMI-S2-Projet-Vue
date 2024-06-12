@@ -65,9 +65,9 @@ export const sectionOpen = ref(0)
 <template>
     <HeaderPage active="Compte" inactive="Légal" :currentMood="moodList[0].mood"/>
     <section v-if="isActive === true" class="bg-mainBlue h-screen flex flex-col gap-6">
-        <div v-show="compteMode === 'none'">
+        <div v-show="compteMode === 'none'" class="flex flex-col gap-4">
             <div class="flex flex-col gap-2 text-white items-start pt-6 *:w-full ">
-                <div class="flex justify-between items-center w-full border-b border-lightOrange py-2 px-10">
+                <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10">
                     <h4 class="font-sniglet text-base tracking-wide">Informations du compte</h4>
                     <IconInfo class="h-4"/>
                 </div>
@@ -82,7 +82,7 @@ export const sectionOpen = ref(0)
                                 :number="5"/>
             <div class="flex flex-col gap-2 text-white items-start 
                         *:w-full">
-                <div class="flex justify-between items-center w-full border-b border-lightOrange py-2 px-10">
+                <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10">
                     <h4 class="font-sniglet text-base tracking-wide">Déconnection</h4>
                     <IconLogout class="h-4"/>
                 </div>
@@ -95,19 +95,26 @@ export const sectionOpen = ref(0)
                         <div v-if="doLogoutConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4  rounded-2xl text-black top-1/2">
                             <p class="font-sniglet text-xl text-center text-grayDark">Voulez-vous vraiment vous déconnecter ?</p>
                             <span class="flex justify-between w-full px-8">
-                                <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante cursor-pointer"   @click="doLogout">oui</p>
-                                <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante cursor-pointer" @click="doLogoutConfirm     = false">non</p>
+                                <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante cursor-pointer"  
+                                    @click="doLogout">oui</p>
+                                <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante cursor-pointer" 
+                                    @click="doLogoutConfirm     = false">non</p>
                             </span>
                         </div>
                     </div>
                     <div class="flex flex-col items-center w-full">
-                        <SettingsCard ref="confirmCard" title="Désactiver le compte" @click="doDeleteConfirm = true, doLogoutConfirm= false"    class="self-start"/>
+                        <SettingsCard ref="confirmCard" 
+                                        title="Désactiver le compte" 
+                                        @click="doDeleteConfirm = true, doLogoutConfirm= false"    
+                                        class="self-start"/>
                         <div v-if="doDeleteConfirm" class="flex flex-col gap-4 justify-center items-center absolute bg-neutral-100 p-4  rounded-2xl text-black w-[90%] top-1/2">
                             <p class="font-sniglet text-xl text-center text-grayDark">Voulez-vous vraiment vous désactiver votre compte ?</p>
                             <p class="font-sniglet text-base text-center text-grayDark">(Cette action est irréversible)</p>
                             <span class="flex gap-6">
-                                <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante cursor-pointer"   @click="doDeletAcount">oui</p>
-                                <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante cursor-pointer" @click="doDeleteConfirm     = false">non</p>
+                                <p class="text-3xl text-mainGreen p-2 rounded-xl text-center font-Hegante cursor-pointer"                  
+                                    @click="doDeletAcount">oui</p>
+                                <p class="text-3xl text-mainRed p-2 rounded-xl text-center font-Hegante cursor-pointer" 
+                                    @click="doDeleteConfirm     = false">non</p>
                             </span>
                         </div>
                     </div>
@@ -123,40 +130,35 @@ export const sectionOpen = ref(0)
         </div>
 
         <!-- CONTACT -->
-        <div v-show="compteMode === 'contact'" class="my-4 flex flex-col gap-2">
+        <div v-show="compteMode === 'contact'" class="mt-4 flex flex-col gap-2">
             <IconArrowLeft @click="compteMode = 'none'" class="mx-4"/>
             <div class="flex justify-between items-center w-full border-b border-lightOrange py-2 px-10">
                     <h4 class="font-sniglet text-base tracking-wide text-white">Nous contacter</h4>
             </div>
             <form action="form" class="flex flex-col gap-4 mx-8">
                 <InputConnexion
-                text="Objet"
-                labelfor="objet"
-                type="text"
-                name="objet"
-                id="objet"
-                placeholder=""
-                class="text-white"
-                />
+                    text="Objet"
+                    labelfor="objet"
+                    type="text"
+                    name="objet"
+                    id="objet"
+                    placeholder=""
+                    class="text-white"/>
 
                 <InputConnexion
-                text="Message"
-                labelfor="message"
-                type="text"
-                name="message"
-                id="message"
-                placeholder=""
-                class="*:min-h-[150px] *:rounded-3xl text-white"
-                />
-
-                <Button
-                text="Envoyer"
-                />
+                    text="Message"
+                    labelfor="message"
+                    type="text"
+                    name="message"
+                    id="message"
+                    placeholder=""
+                    class="*:min-h-[150px] *:rounded-3xl text-white"/>
+                <Button text="Envoyer"/>
             </form>
         </div>
     </section>
     <section
-    v-if="isActive === false" class="bg-mainBlue flex h-screen flex-col pt-2">
+    v-if="isActive === false" class="bg-mainBlue flex h-screen flex-col pt-6 gap-6">
         <SettingsLegalCard @pointerdown="sectionOpen =  sectionOpen === 1 ? 0:1"
                             title="Mentions légales"
                             text="lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum1lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum"
