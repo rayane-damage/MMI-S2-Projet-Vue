@@ -91,13 +91,23 @@ onMounted( async () =>{
 
 
 // ----------------------------------------- Amis -----------------------------------------
+
+//Tous les utilisateurs sauf celui connecté et ses amis et le template
+const allUsersNotFriend = ref() as Ref<any[]>;
+for (let i = 0; i < currentUserFriends.value.length; i++) {
+    const allUsers = await pb.collection('users').getFullList({
+        filter: `id != '${pb.authStore.model?.id}' && id != '${currentUserFriends.value[i]}' && id != 'f2ydhe2w504k5r1'`,
+    });
+    allUsersNotFriend.value = allUsers;
+    console.log("allUsersNotFriend",allUsersNotFriend.value)
+}
 //Fonction pas encore implementée
 const addfriendMode = ref(false)
 const doAddFriend = async () => {
     return true
 }
 
-console.log("INDEX, userid", UserId.value)
+// console.log("CURRENTFRIENDS",currentUserFriends.value)
 </script>
 
 
@@ -129,7 +139,7 @@ console.log("INDEX, userid", UserId.value)
         </div>
     </section>
 
-    <section v-if="isActive === false" class="pt-4">
+    <section v-if="isActive === false">
         <div v-if="!addfriendMode" class="divide-y divide-grayDark mx-6">
             <div v-for="friend in allFriends" :key="friend.id" >
                 <RouterLink :to="{
@@ -143,11 +153,21 @@ console.log("INDEX, userid", UserId.value)
             </div>
         </div>
 
-        <ButtonAdd @click="addfriendMode = true, doAddFriend"/>
+        <ButtonAdd @click="addfriendMode = true"/>
 
+        <!-- ---------------------- AJOUTER DES AMIS ---------------------- -->
         <div v-if="addfriendMode">
             <p class="p-4 bg-red-200" @click="addfriendMode = false">Annuler</p>
-            <h1>Ajouter un ami</h1>
+            <div v-for="oneUser in allUsersNotFriend" :key="oneUser.id">
+                <RouterLink :to="{
+                                name: '/messages/[id]',
+                                params: {
+                                id: oneUser.id
+                                }
+                            }">
+                    <ProfileCard v-bind="oneUser"/>
+                </RouterLink>
+            </div>
         </div>
     </section>
 </template>
