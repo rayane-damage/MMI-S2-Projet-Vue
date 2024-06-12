@@ -136,29 +136,28 @@ const doUpdateProfile = () => {
             </div>
             <div class="flex flex-col gap-2">
                 <h4 class="text-2xl">Amis</h4>
-                <div class="flex">
-                    <div
-                    @click="profileMode = true"
-                    v-for="oneFriend  in friendList.friends"
+                <div class="flex gap-2 overflow-x-auto">
+                    <div v-for="oneFriend  in friendList.friends"
+                        @click="profileMode = true"
                         :key="oneFriend.id"
                         v-bind="oneFriend">
-                        <!-- liste contacts -->
-                         <RouterLink
-                         :to="{
-                            name: '/profil/[id]',
-                            params: {
-                            id: oneFriend.id
-                            }
-                        }"
-                         >
-                             <ImgPb :record="oneFriend" :filename="oneFriend.avatar" class="h-12 w-12 object-cover rounded-full" alt="photo de profil" />
+                         <RouterLink :to="{
+                                        name: '/profil/[id]',
+                                        params: {
+                                        id: oneFriend.id
+                                        }
+                                    }">
+                            <ImgPb :record="oneFriend" 
+                                    :filename="oneFriend.avatar" 
+                                    class="h-16 w-16 object-cover rounded-full border-white border-4" 
+                                    alt="photo de profil" />
                          </RouterLink>
                     </div>
-                    <ButtonAdd/>
                 </div>
             </div>
         </div>
     </section>
+
 
     <section v-if="isActive === false" v-scroll-lock="true">
         <div class="flex flex-col justify-between mx-6 h-screen pb-36">
@@ -176,11 +175,10 @@ const doUpdateProfile = () => {
                         <p v-if="!newNameMode" class="text-2xl font-regular text-center">{{ currentUser[0].name  }}</p>
                         <input
                         v-if="newNameMode"
-                        v-model="newName"
-                        type="text"
-                        placeholder="Nouveau nom"
-                        class="px-4 py-2 rounded-xl"
-                        />
+                            v-model="newName"
+                            type="text"
+                            placeholder="Nouveau nom"
+                            class="px-4 py-2 rounded-xl"/>
                         <IconPen @click="newNameMode = !newNameMode" class="fill-grayDark w-4 aspect-square"/>
                     </div>
                 </div>
@@ -188,12 +186,11 @@ const doUpdateProfile = () => {
                  <div class="w-full">
                     <p v-if="!newBioMode">Votre description</p>
                     <p v-if="newBioMode">Nouvelle description</p>
-                <input
-                v-model="newBio"
-                @change="newBioMode = true"
-                type="text"
-                class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20 w-full"
-                :placeholder="currentUser[0].bio">
+                <input v-model="newBio"
+                        @change="newBioMode = true"
+                        type="text"
+                        class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20 w-full"
+                        :placeholder="currentUser[0].bio">
                  </div>
             </div>
             <div class="my-2">
