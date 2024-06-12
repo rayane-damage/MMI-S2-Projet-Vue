@@ -201,6 +201,8 @@ const doAddMemorie = () => {
 onMounted( async () =>{
     pb.collection('memories').subscribe('*', async ({action, record }) => {
         if (action === 'create') {
+            console.log("CREATED")
+            console.log('allfriends', allFriends.value)
             // memoriesList.value = await pb.collection('memories').getFullList({
             //     filter : `user = '${pb.authStore.model?.id}'`,
             //     expand : 'user',
@@ -218,6 +220,7 @@ onMounted( async () =>{
             filter: `id = '${currentUserFriends.value[i]}'`,
             });
         } else {
+            console.log("else")
             const newuser = ref()
             newuser.value = await pb.collection('users').getFullList({
                 filter: `id = '${currentUserFriends.value[i]}'`
@@ -230,7 +233,7 @@ onMounted( async () =>{
 
         console.log("before", memoriesList.value[0])
         //Recupere les memories de l'utilisateur et de ses amis, sensé ne prendre que les memories publics des amis
-        if (allFriends.value !== undefined) {
+        if (allFriends.value.target !== undefined) {
             for (let i = 0; i < allFriends.value.length; i++) {
                 memoriesListBis.value = await pb.collection('memories').getFullList({
                     filter : (`user = '${allFriends.value[i].id}' && status = 'public'`) || `user = '${pb.authStore.model?.id}'`,
@@ -252,10 +255,13 @@ onMounted( async () =>{
                 });
                 memoriesListByUserAndFriends.value = memoriesList.value
             }
+            console.log("CREATED memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
 
     }
 
     if (action === 'delete') {
+        console.log("DELETED")
+        console.log('allfriends', allFriends.value)
             // memoriesList.value = await pb.collection('memories').getFullList({
             //     filter : `user = '${pb.authStore.model?.id}'`,
             //     expand : 'user',
@@ -286,7 +292,7 @@ onMounted( async () =>{
 
         //Recupere les memories de l'utilisateur et de ses amis
         console.log("before", memoriesList.value[0])
-        if (allFriends.value !== undefined) {
+        if (allFriends.value.target !== undefined) {
             for (let i = 0; i < allFriends.value.length; i++) {
                     memoriesListBis.value = await pb.collection('memories').getFullList({
                         filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
@@ -302,6 +308,8 @@ onMounted( async () =>{
             //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
             memoriesListByUserAndFriends.value = memoriesList.value[2]
         } else {
+            console.log("else")
+
             memoriesList.value = await pb.collection('memories').getFullList({
                 filter : `user = '${pb.authStore.model?.id}'`,
                 expand: 'user',
@@ -309,6 +317,7 @@ onMounted( async () =>{
             });
             memoriesListByUserAndFriends.value = memoriesList.value
         }
+        console.log("DELETED memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
     };
 })
 })
@@ -336,7 +345,7 @@ console.log("memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
         <div v-if="memorieMode">
             <MemoriesCard
             v-for="memorie in memoriesListByUserAndFriends" v-bind="memorie" :key="memorie.id"/>
-            <p v-if="memoriesListByUserAndFriends.length === 0" class="w-full text-center font-Hegante text-2xl pt-10 text-grayDark">Ajoutez une memorie !</p>
+            <p v-if="memoriesListByUserAndFriends?.length === 0" class="w-full text-center font-Hegante text-2xl pt-10 text-grayDark">Ajoutez une memorie !</p>
             <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
         <div v-if="!memorieMode" class="flex flex-col items-center m-8 gap-8">
