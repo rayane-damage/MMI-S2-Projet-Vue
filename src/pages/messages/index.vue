@@ -131,9 +131,20 @@ console.log("INDEX, userid", UserId.value)
 
     <section v-if="isActive === false" class="pt-4">
         <div v-if="!addfriendMode" class="divide-y divide-grayDark">
-            <ProfileCard
-            v-for="friend in allFriends" :key="friend.id" v-bind="friend"
-            />
+            <div v-for="friend in allFriends" :key="friend.id" >
+                <RouterLink
+                             :to="{
+                                name: '/profil/[id]',
+                                params: {
+                                id: friend.id
+                                }
+                            }"
+                             >
+                    <ProfileCard
+                    v-bind="friend"
+                    />
+                </RouterLink>
+            </div>
         </div>
 
         <ButtonAdd @click="addfriendMode = true, doAddFriend"/>
