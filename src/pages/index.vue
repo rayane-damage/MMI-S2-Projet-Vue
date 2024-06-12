@@ -180,7 +180,6 @@ onMounted( async () =>{
             //     expand : 'user',
             //     sort: '-created'
             // });
-            console.log("CREATEEEEEEEEEEEEEEE")
             memoriesList.value = []
             const currentUser2: UsersResponse[] = await pb.collection('users').getFullList({
                 filter: `id = '${pb.authStore.model?.id}'`,
@@ -203,10 +202,10 @@ onMounted( async () =>{
 
 
     console.log("before", memoriesList.value[0])
-    //Recupere les memories de l'utilisateur et de ses amis
+    //Recupere les memories de l'utilisateur et de ses amis, sensé ne prendre que les memories publics des amis
     for (let i = 0; i < allFriends.value.length; i++) {
         memoriesListBis.value = await pb.collection('memories').getFullList({
-            filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
+            filter : (`user = '${allFriends.value[i].id}' && status = 'public'`) || `user = '${pb.authStore.model?.id}'`,
             expand : 'user',
             sort: '-created'
         });
@@ -224,7 +223,6 @@ onMounted( async () =>{
             //     expand : 'user',
             //     sort: '-created'
             // });
-            console.log("DELETEEEEEEEEEEEEEEEEEEEEEEE")
             memoriesList.value = []
             const currentUser3: UsersResponse[] = await pb.collection('users').getFullList({
                 filter: `id = '${pb.authStore.model?.id}'`,
