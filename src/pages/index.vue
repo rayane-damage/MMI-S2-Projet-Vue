@@ -69,34 +69,41 @@ if (isActive.value == false) {
 const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
         filter: `id = '${pb.authStore.model?.id}'`,
         expand: 'friends'
-    });
+});
 
 const memoriesList = ref<any[]>([]);
 const memoriesListBis = ref<any[]>([]);
 const memoriesListByUserAndFriends = ref(<any>[]);
 // async function createMemoriesList() {
 
-    const currentUserFriends = ref()
+const currentUserFriends = ref();
+if (currentUser[0]) {
     currentUserFriends.value = currentUser[0].friends
+} else {
+    currentUserFriends.value = []
+}
     //Met dans un tableau tous les amis de l'utilisateur
-    const allFriends = ref();
-    for (let i = 0; i < currentUserFriends.value.length; i++) {
-        if (allFriends.value === undefined) {
-            allFriends.value =  await pb.collection('users').getFullList({
-            filter: `id = '${currentUserFriends.value[i]}'`,
-        });
-        } else {
-        const newuser = ref()
-        newuser.value = await pb.collection('users').getFullList({
-            filter: `id = '${currentUserFriends.value[i]}'`
-        });
-        console.log("newuser",newuser.value)
-        allFriends.value.push( newuser.value[0])};
-    }
+const allFriends = ref();
+for (let i = 0; i < currentUserFriends.value.length; i++) {
+    if (allFriends.value === undefined) {
+        allFriends.value =  await pb.collection('users').getFullList({
+        filter: `id = '${currentUserFriends.value[i]}'`,
+    });
+    } else {
+    const newuser = ref()
+    newuser.value = await pb.collection('users').getFullList({
+        filter: `id = '${currentUserFriends.value[i]}'`
+    });
+    console.log("newuser",newuser.value)
+    allFriends.value.push( newuser.value[0])};
+}
 
 
 
     //Recupere les memories de l'utilisateur et de ses amis
+    if (allFriends.value) {
+
+
     for (let i = 0; i < allFriends.value.length; i++) {
         memoriesListBis.value = await pb.collection('memories').getFullList({
             filter : `user = '${allFriends.value[i].id}' || user = '${pb.authStore.model?.id}'`,
@@ -109,7 +116,12 @@ const memoriesListByUserAndFriends = ref(<any>[]);
     //Stocke les memories de l'utilisateur et de ses amis dans une constante pour l'afficher grace a un v-for
     memoriesListByUserAndFriends.value = memoriesList.value[0]
     console.log("memoriesListByUserAndFriends",memoriesListByUserAndFriends)
-
+    } else {
+        memoriesList.value = await pb.collection('memories').getFullList({
+            filter : `user = '${pb.authStore.model?.id}'`,
+            sort: '-created'
+        });
+    }
 // }
 
 //Permet de changer de mode entre l'affichagedes memories et l'ajout de memories

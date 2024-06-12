@@ -5,6 +5,7 @@ import ButtonAdd from '@/components/ButtonAdd.vue';
 import IconPen from '@/components/icons/IconPen.vue';
 import Button from '@/components/Button.vue';
 import ImgPb from '@/components/ImgPb.vue';
+import ProfileSection from '@/components/ProfileSection.vue';
 
 import { pb } from '@/backend';
 import type { UsersResponse } from '@/pocketbase-types';
