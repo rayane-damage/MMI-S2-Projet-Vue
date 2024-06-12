@@ -8,7 +8,7 @@ import ImgPb from '@/components/ImgPb.vue';
 
 import { pb } from '@/backend';
 import type { UsersResponse } from '@/pocketbase-types';
-import { provide, ref } from 'vue';
+import { provide, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 //Varibale pour savoir si on est sur la page des moods ou des memories
@@ -28,7 +28,7 @@ if (isActive.value == false) {
 }
 
 // const currentUser = pb.authStore.model;
-const currentUser: UsersResponse[] = await pb.collection('users').getFullList({
+let currentUser: UsersResponse[] = await pb.collection('users').getFullList({
         filter: `id = '${pb.authStore.model?.id}'`,
         expand: 'friends'
     });
@@ -69,6 +69,7 @@ const doUpdateProfile = () => {
         }
         console.log("1")
         pb.collection('users').update(pb.authStore.model?.id, data);
+        route.go(0);
     }
     if (newName.value === '' && newBio.value !== '') {
         data = {
@@ -77,6 +78,7 @@ const doUpdateProfile = () => {
         }
         console.log("2")
         pb.collection('users').update(pb.authStore.model?.id, data);
+        route.go(0);
     }
     if (newName.value !== '' && newBio.value === '') {
         data = {
@@ -85,6 +87,7 @@ const doUpdateProfile = () => {
         }
         console.log("3")
         pb.collection('users').update(pb.authStore.model?.id, data);
+        route.go(0);
     }
     if (file.value && newName.value !== '' && newBio.value !== '') {
         data = {
@@ -94,6 +97,7 @@ const doUpdateProfile = () => {
         }
         console.log("4")
         pb.collection('users').update(pb.authStore.model?.id, data);
+        route.go(0);
     } else {
         if (file.value && newName.value === '' && newBio.value === '') {
         data = {
@@ -101,13 +105,27 @@ const doUpdateProfile = () => {
         }
         console.log("5")
         pb.collection('users').update(pb.authStore.model?.id, data);
+        route.go(0);
         }
     }
-    route.push('/profil');
+    
     // } else {
     //     errorMessage.value = 'Champs manquants';
     // }
 }
+
+//Met a jour en temps reel le profil
+onMounted( async () =>{
+    pb.collection('users').subscribe('*', async ({action, record }) => {
+        if (action === 'update') {
+            console.log("update")
+            currentUser = await pb.collection('users').getFullList({
+                filter: `id = '${pb.authStore.model?.id}'`,
+                expand: 'friends'
+            });
+        }
+    })
+});
 </script>
 
 <template>

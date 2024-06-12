@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import IconProfileSmall from './icons/IconProfileSmall.vue';
-
-
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
 import { inject, ref } from 'vue';
@@ -16,9 +13,6 @@ const userFrom = inject('userFrom') as Ref<string>;
 const allMessagesByUsers = await inject('allMessagesByUsers') as Ref<any[]>;
 
 
-const lastMessage = ref() as Ref<any>;
-
-console.log('lastMessage', lastMessage.value)
 
 const doLoadUser = async () => {
     console.log("doLoadUser")

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { MemoriesResponse } from '@/pocketbase-types';
 import { pb } from '@/backend';
-import { onMounted, ref} from 'vue';
+import { ref} from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import type { Ref } from 'vue';
 import ImgPb from '@/components/ImgPb.vue';
 
 import IconSmallSettings from './icons/IconSmallSettings.vue';

@@ -97,6 +97,7 @@ console.log(getUserMood(pb.authStore.model?.id) )
 
 const doLoginWithGoogle = async () => {
     try {
+        pb.authStore.clear();
        const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
        currentUser.value = pb.authStore.model;
         loginError.value = "";
