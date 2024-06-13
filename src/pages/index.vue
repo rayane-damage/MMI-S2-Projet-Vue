@@ -12,7 +12,7 @@ import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse } from '@/pocketbase-types'
 
 import { useRouter } from 'vue-router';
-import { onMounted, onUnmounted, provide, ref, watch } from 'vue';
+import { onMounted, provide, ref, watch, computed } from 'vue';
 import { pb } from '@/backend';
 import IconImg from '@/components/icons/IconImg.vue'
 import Button from '@/components/Button.vue'
@@ -163,26 +163,31 @@ watch(isActive, (newValue) => {
 const memorieStatus = ref('private');
 const description = ref();
 const errorMessage = ref('');
-const file = ref();
+const fileForBackend = ref();
+const file = ref<HTMLInputElement | null>(null);
+const imageFile = ref<File | null>(null);
+const imageUrl = computed(() => imageFile.value ? URL.createObjectURL(imageFile.value) : '');
 
-//Permet d'uploader une image
-function changeFileName(e:any) {
-    console.log("FILENAME",e.target.files[0])
-    file.value = e.target.files[0];
-    console.log("FILENAMEVALUE",file.value)
-
-
+function changeFileName(e: any) {
+    if (e.target) {
+        fileForBackend.value = e.target.files[0];
+    }
+    file.value = e.target as HTMLInputElement;
+    if (file.value.files && file.value.files.length > 0) {
+        imageFile.value = file.value.files[0];
+    }
 }
+
 //Permet d'ajouter une memorie dans la base de donnée
 const doAddMemorie = () => {
-    if (description.value && file.value != null && memorieStatus.value) {
+    if (description.value && fileForBackend.value != null && memorieStatus.value) {
         const formData = new FormData();
 
-        formData.append('img', file.value);
-        console.log("doaddMemorie, file.value = ", file.value, "fin")
+        formData.append('img', fileForBackend.value);
+        console.log("doaddMemorie, file.value = ", fileForBackend.value, "fin")
         try {
         pb.collection('memories').create({
-            img: file.value,
+            img: fileForBackend.value,
             description: description.value,
             status: memorieStatus.value,
             user: pb.authStore.model?.id
@@ -192,6 +197,7 @@ const doAddMemorie = () => {
             console.log(error)
         }
         memorieMode.value = !memorieMode.value
+        fileForBackend.value = null;
     } else {
         errorMessage.value = 'Champs manquants';
 }};
@@ -349,13 +355,22 @@ console.log("memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
             <ButtonAdd @click=" memorieMode = !memorieMode, errorMessage = ''" />
         </div>
         <div v-if="!memorieMode" class="flex flex-col items-center m-8 gap-8">
-                <div class="flex justify-center items-center relative bg-white rounded-3xl w-full aspect-square">
+                <div class="flex justify-center items-center relative bg-white rounded-3xl w-full aspect-square overflow-hidden">
                     <input id="file"
                             type="file"
                             accept=".jpg, .png"
                             @change="changeFileName"
-                            class="w-full aspect-square opacity-0 z-30">
+                            class="w-full aspect-square opacity-0 z-40">
+
+                            <img
+                            id="imagePreview"
+                            :src="imageUrl"
+                            alt="Prévisualisation de l'image"
+                            class="bg-red-200 absolute w-full h-full object-cover"
+                            :class="fileForBackend ? 'opacity-100 z-30' : 'opacity-0'"
+                            >
                     <div class="absolute flex flex-col gap-4 justify-center items-center w-full">
+
                         <IconImg class="w-16 fill-mainOrange" />
                         <label for="file" class="text-center text-mainOrange font-bold z-20">Ajoutez une image </label>
                     </div>
