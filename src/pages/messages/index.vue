@@ -13,6 +13,7 @@ import { isActive } from '@/components/HeaderPage.vue'
 import type { UsersResponse, MessagesResponse } from '@/pocketbase-types';
 import { ref, provide, onMounted, toRaw } from 'vue';
 import type { Ref } from 'vue';
+import IconAdd from '@/components/icons/IconAdd.vue';
 
 // Liste des moods par utilisateur
 const moodList = await pb.collection('mood').getFullList({
@@ -162,7 +163,7 @@ const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
     </section>
 
     <section v-if="isActive === false">
-        <div v-if="!addfriendMode" class="divide-y divide-grayDark mx-6">
+        <div v-if="!addfriendMode" class="divide-y divide-grayDark mx-6 pt-4">
             <p v-if="allFriends === undefined" class="w-full text-center font-Hegante text-2xl pt-10 text-grayDark">Ajoutez un ami !</p>
             <div v-for="friend in allFriends" :key="friend.id" >
                 <RouterLink :to="{
@@ -183,7 +184,7 @@ const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
             <IconArrowLeft @click="addfriendMode = false" class="mx-6"/>
             <div class="flex justify-between items-center w-full border-b border-lightOrange h-10 px-10 text-white">
                     <h4 class="font-sniglet text-base tracking-wide">Ajouter un ami</h4>
-                    <IconLogout class="h-4"/>
+                    <IconAdd class="h-4 fill-white"/>
                 </div>
             <div v-for="oneUser in realAllUsersNotFriend" :key="oneUser.id" class="text-white px-6">
                 <RouterLink :to="{
@@ -193,8 +194,7 @@ const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
                                 }
                             }">
                     <ProfileCard v-bind="oneUser" class="*:stroke-mainBlue relative
-                    before:bg-mainBlue before:h-full before:w-14 before:absolute before:right-0
-                    "/>
+                                                        before:bg-mainBlue before:h-full before:w-14 before:absolute before:right-0"/>
                 </RouterLink>
             </div>
         </div>
