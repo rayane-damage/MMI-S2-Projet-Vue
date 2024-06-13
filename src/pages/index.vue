@@ -362,13 +362,7 @@ console.log("memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
                             @change="changeFileName"
                             class="w-full aspect-square opacity-0 z-40">
 
-                            <img
-                            id="imagePreview"
-                            :src="imageUrl"
-                            alt="Prévisualisation de l'image"
-                            class="bg-red-200 absolute w-full h-full object-cover"
-                            :class="fileForBackend ? 'opacity-100 z-30' : 'opacity-0'"
-                            >
+                            
                     <div class="absolute flex flex-col gap-4 justify-center items-center w-full">
 
                         <IconImg class="w-16 fill-mainOrange" />
