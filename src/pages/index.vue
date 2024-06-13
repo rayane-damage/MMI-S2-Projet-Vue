@@ -16,6 +16,7 @@ import { onMounted, provide, ref, watch, computed } from 'vue';
 import { pb } from '@/backend';
 import IconImg from '@/components/icons/IconImg.vue'
 import Button from '@/components/Button.vue'
+import { set } from '@vueuse/core'
 
 
 //Renvoie l'utilisateur à la page de connexion si il n'est pas connecté
@@ -198,6 +199,9 @@ const doAddMemorie = () => {
         }
         memorieMode.value = !memorieMode.value
         fileForBackend.value = null;
+        setTimeout(() => {
+            route.go(0)
+        }, 800);
     } else {
         errorMessage.value = 'Champs manquants';
 }};
@@ -324,6 +328,9 @@ onMounted( async () =>{
             memoriesListByUserAndFriends.value = memoriesList.value
         }
         console.log("DELETED memoriesListByUserAndFriends", memoriesListByUserAndFriends.value)
+        setTimeout(() => {
+            route.go(0)
+        }, 800);
     };
 })
 })
