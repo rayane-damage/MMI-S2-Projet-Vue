@@ -14,6 +14,8 @@ import { pb } from '@/backend'
 import { useRouter } from 'vue-router';
 import { v4 as uuidv4 } from 'uuid';
 
+import axios from 'axios'
+
 import { getUserMood } from '@/backend';
 
 const route = useRouter();
@@ -104,7 +106,10 @@ console.log(getUserMood(pb.authStore.model?.id) )
 
 const doLoginOAuth = async () => {
     const authData = await pb.collection('users').authWithOAuth2({ provider: 'google' });
+    console.log(authData)
     currentUser.value = pb.authStore.model;
+    const name = authData.meta.name;
+    await pb.collection('users').update(currentUser.value.id, { name: name})
     if (await getUserMood(pb.authStore.model?.id) === false) {
         loginMode.value='moodChoice'
     } else {
