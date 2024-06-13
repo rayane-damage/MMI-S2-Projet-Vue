@@ -74,6 +74,7 @@ const doChangePassword = async () => {
             });
         } catch (error) {
             console.log("ERREUR", error)
+            alert('Mot de passe actuel incorrect')
         }
         compteMode.value = 'none';
     } else {

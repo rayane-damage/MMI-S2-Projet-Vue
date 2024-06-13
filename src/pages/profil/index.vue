@@ -8,7 +8,7 @@ import ImgPb from '@/components/ImgPb.vue';
 
 import { pb } from '@/backend';
 import type { UsersResponse } from '@/pocketbase-types';
-import { provide, ref, onMounted } from 'vue';
+import { provide, ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 //Varibale pour savoir si on est sur la page des moods ou des memories
@@ -40,18 +40,25 @@ const friendList: UsersResponse = (currentUser[0].expand as any);
 //------------------------------ Modification du profil ------------------------------
 const route = useRouter();
 
-const file = ref();
 const errorMessage = ref('');
 const newName = ref('');
 const newNameMode = ref(false);
 const newBio = ref('');
 const newBioMode = ref(false);
 
-function changeFileName(e:any) {
-    console.log("FILENAME",e.target.files[0])
-    file.value = e.target.files[0];
-    console.log("FILENAMEVALUE",file.value)
+const fileForBackend = ref();
+const file = ref<HTMLInputElement | null>(null);
+const imageFile = ref<File | null>(null);
+const imageUrl = computed(() => imageFile.value ? URL.createObjectURL(imageFile.value) : '');
 
+function changeFileName(e: any) {
+    if (e.target) {
+        fileForBackend.value = e.target.files[0];
+    }
+    file.value = e.target as HTMLInputElement;
+    if (file.value.files && file.value.files.length > 0) {
+        imageFile.value = file.value.files[0];
+    }
 }
 
 const doUpdateProfile = () => {
@@ -200,7 +207,7 @@ if (currentUser[0].bio) {
             <div class="flex flex-col gap-6">
                 <div class="mt-16 flex flex-col gap-2 items-center">
                     <div class="h-44 grid">
-                        <div class="absolute justify-self-end grid grid-cols-1 grid-rows-1 *:col-span-1 *:row-span-1 items-center justify-center
+                        <div class="z-20 absolute justify-self-end grid grid-cols-1 grid-rows-1 *:col-span-1 *:row-span-1 items-center justify-center
                                 bg-white rounded-full w-12 aspect-square">
                                     <input type="file" @change="changeFileName" class="z-20 opacity-0">
                                     <IconPen class="fill-mainOrange w-8 aspect-square absolute justify-self-center" />
@@ -214,7 +221,7 @@ if (currentUser[0].bio) {
                                 type="text"
                                 placeholder="Nouveau nom"
                                 class="text-grayDark px-4 py-2 rounded-xl outline-none"/>
-                        <IconPen @click="newNameMode = !newNameMode" class="fill-grayDark w-4 aspect-square"/>
+                        <IconPen @click="newNameMode = !newNameMode" class="fill-grayDark w-4 aspect-square z-50"/>
                     </div>
                 </div>
                 <!-- <p class="text-grayDark bg-white rounded-lg px-4 py-2 min-h-20">{{ currentUser[0].bio }}</p> -->
