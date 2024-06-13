@@ -46,19 +46,25 @@ const newNameMode = ref(false);
 const newBio = ref('');
 const newBioMode = ref(false);
 
-const fileForBackend = ref();
-const file = ref<HTMLInputElement | null>(null);
-const imageFile = ref<File | null>(null);
-const imageUrl = computed(() => imageFile.value ? URL.createObjectURL(imageFile.value) : '');
+// const fileForBackend = ref();
+// const file = ref<HTMLInputElement | null>(null);
+// const imageFile = ref<File | null>(null);
+// const imageUrl = computed(() => imageFile.value ? URL.createObjectURL(imageFile.value) : '');
 
-function changeFileName(e: any) {
-    if (e.target) {
-        fileForBackend.value = e.target.files[0];
-    }
-    file.value = e.target as HTMLInputElement;
-    if (file.value.files && file.value.files.length > 0) {
-        imageFile.value = file.value.files[0];
-    }
+// function changeFileName(e: any) {
+//     if (e.target) {
+//         fileForBackend.value = e.target.files[0];
+//     }
+//     file.value = e.target as HTMLInputElement;
+//     if (file.value.files && file.value.files.length > 0) {
+//         imageFile.value = file.value.files[0];
+//     }
+// }
+const file = ref()
+function changeFileName(e:any) {
+    console.log("FILENAME",e.target.files[0])
+    file.value = e.target.files[0];
+    console.log("FILENAMEVALUE",file.value)
 }
 
 const doUpdateProfile = () => {
