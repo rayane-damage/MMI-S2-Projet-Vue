@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import IconMessage from './icons/IconMessage.vue';
-import IconSettings from './icons/IconSettings.vue';
-import IconHouse from './icons/IconHouse.vue';
-
-
+    import IconMessage from './icons/IconMessage.vue';
+    import IconSettings from './icons/IconSettings.vue';
+    import IconHouse from './icons/IconHouse.vue';
 </script>
 
 <template>
@@ -13,24 +11,24 @@ import IconHouse from './icons/IconHouse.vue';
                 <li>
                     <RouterLink to="/">
                         <IconHouse
-                        class="h-6"
-                        :class="$route.path === '/' ? 'fill-mainOrange' : ''"
+                        class="h-6 fill-mainBlue stroke-white stroke-2"
+                        :class="$route.path === '/' ? '!fill-white stroke-none' : ''"
                         />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/messages">
                         <IconMessage
-                        class="h-6"
-                        :class="$route.path === '/messages' ? 'fill-mainOrange' : ''"
+                        class="h-6 fill-mainBlue stroke-white stroke-2"
+                        :class="$route.path === '/messages' ? '!fill-white stroke-none' : ''"
                         />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/settings">
                         <IconSettings
-                        class="h-6"
-                        :class="$route.path === '/settings' ? 'fill-mainOrange' : ''"
+                        class="h-6 fill-mainBlue stroke-white stroke-2"
+                        :class="$route.path === '/settings' ? '!fill-white stroke-none' : ''"
                         />
                     </RouterLink>
                 </li>
