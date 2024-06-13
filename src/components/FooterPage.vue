@@ -12,17 +12,26 @@ import IconHouse from './icons/IconHouse.vue';
             <ul class="grid grid-cols-3 py-2 px-8 place-items-center">
                 <li>
                     <RouterLink to="/">
-                        <IconHouse class="h-6" />
+                        <IconHouse
+                        class="h-6"
+                        :class="$route.path === '/' ? 'fill-mainOrange' : ''"
+                        />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/messages">
-                        <IconMessage class="h-6"/>
+                        <IconMessage
+                        class="h-6"
+                        :class="$route.path === '/messages' ? 'fill-mainOrange' : ''"
+                        />
                     </RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/settings">
-                        <IconSettings class="h-6"/>
+                        <IconSettings
+                        class="h-6"
+                        :class="$route.path === '/settings' ? 'fill-mainOrange' : ''"
+                        />
                     </RouterLink>
                 </li>
             </ul>

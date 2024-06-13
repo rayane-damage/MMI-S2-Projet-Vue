@@ -55,12 +55,6 @@ const moodList = await pb.collection('mood').getFullList({
 if (isActive.value == false) {
     isActive.value = true;
 }
-</script>
-
-<script lang=ts>
-//On exporte la variable sectionOpen pour l'utiliser dans le composant parent
-export const sectionOpen = ref(0)
-
 
 // ------------------- CHANGER LE MOT DE PASSE -------------------
 const password = ref('');
@@ -75,17 +69,25 @@ const doChangePassword = async () => {
         try {
             await pb.collection('users').update(pb.authStore.model?.id, {
                 password: newPassword.value,
-                passwordConfirm: confirmPassword.value
+                passwordConfirm: confirmPassword.value,
+                oldPassword: password.value
             });
         } catch (error) {
             console.log("ERREUR", error)
         }
+        compteMode.value = 'none';
     } else {
         alert('Les mots de passe ne correspondent pas');
     }
 }
 
 console.log("model", pb.authStore.model)
+</script>
+
+<script lang=ts>
+//On exporte la variable sectionOpen pour l'utiliser dans le composant parent
+export const sectionOpen = ref(0)
+
 </script>
 
 <template>
