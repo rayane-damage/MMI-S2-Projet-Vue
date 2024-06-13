@@ -113,9 +113,9 @@ const currentuserfriendsRaw = toRaw(currentUserFriends.value)
 const allUsersNotFriendValue = allUsersNotFriend.value;
 console.log("allUsersNotFriend",allUsersNotFriend)
 
-// if (allFriendsRecord === undefined) {
-//     allFriendsRecord = toRaw(allUsers)
-// }
+if (allFriendsRecord === undefined) {
+    allFriendsRecord = toRaw(allUsers)
+}
 for (let i = 0; i < allFriendsRecord.length; i++) {
     for (let j = 0; j < allUsers.length; j++) {
         console.log("allUsersNotFriend",i, j, allFriendsRecord[i].name, allUsers[j].name, "currentuserfriend", currentuserfriendsRaw)
