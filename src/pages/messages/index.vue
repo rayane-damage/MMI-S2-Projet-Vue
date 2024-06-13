@@ -101,19 +101,24 @@ console.log("allUsers",allUsers)
 console.log("allUsersID",allUsers[0].id)
 console.log("currentUserFriends", currentUserFriends.value)
 
+console.log("allfriends -----------------------------",allFriends)
 
 let allFriendsRecord = toRaw(allFriends.value)
+console.log("allFriendsRecord",allFriendsRecord)
+
 const currentuserfriendsRaw = toRaw(currentUserFriends.value)
 // allUsersNotFriend.value = allUsers.filter(user => !allFriendsRecord.includes(user));
 // console.log("allUsers",allUsers.length)
 // console.log("allFriendsRecord",allFriendsRecord.length)
 const allUsersNotFriendValue = allUsersNotFriend.value;
-if (allFriendsRecord === undefined) {
-    allFriendsRecord = toRaw(allUsers)
-}
+console.log("allUsersNotFriend",allUsersNotFriend)
+
+// if (allFriendsRecord === undefined) {
+//     allFriendsRecord = toRaw(allUsers)
+// }
 for (let i = 0; i < allFriendsRecord.length; i++) {
     for (let j = 0; j < allUsers.length; j++) {
-        // console.log("allUsersNotFriend",i, j, allFriendsRecord[i].name, allUsers[j].name, "currentuserfriend", currentuserfriendsRaw)
+        console.log("allUsersNotFriend",i, j, allFriendsRecord[i].name, allUsers[j].name, "currentuserfriend", currentuserfriendsRaw)
         if (
             allFriendsRecord[i].name !== (allUsers[j].name)
             && !allUsersNotFriendValue.includes(allUsers[j])
@@ -136,8 +141,9 @@ const doAddFriend = async () => {
 }
 
 const realAllUsersNotFriend: UsersResponse[] = allUsersNotFriend.value
-// console.log("currentUserFriends",currentUserFriends)
-// console.log("REALallUsersNotFriend",realAllUsersNotFriend)
+console.log("allFriendsRecord",allFriendsRecord)
+console.log("currentUserFriends",currentUserFriends)
+console.log("REALallUsersNotFriend",realAllUsersNotFriend)
 // console.log("value",realAllUsersNotFriend[0].name)
 </script>
 
